@@ -1,0 +1,1569 @@
+{
+  "schema_version": "1.0",
+  "scenario_id": "t2_en_native_003",
+  "tier": 2,
+  "stage": "nlp_arm3_expansion",
+  "persona_profile": "cooperative",
+  "run_index": 2,
+  "run_id": "20260608_221848__nlp_arm3_expansion__4eadd22__representative_reduced",
+  "timestamp_start": "2026-06-08T22:24:12.438675Z",
+  "timestamp_end": "2026-06-08T22:24:56.000335Z",
+  "git_commit": "4eadd224731d6ca2e14bbdba907c056363f2f4ce",
+  "git_dirty": true,
+  "change_note": "Arm 3 NLP (Gemini JSON) + executor expansion vs expansion-only; complementary-vs-redundant",
+  "config": {
+    "llm_provider": "gemini",
+    "llm_model": "gemini-2.5-flash",
+    "llm_temperature": 0.7,
+    "llm_max_tokens": null,
+    "judge_model": null,
+    "seeds": {
+      "profile_seed": 42
+    },
+    "max_turns": 12,
+    "latency_model": {
+      "base_overhead_ms": 400.0,
+      "per_day_cost_ms": 500.0,
+      "jitter_sigma_ms": 50.0
+    },
+    "simulate_latency": true,
+    "runner_version": "step3/1.0",
+    "extras": {
+      "profile_name": "representative_reduced",
+      "nlp_datetime_enabled": true,
+      "nlp_entity_enabled": true,
+      "datetime_arm": "api_llm",
+      "entity_arm": "api_llm",
+      "nlp_llm_backend": "api",
+      "expansion_policy_enabled": true
+    }
+  },
+  "scenario_set_version": null,
+  "availability_override": {
+    "slots_by_offset": {},
+    "notes": "Unreachable — no availability in the requested horizon"
+  },
+  "frozen_phrasing": "No, not yet. What time is it available? I want to watch it later today.",
+  "expected_datetime_window": {
+    "start_offset": "today+3T09:00",
+    "end_offset": "today+3T10:00"
+  },
+  "turns": [
+    {
+      "turn_index": 1,
+      "timestamp": "2026-06-08T22:24:13.386021Z",
+      "user_message": "Hello, my name is Alex Smith. I'd like to book a phone meeting about investing later today.",
+      "agent_response": "I understand you'd like to book a phone meeting about investing. Please note that the earliest we can book an appointment is 24 hours from now. Would you like to check availability for tomorrow, June 2nd, or later?",
+      "llm_calls": [
+        {
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "prompt_message_count": 1,
+          "response_type": "function_call",
+          "function_name": "get_appointment_topics",
+          "function_args": {},
+          "text_preview": null,
+          "latency_ms": 2024.3038999997225,
+          "input_tokens": 1253,
+          "output_tokens": 12,
+          "temperature": 0.7,
+          "raw_response_excerpt": null
+        },
+        {
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "prompt_message_count": 3,
+          "response_type": "function_call",
+          "function_name": "get_appointment_contact_medium",
+          "function_args": {
+            "topic_id": "investing"
+          },
+          "text_preview": null,
+          "latency_ms": 704.6276999999463,
+          "input_tokens": 1333,
+          "output_tokens": 22,
+          "temperature": 0.7,
+          "raw_response_excerpt": null
+        },
+        {
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "prompt_message_count": 5,
+          "response_type": "text",
+          "function_name": null,
+          "function_args": null,
+          "text_preview": "I understand you'd like to book a phone meeting about investing. Please note that the earliest we can book an appointment is 24 hours from now. Would you like to check availability for tomorrow, June ",
+          "latency_ms": 1777.4406999997154,
+          "input_tokens": 1435,
+          "output_tokens": 49,
+          "temperature": 0.7,
+          "raw_response_excerpt": null
+        }
+      ],
+      "tool_calls": [
+        {
+          "tool_name": "get_appointment_topics",
+          "parameters": {},
+          "response": [
+            {
+              "topic_id": "investing",
+              "topic_name": "Investing"
+            },
+            {
+              "topic_id": "mortgage",
+              "topic_name": "Mortgage"
+            },
+            {
+              "topic_id": "pension",
+              "topic_name": "Pension"
+            }
+          ],
+          "simulated_latency_ms": 380.3292238373351,
+          "actual_latency_ms": 13.964700000542507,
+          "success": true,
+          "error_message": null
+        },
+        {
+          "tool_name": "get_appointment_contact_medium",
+          "parameters": {
+            "topic_id": "investing"
+          },
+          "response": [
+            {
+              "contact_medium_id": "branch",
+              "contact_medium_name": "Branch Meeting"
+            },
+            {
+              "contact_medium_id": "online",
+              "contact_medium_name": "Online Meeting"
+            },
+            {
+              "contact_medium_id": "phone",
+              "contact_medium_name": "Phone"
+            }
+          ],
+          "simulated_latency_ms": 353.46241588431417,
+          "actual_latency_ms": 19.69790000021021,
+          "success": true,
+          "error_message": null
+        }
+      ],
+      "state_snapshot": {
+        "topic_id": null,
+        "topic_name": null,
+        "contact_medium_id": null,
+        "contact_medium_name": null,
+        "phase": "intent",
+        "turn_count": 1,
+        "pending_tool_call": null,
+        "tool_result": null,
+        "last_annotation": {
+          "raw_text": "Hello, my name is Alex Smith. I'd like to book a phone meeting about investing later today.",
+          "intent": "schedule",
+          "confidence": 1.0,
+          "topic": "investing",
+          "contact_medium": "phone",
+          "datetime_ranges": [
+            {
+              "start_datetime": "2026-06-01T00:00:00+02:00",
+              "end_datetime": "2026-06-01T23:59:00+02:00",
+              "is_flexible": true,
+              "original_text": "later today",
+              "specificity": "day_vague"
+            }
+          ],
+          "entities_raw": {
+            "api_llm_raw": "{\"topic\": \"investing\", \"contact_medium\": \"phone\"}",
+            "model": "gemini-2.5-flash"
+          }
+        }
+      },
+      "turn_duration_ms": 6555.636999999479,
+      "ladder_steps": []
+    },
+    {
+      "turn_index": 2,
+      "timestamp": "2026-06-08T22:24:20.635692Z",
+      "user_message": "Thank you. Yes, tomorrow, June 2nd, would be great. What times are available?",
+      "agent_response": "I'm sorry, Alex. There are no phone meeting slots available for Investing tomorrow, June 2nd. Would you like to check for another day, or perhaps a different contact medium like an online meeting or a branch meeting?",
+      "llm_calls": [
+        {
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "prompt_message_count": 7,
+          "response_type": "function_call",
+          "function_name": "check_availability",
+          "function_args": {
+            "start_datetime": "2026-06-02T00:00:00+02:00",
+            "topic_id": "investing",
+            "end_datetime": "2026-06-02T23:59:00+02:00",
+            "contact_medium_id": "phone"
+          },
+          "text_preview": null,
+          "latency_ms": 1259.7107000001415,
+          "input_tokens": 1493,
+          "output_tokens": 89,
+          "temperature": 0.7,
+          "raw_response_excerpt": null
+        },
+        {
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "prompt_message_count": 9,
+          "response_type": "text",
+          "function_name": null,
+          "function_args": null,
+          "text_preview": "I'm sorry, Alex. There are no phone meeting slots available for Investing tomorrow, June 2nd. Would you like to check for another day, or perhaps a different contact medium like an online meeting or a",
+          "latency_ms": 717.9352000002837,
+          "input_tokens": 1596,
+          "output_tokens": 47,
+          "temperature": 0.7,
+          "raw_response_excerpt": null
+        }
+      ],
+      "tool_calls": [
+        {
+          "tool_name": "check_availability",
+          "parameters": {
+            "start_datetime": "2026-06-02T00:00:00+02:00",
+            "topic_id": "investing",
+            "end_datetime": "2026-06-02T23:59:00+02:00",
+            "contact_medium_id": "phone"
+          },
+          "response": [],
+          "simulated_latency_ms": 942.0070891467261,
+          "actual_latency_ms": 19.140999999763153,
+          "success": true,
+          "error_message": null
+        },
+        {
+          "tool_name": "check_availability",
+          "parameters": {
+            "topic_id": "investing",
+            "contact_medium_id": "phone",
+            "start_datetime": "2026-06-02T08:00:00+02:00",
+            "end_datetime": "2026-06-02T17:00:00+02:00"
+          },
+          "response": [],
+          "simulated_latency_ms": 828.7018977656659,
+          "actual_latency_ms": 18.78209999995306,
+          "success": true,
+          "error_message": null
+        },
+        {
+          "tool_name": "check_availability",
+          "parameters": {
+            "topic_id": "investing",
+            "contact_medium_id": "phone",
+            "start_datetime": "2026-06-03T08:00:00+02:00",
+            "end_datetime": "2026-06-04T17:00:00+02:00"
+          },
+          "response": [],
+          "simulated_latency_ms": 1295.9687409270227,
+          "actual_latency_ms": 17.946899999515153,
+          "success": true,
+          "error_message": null
+        },
+        {
+          "tool_name": "check_availability",
+          "parameters": {
+            "topic_id": "investing",
+            "contact_medium_id": "phone",
+            "start_datetime": "2026-06-01T08:00:00+02:00",
+            "end_datetime": "2026-06-01T17:00:00+02:00"
+          },
+          "response": [],
+          "simulated_latency_ms": 897.3713208759241,
+          "actual_latency_ms": 17.545599999721162,
+          "success": true,
+          "error_message": null
+        },
+        {
+          "tool_name": "check_availability",
+          "parameters": {
+            "topic_id": "investing",
+            "contact_medium_id": "phone",
+            "start_datetime": "2026-06-05T08:00:00+02:00",
+            "end_datetime": "2026-06-07T17:00:00+02:00"
+          },
+          "response": [],
+          "simulated_latency_ms": 1876.8277930563006,
+          "actual_latency_ms": 17.150900000160618,
+          "success": true,
+          "error_message": null
+        }
+      ],
+      "state_snapshot": {
+        "topic_id": null,
+        "topic_name": null,
+        "contact_medium_id": null,
+        "contact_medium_name": null,
+        "phase": "intent",
+        "turn_count": 2,
+        "pending_tool_call": null,
+        "tool_result": null,
+        "last_annotation": {
+          "raw_text": "Thank you. Yes, tomorrow, June 2nd, would be great. What times are available?",
+          "intent": "schedule",
+          "confidence": 1.0,
+          "topic": null,
+          "contact_medium": null,
+          "datetime_ranges": [
+            {
+              "start_datetime": "2026-06-02T00:00:00+02:00",
+              "end_datetime": "2026-06-02T23:59:00+02:00",
+              "is_flexible": false,
+              "original_text": "tomorrow, June 2nd",
+              "specificity": "day_specific"
+            }
+          ],
+          "entities_raw": {
+            "api_llm_raw": "{\"topic\": \"none\", \"contact_medium\": \"none\"}",
+            "model": "gemini-2.5-flash"
+          }
+        }
+      },
+      "turn_duration_ms": 9164.43530000015,
+      "ladder_steps": [
+        {
+          "step": 0,
+          "window": [
+            "2026-06-02T08:00:00+02:00",
+            "2026-06-02T17:00:00+02:00"
+          ],
+          "miss_days": 1,
+          "mcp_calls": 1,
+          "found": 0
+        },
+        {
+          "step": 1,
+          "window": [
+            "2026-06-02T08:00:00+02:00",
+            "2026-06-04T17:00:00+02:00"
+          ],
+          "miss_days": 2,
+          "mcp_calls": 1,
+          "found": 0
+        },
+        {
+          "step": 2,
+          "window": [
+            "2026-06-01T08:00:00+02:00",
+            "2026-06-01T17:00:00+02:00"
+          ],
+          "miss_days": 1,
+          "mcp_calls": 1,
+          "found": 0
+        },
+        {
+          "step": 3,
+          "window": [
+            "2026-06-05T08:00:00+02:00",
+            "2026-06-07T17:00:00+02:00"
+          ],
+          "miss_days": 3,
+          "mcp_calls": 1,
+          "found": 0
+        }
+      ]
+    },
+    {
+      "turn_index": 3,
+      "timestamp": "2026-06-08T22:24:30.658364Z",
+      "user_message": "No, that's okay. I understand. I don't want to pressure for a booking if there's no availability. Thank you for checking.",
+      "agent_response": "You're very welcome, Alex. I understand completely.\n\nPlease don't hesitate to reach out if you change your mind or would like to check for availability at another time. I'm here to help whenever you need me.",
+      "llm_calls": [
+        {
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "prompt_message_count": 11,
+          "response_type": "text",
+          "function_name": null,
+          "function_args": null,
+          "text_preview": "You're very welcome, Alex. I understand completely.\n\nPlease don't hesitate to reach out if you change your mind or would like to check for availability at another time. I'm here to help whenever you n",
+          "latency_ms": 954.8882000008234,
+          "input_tokens": 1554,
+          "output_tokens": 48,
+          "temperature": 0.7,
+          "raw_response_excerpt": null
+        }
+      ],
+      "tool_calls": [],
+      "state_snapshot": {
+        "topic_id": null,
+        "topic_name": null,
+        "contact_medium_id": null,
+        "contact_medium_name": null,
+        "phase": "intent",
+        "turn_count": 3,
+        "pending_tool_call": null,
+        "tool_result": null,
+        "last_annotation": {
+          "raw_text": "No, that's okay. I understand. I don't want to pressure for a booking if there's no availability. Thank you for checking.",
+          "intent": "schedule",
+          "confidence": 1.0,
+          "topic": null,
+          "contact_medium": null,
+          "datetime_ranges": [],
+          "entities_raw": {
+            "api_llm_raw": "{\"topic\": \"none\", \"contact_medium\": \"none\"}",
+            "model": "gemini-2.5-flash"
+          }
+        }
+      },
+      "turn_duration_ms": 2106.7082999998092,
+      "ladder_steps": []
+    },
+    {
+      "turn_index": 4,
+      "timestamp": "2026-06-08T22:24:33.414472Z",
+      "user_message": "Thank you, I appreciate that. I will.",
+      "agent_response": "You're most welcome, Alex. Have a good day!",
+      "llm_calls": [
+        {
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "prompt_message_count": 13,
+          "response_type": "text",
+          "function_name": null,
+          "function_args": null,
+          "text_preview": "You're most welcome, Alex. Have a good day!",
+          "latency_ms": 1007.0147999995243,
+          "input_tokens": 1614,
+          "output_tokens": 13,
+          "temperature": 0.7,
+          "raw_response_excerpt": null
+        }
+      ],
+      "tool_calls": [],
+      "state_snapshot": {
+        "topic_id": null,
+        "topic_name": null,
+        "contact_medium_id": null,
+        "contact_medium_name": null,
+        "phase": "intent",
+        "turn_count": 4,
+        "pending_tool_call": null,
+        "tool_result": null,
+        "last_annotation": {
+          "raw_text": "Thank you, I appreciate that. I will.",
+          "intent": "schedule",
+          "confidence": 1.0,
+          "topic": null,
+          "contact_medium": null,
+          "datetime_ranges": [],
+          "entities_raw": {
+            "api_llm_raw": "{\"topic\": \"none\", \"contact_medium\": \"none\"}",
+            "model": "gemini-2.5-flash"
+          }
+        }
+      },
+      "turn_duration_ms": 2313.223399999515,
+      "ladder_steps": []
+    },
+    {
+      "turn_index": 5,
+      "timestamp": "2026-06-08T22:24:36.334346Z",
+      "user_message": "You too!",
+      "agent_response": "Thank you!",
+      "llm_calls": [
+        {
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "prompt_message_count": 15,
+          "response_type": "text",
+          "function_name": null,
+          "function_args": null,
+          "text_preview": "Thank you!",
+          "latency_ms": 636.9389999999839,
+          "input_tokens": 1632,
+          "output_tokens": 3,
+          "temperature": 0.7,
+          "raw_response_excerpt": null
+        }
+      ],
+      "tool_calls": [],
+      "state_snapshot": {
+        "topic_id": null,
+        "topic_name": null,
+        "contact_medium_id": null,
+        "contact_medium_name": null,
+        "phase": "intent",
+        "turn_count": 5,
+        "pending_tool_call": null,
+        "tool_result": null,
+        "last_annotation": {
+          "raw_text": "You too!",
+          "intent": "schedule",
+          "confidence": 1.0,
+          "topic": null,
+          "contact_medium": null,
+          "datetime_ranges": [],
+          "entities_raw": {
+            "api_llm_raw": "{\"topic\": \"none\", \"contact_medium\": \"none\"}",
+            "model": "gemini-2.5-flash"
+          }
+        }
+      },
+      "turn_duration_ms": 2265.0219999995898,
+      "ladder_steps": []
+    },
+    {
+      "turn_index": 6,
+      "timestamp": "2026-06-08T22:24:39.351728Z",
+      "user_message": "[The user exited the conversation.]",
+      "agent_response": "Thank you!",
+      "llm_calls": [
+        {
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "prompt_message_count": 17,
+          "response_type": "text",
+          "function_name": null,
+          "function_args": null,
+          "text_preview": null,
+          "latency_ms": 536.905800000568,
+          "input_tokens": 1644,
+          "output_tokens": null,
+          "temperature": 0.7,
+          "raw_response_excerpt": null
+        }
+      ],
+      "tool_calls": [],
+      "state_snapshot": {
+        "topic_id": null,
+        "topic_name": null,
+        "contact_medium_id": null,
+        "contact_medium_name": null,
+        "phase": "intent",
+        "turn_count": 6,
+        "pending_tool_call": null,
+        "tool_result": null,
+        "last_annotation": {
+          "raw_text": "[The user exited the conversation.]",
+          "intent": "schedule",
+          "confidence": 1.0,
+          "topic": null,
+          "contact_medium": null,
+          "datetime_ranges": [],
+          "entities_raw": {
+            "api_llm_raw": "{\"topic\": \"none\", \"contact_medium\": \"none\"}",
+            "model": "gemini-2.5-flash"
+          }
+        }
+      },
+      "turn_duration_ms": 1662.7068999996482,
+      "ladder_steps": []
+    },
+    {
+      "turn_index": 7,
+      "timestamp": "2026-06-08T22:24:41.558616Z",
+      "user_message": "[The user exited the conversation.]",
+      "agent_response": "Thank you!",
+      "llm_calls": [
+        {
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "prompt_message_count": 19,
+          "response_type": "text",
+          "function_name": null,
+          "function_args": null,
+          "text_preview": "Thank you!",
+          "latency_ms": 560.4649999995672,
+          "input_tokens": 1653,
+          "output_tokens": 3,
+          "temperature": 0.7,
+          "raw_response_excerpt": null
+        }
+      ],
+      "tool_calls": [],
+      "state_snapshot": {
+        "topic_id": null,
+        "topic_name": null,
+        "contact_medium_id": null,
+        "contact_medium_name": null,
+        "phase": "intent",
+        "turn_count": 7,
+        "pending_tool_call": null,
+        "tool_result": null,
+        "last_annotation": {
+          "raw_text": "[The user exited the conversation.]",
+          "intent": "schedule",
+          "confidence": 1.0,
+          "topic": null,
+          "contact_medium": null,
+          "datetime_ranges": [],
+          "entities_raw": {
+            "api_llm_raw": "{\"topic\": \"none\", \"contact_medium\": \"none\"}",
+            "model": "gemini-2.5-flash"
+          }
+        }
+      },
+      "turn_duration_ms": 1737.6945000005435,
+      "ladder_steps": []
+    },
+    {
+      "turn_index": 8,
+      "timestamp": "2026-06-08T22:24:45.290184Z",
+      "user_message": "[The user exited the conversation.]",
+      "agent_response": "Thank you!",
+      "llm_calls": [
+        {
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "prompt_message_count": 21,
+          "response_type": "text",
+          "function_name": null,
+          "function_args": null,
+          "text_preview": "Thank you!",
+          "latency_ms": 912.3842999997578,
+          "input_tokens": 1665,
+          "output_tokens": 3,
+          "temperature": 0.7,
+          "raw_response_excerpt": null
+        }
+      ],
+      "tool_calls": [],
+      "state_snapshot": {
+        "topic_id": null,
+        "topic_name": null,
+        "contact_medium_id": null,
+        "contact_medium_name": null,
+        "phase": "intent",
+        "turn_count": 8,
+        "pending_tool_call": null,
+        "tool_result": null,
+        "last_annotation": {
+          "raw_text": "[The user exited the conversation.]",
+          "intent": "schedule",
+          "confidence": 1.0,
+          "topic": null,
+          "contact_medium": null,
+          "datetime_ranges": [],
+          "entities_raw": {
+            "api_llm_raw": "{\"topic\": \"none\", \"contact_medium\": \"none\"}",
+            "model": "gemini-2.5-flash"
+          }
+        }
+      },
+      "turn_duration_ms": 1953.6914000000252,
+      "ladder_steps": []
+    },
+    {
+      "turn_index": 9,
+      "timestamp": "2026-06-08T22:24:47.606239Z",
+      "user_message": "[The user exited the conversation.]",
+      "agent_response": "Thank you!",
+      "llm_calls": [
+        {
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "prompt_message_count": 23,
+          "response_type": "text",
+          "function_name": null,
+          "function_args": null,
+          "text_preview": "Thank you!",
+          "latency_ms": 681.2609999997221,
+          "input_tokens": 1677,
+          "output_tokens": 3,
+          "temperature": 0.7,
+          "raw_response_excerpt": null
+        }
+      ],
+      "tool_calls": [],
+      "state_snapshot": {
+        "topic_id": null,
+        "topic_name": null,
+        "contact_medium_id": null,
+        "contact_medium_name": null,
+        "phase": "intent",
+        "turn_count": 9,
+        "pending_tool_call": null,
+        "tool_result": null,
+        "last_annotation": {
+          "raw_text": "[The user exited the conversation.]",
+          "intent": "schedule",
+          "confidence": 1.0,
+          "topic": null,
+          "contact_medium": null,
+          "datetime_ranges": [],
+          "entities_raw": {
+            "api_llm_raw": "{\"topic\": \"none\", \"contact_medium\": \"none\"}",
+            "model": "gemini-2.5-flash"
+          }
+        }
+      },
+      "turn_duration_ms": 1899.1491000006135,
+      "ladder_steps": []
+    },
+    {
+      "turn_index": 10,
+      "timestamp": "2026-06-08T22:24:49.888578Z",
+      "user_message": "[The user exited the conversation.]",
+      "agent_response": "Thank you!",
+      "llm_calls": [
+        {
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "prompt_message_count": 25,
+          "response_type": "text",
+          "function_name": null,
+          "function_args": null,
+          "text_preview": "Thank you!",
+          "latency_ms": 608.8475000005928,
+          "input_tokens": 1689,
+          "output_tokens": 3,
+          "temperature": 0.7,
+          "raw_response_excerpt": null
+        }
+      ],
+      "tool_calls": [],
+      "state_snapshot": {
+        "topic_id": null,
+        "topic_name": null,
+        "contact_medium_id": null,
+        "contact_medium_name": null,
+        "phase": "intent",
+        "turn_count": 10,
+        "pending_tool_call": null,
+        "tool_result": null,
+        "last_annotation": {
+          "raw_text": "[The user exited the conversation.]",
+          "intent": "schedule",
+          "confidence": 1.0,
+          "topic": null,
+          "contact_medium": null,
+          "datetime_ranges": [],
+          "entities_raw": {
+            "api_llm_raw": "{\"topic\": \"none\", \"contact_medium\": \"none\"}",
+            "model": "gemini-2.5-flash"
+          }
+        }
+      },
+      "turn_duration_ms": 1559.897400000409,
+      "ladder_steps": []
+    },
+    {
+      "turn_index": 11,
+      "timestamp": "2026-06-08T22:24:51.838773Z",
+      "user_message": "[The user exited the conversation.]",
+      "agent_response": "Thank you!",
+      "llm_calls": [
+        {
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "prompt_message_count": 27,
+          "response_type": "text",
+          "function_name": null,
+          "function_args": null,
+          "text_preview": "Thank you!",
+          "latency_ms": 471.82100000009086,
+          "input_tokens": 1701,
+          "output_tokens": 3,
+          "temperature": 0.7,
+          "raw_response_excerpt": null
+        }
+      ],
+      "tool_calls": [],
+      "state_snapshot": {
+        "topic_id": null,
+        "topic_name": null,
+        "contact_medium_id": null,
+        "contact_medium_name": null,
+        "phase": "intent",
+        "turn_count": 11,
+        "pending_tool_call": null,
+        "tool_result": null,
+        "last_annotation": {
+          "raw_text": "[The user exited the conversation.]",
+          "intent": "schedule",
+          "confidence": 1.0,
+          "topic": null,
+          "contact_medium": null,
+          "datetime_ranges": [],
+          "entities_raw": {
+            "api_llm_raw": "{\"topic\": \"none\", \"contact_medium\": \"none\"}",
+            "model": "gemini-2.5-flash"
+          }
+        }
+      },
+      "turn_duration_ms": 1424.85570000008,
+      "ladder_steps": []
+    },
+    {
+      "turn_index": 12,
+      "timestamp": "2026-06-08T22:24:53.946717Z",
+      "user_message": "[The user exited the conversation.]",
+      "agent_response": "Thank you!",
+      "llm_calls": [
+        {
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "prompt_message_count": 29,
+          "response_type": "text",
+          "function_name": null,
+          "function_args": null,
+          "text_preview": "Thank you!",
+          "latency_ms": 435.9506999999212,
+          "input_tokens": 1713,
+          "output_tokens": 3,
+          "temperature": 0.7,
+          "raw_response_excerpt": null
+        }
+      ],
+      "tool_calls": [],
+      "state_snapshot": {
+        "topic_id": null,
+        "topic_name": null,
+        "contact_medium_id": null,
+        "contact_medium_name": null,
+        "phase": "intent",
+        "turn_count": 12,
+        "pending_tool_call": null,
+        "tool_result": null,
+        "last_annotation": {
+          "raw_text": "[The user exited the conversation.]",
+          "intent": "schedule",
+          "confidence": 1.0,
+          "topic": null,
+          "contact_medium": null,
+          "datetime_ranges": [],
+          "entities_raw": {
+            "api_llm_raw": "{\"topic\": \"none\", \"contact_medium\": \"none\"}",
+            "model": "gemini-2.5-flash"
+          }
+        }
+      },
+      "turn_duration_ms": 1387.6589000001331,
+      "ladder_steps": []
+    }
+  ],
+  "final_messages": [
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "Hello, my name is Alex Smith. I'd like to book a phone meeting about investing later today.",
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "user"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": {
+            "id": null,
+            "args": {},
+            "name": "get_appointment_topics",
+            "partial_args": null,
+            "will_continue": null
+          },
+          "function_response": null,
+          "inline_data": null,
+          "text": null,
+          "thought": null,
+          "thought_signature": "b'\\n\\xab\\x06\\x01\\x0c9\\xd6\\xc7\\x9bf\\xff\\x8b\\xa8}\\xf2\\xb7\\x12\\xcc\\x8c\\xab+\\x9bDW\\xddU\\x9d\\x82&\\xe6\\xff%\\xbb\\xe7\\x13,u\\x98\\'h\\xc3_\\xb7\\x1e\\x0b\\xabi\\xc334>+\\xfci\\xf9\\x14Q\\xda^\\xc0\\x16\\x91\\xa0\\xb2,\\x13\\x8f\\x94\\x95Y\\x13\\xeb\\x0f[\\x05!#\\xeb\\x8e%\\xbb\\xe5\\x9cIl\\xd0\\xd9\\x13qoA\\xd5\\x81#W\\x04\\x07\\xad\\x0b|\\xcf\\x18[\\xa2H\\xd9\\x1f\\x84\\xb9\\x0b\\xf3\\xbd|\\xa7\\xd0\\x19\\xf8\\xe2\\xfb\\x03\\x82 \\x03\\xd99;\\x9e2\\xeb\\'r\\x11\\xcf\\x9b\\xc4g\\xe1\\x1e\\x8d\\x00\\xb3\\x84R\\x10\\xa7\\xc3u\\xb0J\\x8c\\xb0w\\x00\\xd4\\xae2a37\\x84\\x8eF\\xfd<\\xa0@\\x81Z:\\xf6\\xe5\\xac\\x15\\x82\\xf1\\xfd\\x1a{Z\\xbe\\xc4\\xd8+\\x0b\\xbdz\\xdcU(;F\\xa0\\xaa\\x89`?\\x81\\x876\\xcd\\x93X\\x9a\\xdb\\'\\x96\\xc3]\\xe5d\\xa6\\xd5H\\x99\\xe6\\xbc\\xf7H\\xa4\\x07\\xde\\x14\\xac\\xf7\\x00q\\x00\\xfdb\\x89\\xfd.\\xf3\\xe4\\x8e&\\xd1v\\xef\\xc1q\\x82\\xe6Y\\xf2\\x8cJ\\xde\\xfc\\x80\\x93\\x02\\x97\\xf4\\x83\\x02\\xff\\xba\\x16M\\xac\\xd03\\x19\\xd1\\xc4\\x98\\x84Q\\x06\\x95\\xc7B\\xe2\\x9e\\x88ogY\\x9f\\xe00[mc\\x8d\\x9c\\xc3\\xac\\x99\\xc7\\xaf3\\xda0\\x03\\xc1NJ\\\\\\xce\\xafl\\xd1\\xd1\\xc4\\xbb\\x0e\\x90\\xe1\\x0e\\x8f7\\x07\\xa2\\xd4\\x8b$\\x18OF(\\x1af\\xa5UD\\xd3\\xa1\\xb7\\xf4\\x12\\xb4\\xb7,\\x0e-\\xadu\\x9a\\xf1\\xc5\\x1c\\xb1,\\x98\\xe8\\x13\\xf9\\xa8\\x8eB(\\x84LB\\x0ez\\xe8\\x1d\\x11\\x7ff\\xbf,\\x81SA\\xe2\\x04V1T\\xd7)\\xee\\xe7\\xa7\\xbb%\\xa5\\xaa\\xd3\\xd1\\xb6\\xa2\\xa4\\xcf\\xc2\\xa3\\xdd\\x85\\t\\xac\\xfaX\\xb3m\\xd5\\x85\\x90\\x90\\x91s\\xfa\\x97B\\xd3\\xd0\\x80G\\xfb\\x84\\x8d\\x9bw\\xb1\\x04\\x859\\tb\\x85\\x1e\\x05\\x88\\x7f\\xab\\x88\\x82C\\x0ev+\\t\\xb8\\xa3=\\xe5\\x0b\\xbb]\\xb9W\\xfcz\\x87\\x928\\xff\\x1e\\x00\\xd0\\xf3\\xc3nf\\x8c\\xeeK5Z\\x8fJd\\\\\\xce1\\x9c}c5N\\xe5\\x9bY]f\\xa5Z\\xb2.[\\xd0**P\\xa5\\xeecL#\\x80\\xfe\\xf9!\\xc2Vj>_\\x1d\\xe8\\xe1\\xf6@,\\xec\\xa3\\xb5\\xf2\\xe40\\xc1E\\x12\\xa1\\xcfL|\\xb4D\\xc5O\\x08\\xa7\\xeb\\xc3x[\\xecl4d+.<\\xdb\\x10Vt>\\x81\\xf7{\\xf6\\x8a\\xcb[Q.;\\x1d\\x04\\xc7D\\xac\\x02\\x90\\xca\\xba\\x02\\x9f\\x9e.\\xdb\\xe7\\x1b\\xf6\\xad\\x8b\\x9e\\x85s\\xde\\xca]\\x19+y\\x95\\xd1\\xac\\xda75s\\'\\xaf\\x06\\xa7\\xbc\\xf1\\xf8\\xacr\\x13\\x8b\\xcc\\xfb\\xdc\\xf6\\xecS\\xff\\xf4\\x11\\xfb\\xe8\\xcb&\\x02\\xbd\\xd9\\x85\\xd3\\xf7\"{\\x96zD\\x94\\x86\\xeb\\xaf\\x18\\xe7pl\\xbc\\x1d\\xfc\\x9f5\\x17:\\x9bG\\xcf\\xf8\\x0f\\xaa\\x92\\xd5\\x8d\\xf4x\\xa5O\\x15\\x91?\\x0c\\x90[9\\x92\\x95\\xae\\x13\\xbcd\\x19=\\xf3\\xd0\\x0b\\xf9\\xffs?\\x17\\xcb\\xd93\\xad\\xc8\\x84\\xab\\xc0j\\xfb\\x89\\x03\\x8aN\\x92J\\\\~\\xe9\\xae\\xceQ\\xd3\\x81.\\x95f\\xb6L\\x19\\xbdi\\x04\\xe3\\xdf\\xcbC\\xbe\\xdf#.\\x13\\xed\\xfe\\x06)\\xa4\\xa1\\x97\\xcc\\x9b4;x5K\\x05\\x07\\t-W\\x15\\\\\\x08\\xfd\\xc4J\\xfe\\xb8+\\x8e\\xfd]{\\xb3\\x83\\xefC<\\\\\\xd6u\\xdctT\\xcf(\\x81\\xe0\\x9b\\x0b\\x16\\xb6\\xae\\x8e\\xa0kKM\\x08vQ\\x8e\\x08\\x90\\xd6\\x80h\\x1f\\t\\xcdJE\\x8d\\xffR\\x19\\xeb\\xe8\\x10j\\xfc\\x13\\x97\\x1ebx8\\x15\\xd1=`\\xde\\x8d9\\xc1[\\x1a\\xe2My'",
+          "video_metadata": null
+        }
+      ],
+      "role": "model"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": {
+            "will_continue": null,
+            "scheduling": null,
+            "parts": null,
+            "id": null,
+            "name": "get_appointment_topics",
+            "response": {
+              "result": [
+                {
+                  "topic_id": "investing",
+                  "topic_name": "Investing"
+                },
+                {
+                  "topic_id": "mortgage",
+                  "topic_name": "Mortgage"
+                },
+                {
+                  "topic_id": "pension",
+                  "topic_name": "Pension"
+                }
+              ]
+            }
+          },
+          "inline_data": null,
+          "text": null,
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "user"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": {
+            "id": null,
+            "args": {
+              "topic_id": "investing"
+            },
+            "name": "get_appointment_contact_medium",
+            "partial_args": null,
+            "will_continue": null
+          },
+          "function_response": null,
+          "inline_data": null,
+          "text": null,
+          "thought": null,
+          "thought_signature": "b'\\n\\xe6\\x01\\x01\\x0c9\\xd6\\xc7l\\xb5\\xf5\\xb6\\x19\\xc7\\xbeY;\\xa7\\x88\\xda\\xfbU\\xc6\\xe5\\x993*\\x19\\xc8C\\xffbu\\x03\\x8b\\xf8\\xd9\\x1dz\\xca\\x92@\\xd8\\x9f\\xa3\\xe3\\x04\\x7fq=A\\x1f\\x1b\\x02*\\xe6\\xd1\\xf7\\x06V\\xa3\\xe4\\xd0\\xdaT\\xd9A+\\x1e\\x9a\\xd9H\\xf9\\x93\\xcaW\\x10\\xd3y\\xa2\\xc54\\xed\\xe5{b\\xcf\\xe5\\xfd\\xf4\\xf0qT\\x8a\\xc0\\xe3\\xa2:\\xfe\\xf0\\x19\\x9d\\x18\\xa9\\xb5q\\xef\\x8bk\\xc5\\r\\xb9\\xcb\\xef\\xf4\\xd0_\\xdd\\x81\\xcc\\xd1\\xfd\\xb9!$~\\xbc/\\x19^~\\xde\\xf5h\\xff\\xa2K\\xdd\\x05=\\xb8\\x97\\xd0c\\x14\\xea.*t1\\xf8\\xb0tH\\xcc\\xf9,Y\\xdf\\x04t\\x16\\xec\\xad\\xf3\\x84\\xf5\\x82u:cp9\\x14\\xba\\x80/\\xe6B\\xceU\\x19\\xb6\\xe0\\x9e\\xe0K\\x82/\\xe3\\x9dR\\xce\\xa1\\xac\\x9a\\x92(r\\xaf_\\x13\\xf5\\xeb\\x80%V\\xac\\xd05\\x0b\\xdb\"h\\xef\\xcb\\x07\\xf1.Y.\\tZ\\xff\\x1d\\x90\\xe0OeK8DB'",
+          "video_metadata": null
+        }
+      ],
+      "role": "model"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": {
+            "will_continue": null,
+            "scheduling": null,
+            "parts": null,
+            "id": null,
+            "name": "get_appointment_contact_medium",
+            "response": {
+              "result": [
+                {
+                  "contact_medium_id": "branch",
+                  "contact_medium_name": "Branch Meeting"
+                },
+                {
+                  "contact_medium_id": "online",
+                  "contact_medium_name": "Online Meeting"
+                },
+                {
+                  "contact_medium_id": "phone",
+                  "contact_medium_name": "Phone"
+                }
+              ]
+            }
+          },
+          "inline_data": null,
+          "text": null,
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "user"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "I understand you'd like to book a phone meeting about investing. Please note that the earliest we can book an appointment is 24 hours from now. Would you like to check availability for tomorrow, June 2nd, or later?",
+          "thought": null,
+          "thought_signature": "b'\\n\\xa8\\x07\\x01\\x0c9\\xd6\\xc7r\\x943\\xb7\\xa1&\\xa5\\xe6\\x7f\\x1fX\\xc7 \\xc6\\xd2\\'\\t\\x8b\\xc9\\x8d\\xecL\\xc1\\xa8\\x9e\\xe7\\xf4_\\x14\\x9d6\\xc1K\\x96L\\x98\\xc8\\'\\xb9\\xf5d\\x9b@\\xb0\\x9e\\xf3>\\xc0u\\xa3\\xd7&\\x14\\xba\\x95\\x0f\\n\\xcf\\x11.t\\xe0\\xbd\\xdc\\xfe\\xd29\\x97\\xdcZ=g\\xd56G\\xdad;\\x9e\\x16\\xa4\\xd8r\\xfa\\xbd\\xda\\xb9!\\xa5\\x07\\xf4\\x8fG\\xe0E\\xceX\\x06hk\\xc0\\xe6\\xb7\\xdb\\x16\\x0cnB\\x0e\\x08\\xcb\\x8cG(\\xe6\\x08_,4\\xf4\\xe2bLZT\\x96?d\\xb0%\\x97\\xe6o\\xdd\\xee\\xe2\\xe6H\\x1c\\xbcI\\x169\\xd66-,\\xe2\\x87_\\xa0\\x14\\xdd\\x85\\xdbe\\xc9\\xe9]\\x94\\x04a\\xee\\xe4t\\xf7F}\\xe6\\x9a,\\n\\xfa$\\x8d\\x8f\\xa8=\\x8f\\xcb0\\x8b\\xe1\\x1fHI\\xe0.y\\xf4\\x08\\xfd\\xaa\\x8eJ\\xa8\\x8a\\x1e\\x05\\x88\\xc1\\xe2\\x9bK\\x99n0\\x7f\\x02a7\\xf8\\xec^\\xbd\\x81\\x81i\\'!\\x85.2\\xad\\xeaS=\\xb5\\xbe\\xd5u\\xe9\\x19r)9\\x08\\xeeL\\xac/_\\xbe^O\\xca\\xb0o~\\x10\\xc4<\\xd1\\xb7\\xc5\\x8b\\xdf\\xf2\\xba]A\\x83\\x1cU\\xae\\x97\\xb7\\xc3\\x03X\\xc5il\\xc0Z3&J`\\xd5\\xedQ\\xdc\\xb6\\x82\\xb1\\x1ah\\x1b>M]>C\\x8e\\xb1KQPUJp\\x84\\xdbb\\xe4X%\\xc0A41\\xe0\\xfc\\xc0\\xd6Q\\x94\\xe9n0\\xe7\\x10Np]\\xcd2l#5\\x9c\\xdf\\x192jF*\\x11\\xda\\xfb\\xab\\'Wf\\xa7lp\\xb0|}\\xfa\\xba\\xd2\\x90)\\x85\\xec\\xd8\\xd7* J\\x9f\\xac\\x94V(+\\xafdm\\xb4\\x8e\\x8f\\xcc\\xcf\\xc7\\x8b\\xf5\\xcda\\x91\\x13\\xbd\\tQ\\xef\\x04\\x1f*\\x9d\\x95\\x1369{\\xa5\\x1d}\\xc5\\xc2.\\xf9e\\x0e\\x91\\xd5\\x9aGxq\\xf7\\x7f\\x85\\x08\\xcc\\xb7M\\xb9\\x04B\\x91\\xbf\\xcf\\xa8,b\\x93\\xaf\\xad\\xbcP\\x05\\x87\\xf2OWBf`\\x83\\xbd\\xc1P)\\t\\xbaS\\xb6\\xa0\\x14\\xa9\\xc7\\xed5\\x82\\x8f\\x19\\xc7\\x93\\x1f\"\\xa8\\x98\\x1eUq\\xd5N\\xab\\xeeU\\x1e\\x02\\xb1\\x1eq\\x87w\\xfe\\x85\\xbb\\xca\\xcfG\\xd4\\xca\\x03\\xe8C\\x87\\xa8Zypt\\xf6\\xf1\\x81\\xcf\\xc4\\x14DIJH\\xe8\\xcd\\x080\\xdc\\xa5\\xc8JM\\x0b\\xa3\\xfb\\x81d\\x1f\\x82g\\xb9F\\x0e^7\\x84T\\x03L\\xd3^=\\xfb@W\\x9c\\x85A\\xaeSb\\x1f\\x10\\xd4\\x84U\\xa6\\x10~\\x9c\\xc2\\x99I\\x86\\xe3\\x17\\x04\\xf9q\"F*&\\x87\\xdb,&\\xa5\\xd8L\\x89\\x92\\xa0\\xcf\\\\\\x10\\xe7\\xfe\\x91\\xe4\\x17\\x17U\\xbb\\n7\\xd9\\xcb\\xf8\\x890#\\xcc:\\x00\\x8d\\xe5\\xbdw\\xcf\\xcbtz\\xf9\\xc2\\xf5\\xe3v\\xfe\\xe5\\xba-trm\\xed\\xb9w\\x92V:Y\\xba\\xb7\\x81@\\xbd#t\\xd9\\xf2\\x8e\\x1a*P\\xb7\\xbdw\\x84\\x01i\\x07n;=\\r\\xf5 t\\xd6\\xe5[\\x9e\\xa3\\xd5\\xd1\\xf2\\xd4\\xfc~\\xff\\tb\\x98\\x7f\\x91J\\xd1};\\xc40>\\xf8\\xe8\\xbd\\xd7\\xf5\\xaf\\xf0\\x82\\x10\\x1b\\xb0\\xccA&\\xf8+&\\xaf\\xae\\xb3\\xf2b\\xa5>b~\\xb6\\x13\\x845aY2Rp\\xc2\\x04\\x13=C\\x17\\x81\\r[\\xad0i \\x97S\\xae\\x8a\\xf9ob\\xde\"\\xaf\\xe7\\xfe~/\\xa7x\\xdb\\x88b\\xda;\\xd1ga||f\\x9an\\xba\\xee,!\\xd2\\x12u#\\x0b\\xc2YvF\\x88|!\\x91v\\xeb\\xb2w,\\xf0\\x89\\xc4+\\xf5\\xe2\\xbb(\\x831\\xf3\\xc3d\\xa0\\xe5..\";\\x8a\\x8a\\x15\\xa9%\\xdbq\\x17A\\x1cV\\xb7\\x04b\\xb2J\\xf8U\\x08\\xa0\\xa5_\\xc9.UN\\x8a\\xf8\"\\x12N\\xae\\xd7\\xcfx\\xb4\\xe5w\\x8a~\\x97@*V\\xb6\\xde\\xf1~-\\xc9\\xd7~\\x99\\xd8\\x1c2\\xa7\\x7f~=\\x07~O:J\\xd94\\xa7\\xce\\xec$\\\\\\xd4\"\\x03+z\\x03\\xebl\\xa2\\xcd\\xf0&\\xee1\\xd1\\xd5\\x9e8\\xbb\\xc4u\\xec$a\\n\\x85\\xdb21\\xb7\\x10\\xe4\\x9e\\x9d\\x80y\\x97\\xe7\\xc2\\xcc\\xa5\\n2@\\xf9\\xe1\\x13\\xd4\\xbe\\xf3\\xe2,()|S\\xc0\\xb3pt*\\x84\\x06\\xee'",
+          "video_metadata": null
+        }
+      ],
+      "role": "model"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "Thank you. Yes, tomorrow, June 2nd, would be great. What times are available?",
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "user"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": {
+            "id": null,
+            "args": {
+              "start_datetime": "2026-06-02T00:00:00+02:00",
+              "topic_id": "investing",
+              "end_datetime": "2026-06-02T23:59:00+02:00",
+              "contact_medium_id": "phone"
+            },
+            "name": "check_availability",
+            "partial_args": null,
+            "will_continue": null
+          },
+          "function_response": null,
+          "inline_data": null,
+          "text": null,
+          "thought": null,
+          "thought_signature": "b'\\n\\x89\\x03\\x01\\x0c9\\xd6\\xc7\\xf1\\r<\\x07\\xdd\\xd5\\x92\"x\\xf5\\x16\\xd2\\xea\\x81=_n\\x0e4\\r\\xb9\\xf6\\x8b\\x11\\r\\xa6\\xc2Z\\xe7I\\xf5\\xff\\\\e\\xd6\\x9a\\x86\\x91P:\\xbb\\xea\\xa1X\\x11\\xcb\\xbe\\xb8Ee\\x95T~a\\xbd\\x8cg\\x13v\\x81\\x0ct\\x84>\\xe3\\xb0\\x17\\xf6\\xbb\\xbbg\\xde\\xa4j\\xe1\\xf6]\\xcag5\\xf6w\\xd8\\xcf\\x0c6\\xd8\\x7fj\\x19\\xf1+8F\\xde\\xde\\x95\\xbdj\\xb7\\xfc\\xbbR\\xec\\x14\\xe7\\x1e\\x9e\\x0c\\x1c\\x8b\\x83#\\xae\\x8cj\\xd5BB\\xad\\xb6\\xd8\\xae)\\xbb_Y\\xe2\\xf1{\\xb7\\xd5\\xad\\xaca\\xdd\\xc2\\x0eZ\\x8aN?\\x0e\\xc2\\xb2\\xa0\\xfd\\x930\\x1b*\\xb1`\\x82\\x16\\xbf\\'\\x8b\\xc5\\xee\\x80Y}\\x82\\xb1\\x02\\xb0\\xfb\\xa4\\x96}\\x1b\\xf9`\\xb5\\x00IW0\\xe2[\\x07\\xc9\\x06\\x01\\xbaZ\\xc5\\xbf\\xdfh\\xe5\\xb5j\\x84]\\xac;x\\x84\\x19\\x85K}:\\xa2\\xc8F\\xa0J|\\x87\\x87p\\x8c\\xfa!!\\xa5\\x96\\xb8A2\\xd1)\\x9a\\x0eI\\'\\xe6\\x9b}\\xe8Q\\xdfK\\xd1\\xa2\\xc8\\xf5\\x80#L\\xccx\\xc5\\xf5\\xb4\\x7f:\\xdd\\x9e\\xf2?\\xaf;rG\\x9f\\xd0\\x128\\xc4F\\x89l\\xd3X\\xaf\\xc6\\x01<#\\xd2I\\xd6\\xa4\\x8f\\xaa\\xcby}\\xbf\\x8dS\\xca]\\x02\\x1d\\xac\\x15\\xe9\\x83\\x02\\xd7uu\\x83\\x1a?\\xed\\xc0\\xbf!\\xff\\xf6\\xad\\x1b\\xc7\\x17g\\xf5\\x08\\xb6\\xf7\\xa9\\xdfA*\\xde\\xce\\xd2\\xa8\\xdbFi\\x8c\\x03\\xed\\xc8AfM\\xc6\\x1c\\x9b\\xb0H\\xc5\\x87\\'\\x0b\\xa0\\x994\\x87t\\x98\\x91\\xeb\\x0f\\x93\\x89Wdu\\xa1S{9/Z%4+Y\\x9b\\x00g\\x12\\xb7\\xa5\\xf9\\x1c\\xdb\\x12\\xdfP^\\xa6\\x14\\xbd\\x91\\xfe\\x8a\\x8e\\xf2\\x9c'",
+          "video_metadata": null
+        }
+      ],
+      "role": "model"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": {
+            "will_continue": null,
+            "scheduling": null,
+            "parts": null,
+            "id": null,
+            "name": "check_availability",
+            "response": {
+              "result": []
+            }
+          },
+          "inline_data": null,
+          "text": null,
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "user"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "I'm sorry, Alex. There are no phone meeting slots available for Investing tomorrow, June 2nd. Would you like to check for another day, or perhaps a different contact medium like an online meeting or a branch meeting?",
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "model"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "No, that's okay. I understand. I don't want to pressure for a booking if there's no availability. Thank you for checking.",
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "user"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "You're very welcome, Alex. I understand completely.\n\nPlease don't hesitate to reach out if you change your mind or would like to check for availability at another time. I'm here to help whenever you need me.",
+          "thought": null,
+          "thought_signature": "b'\\n\\xdd\\x01\\x01\\x0c9\\xd6\\xc7\\xc2Q\\xc5\\xa3\\xa7u;\\x1e\\xed\\x03Lj\\xe9\\x15\\x03\\x00\\x9a\\x15\\xee\\xa5|o\\xecp>\\xbe\\x95\\xfb@\\x05+\\x08\\xdb\\xeb\\xbe\"\\n|\\xab\\xc8\\xf1H\\x98\\x19\\x07\\xf0\\xb3\\xe8P\\xfac(\\x03~\\xa8\\xd4\\xc2F\\x85\\n\\xf8\\x04\\x18\\xd5\\x8e\\xcbX\\xfb\\x89i\\x02\\x95\\x8af\\xb4WnV/\\x8b\\'\\xa7\\xf1\\x94<\\xf2\\x1bw+\\x9c\\xa4f\\x12\\xb9f\\xcb\\xaa\\x12\\xa8\\x9dn,8\\x8e\\xb1\\x9f*\\xb1\\xcb\\xec\\xe6U=\\xc9\\x1e4?S\\xb74\\xba\\xe4\\xabTy\\xbe\\xf2\\x11c\\xc4\\xe4\\x08\\x0e\\xc2\\xf1\\xb6\\x0b\\r\\x94I\\xc1\\xed\\x0fF\\x0c\\x926c]m\\xf2\\xa8\\xda\\xf8>\\xecm\\x8dfpgn\\xd7,\\x04\\xb4\\x95\\x92\\x83\\x1b~\\xf7\\xe2\\xd5\\xd7\\x18;\\x92\\x97J?\\xf65\\x18\\x10\\x05Y\\x9e\\xe9.M\\xc3>$\\x9e\\x95_\\xb2\\xc5\\xe9\\r\\xb3\\xa57\\xac1k<B\\xe2\\xbaS\\xdc\\x04\\xe2\\x98'",
+          "video_metadata": null
+        }
+      ],
+      "role": "model"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "Thank you, I appreciate that. I will.",
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "user"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "You're most welcome, Alex. Have a good day!",
+          "thought": null,
+          "thought_signature": "b'\\n\\x9a\\x02\\x01\\x0c9\\xd6\\xc7\\x8ag\\xe6\\x7fi\\x08\\xfb\\xee\\x81\\xd7\\x9c\\xbfv\\x8fv\\xc0\\xbe\\x04\\xfe\\xadG\\x12B\\xc2\\xef\\x8a\\xc9_\\xfd\\xf6*\\x9f\\x9f\\xe3\\xbb\\x1b\\x86\\xd7\\x9b\\xb52\\xda\\xcaR\\xf2\\xb6\\x94\\x02\\xe8*\\xa8\\xb7\\xe7Q\\xbb\\xc2\\x04\\xf7\\xe0\\x89\\x12\\xedk\\xfc\\x00\\x11-\\xca\\xef\\x9f\\x91\\xb5\\xf5H\\x0b\\n\\xdc\\x82|\\xae\\xc2\\x83\\xb4\\xa9I\\x14\\xb0\\x7f{\\x91B\\xa7\\xaf\\xb6\\xec\\xcf\\xd0\\x9b\\x19q\\xad\\x95\\xddz\\x167\\x9af\\x01\\x13\\x99\\x02J\\x14!\\xfcq\\xb7^g^\\xf3\\x93\\x1fy\\x0e\\xac\\x1fN\\xaf\\xc6;\\x13\\xf3\"\\x8d14S\\xf6t\\xbf\\xba\\xb7/ \\x83\\xc1\\x80GQ\\xeb\\xa4\\x1a\\x07\\x8ah\\xa3\\xcd\\xdal\\xbf\\x84\\x8b!\\xf3\\xe5\\x91\\xa9\\xefJ@\\x90\\xdf\\xd7\\xb1#\\xe6\\xe3\\x17\\xb0P\\x8e<\\xce\\x9c_\\xbd\\xf5\\x1f\\xd5\\x88\\x1d\\x08_\\x91\\x9d@t\\r\\x99\\xe7\\xfc\\x7fh\\x90B\\x8c\\xe2\\xe9f\\x1e>\\xe5QN\\x02\\x15\\x92\\xfc\\x16<a3\\xd5o\\xd3l=\\xb8\\x08[\\x19\\x16g\\xe4\\x138\\xd7\\x91\\xf4\\x8c4wmr\\ns\\xc7\\xeb\\xec\\x98h\\xd6\\x9aL:lF\\x97\\xc4=I#\\xf14g\\x7f\\xbb6/\\xbdl[e\\x999'",
+          "video_metadata": null
+        }
+      ],
+      "role": "model"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "You too!",
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "user"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "Thank you!",
+          "thought": null,
+          "thought_signature": "b\"\\no\\x01\\x0c9\\xd6\\xc7w\\xa0\\xea\\x06L+\\xc9\\xef-2=\\x11N\\x12v\\x07z\\xbf\\xa8\\x06\\xd5\\xceS\\x13\\xc9\\xd4\\xa6.f\\xea4B!\\x17\\x7f\\x0bW\\xd4\\x19V\\x93[H\\xe9_7\\xb84 '\\x13\\xe2u\\xaa$\\xb4\\xb3%\\xc7\\x06\\x05\\x12\\\\#\\xd0.;\\x00\\x1cm\\xd8\\xa7.\\xcf\\xbd\\xc3\\xac\\x8a<\\x8c>\\x13R|\\xaf`\\xfeJ\\xaa/\\xd0\\xf7\\x9c\\xdd`\\xd9?xq\\xcd\\x04Zk\\x812(\"",
+          "video_metadata": null
+        }
+      ],
+      "role": "model"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "[The user exited the conversation.]",
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "user"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "",
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "model"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "[The user exited the conversation.]",
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "user"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "Thank you!",
+          "thought": null,
+          "thought_signature": "b'\\n\\xa4\\x01\\x01\\x0c9\\xd6\\xc7\\x95\"H\\xc2j^\\xa2Q:\\xa7\\xbe\\xb0:\\t]\\x84|\\xf9\\xdc\\x06w\\xa3\\xec\\x8b\\xf3\\xea\\x85\\xf7\\xf9 \\x98\\xe8\"\\xb6D\\x95]\\xaf\\x1a\\xe7\\xabY\\xa3`\\x9dc\\xdd\\xcen\\xa5\\xaf[M\\x11\\xde\\xf0\\x84\\xfc\\x93\\xfb\\x0e\\x1a\\x18u\\xb5H\\xe4kz\\xe1n\\x80\\x07\\xe0\\xa6\\xaf\\x84Xp\\x1fu\\x82\\t\\x19 \\xee\\\\\\xc9&\\xa4\\xa8Z\\xcd%\\xde\\xaa\\x10\\xb1I\\xbf*\\xb8\\x14|\\xcf\\xbf\\xf7\\xf4\\x1f\\r\\x9fR\\x9b\\x98_3Q\\xf7\\x02g\\x98\\xb5\\x7fW00\\xe8^)U.\\x98\\x116\\xb8\\xa4\\x93{`\\x1a\\x87\\xa2`A\\xa1\\xd4\\xa3k!\\x7f\\xdb\\x98\\n\\xfaB\\x1d\\xf0\\xf3\\x13'",
+          "video_metadata": null
+        }
+      ],
+      "role": "model"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "[The user exited the conversation.]",
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "user"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "Thank you!",
+          "thought": null,
+          "thought_signature": "b\"\\nd\\x01\\x0c9\\xd6\\xc76\\xc3\\n\\xfb\\x92\\xf0\\xea\\x88Mv\\xbbW\\x9el\\xcc\\x1e\\xa4\\x9a\\xd1K\\x07\\xe8\\x1d0{tRBD\\xbf'\\xc6\\xe6\\xce\\xd8.$\\x94\\xa1&\\x86m0m\\xc9\\xb5\\x89vt\\x1f\\xc3\\x13P7>\\xdc4\\xdb\\xeb*8\\x80o?R\\x15\\x93\\x99\\xf6]i\\xbcPO\\xac\\xa2e5fN;>sMd,\\xf94\\x86\\xec\\xb0Q\\x12\\x83\\x1c\"",
+          "video_metadata": null
+        }
+      ],
+      "role": "model"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "[The user exited the conversation.]",
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "user"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "Thank you!",
+          "thought": null,
+          "thought_signature": "b'\\n\\xaa\\x02\\x01\\x0c9\\xd6\\xc7N\\xba\\xfba\\xbf@\\xc4;\\x92\\xf8\\xef\\xb8\\xf7\\x18b\\x08u\\xb68\\xa0Q\\x89S\\x85\\xeb0m,,\\x83\\xcc\\xe2\\xf2\\xee\\x87s\\xe0 j\\x01\\x84)\\x86OV\\xaa\\t\\xf9IP}\\xc9\\xd7\\x99\\xfaT\\x06\\xd5\\x05VV\\xbb\"\\x10\\xbc\\xd8i\\x94\\xbb\\x9a\\xe2\\xc7h\\x12CR\\xe56\\xe1\\x9bv\\x92\\xb3\\xbf\\x0e\\xedKAE\\xa4X\\x04[\\x83n6\\xb90\\xf8\\x8b\\x98$2\\xcf\\x04\\x82\\xc4,\\xf5m\\x15\\xe1I\\xf1\\x04\\x11fu\\x14\\xeee\\xcdu\\xe5\\x1eg!\\xdc\\x14\\x05\\x94\\x99\\\\\\x10\\x9d\\x1aL\\x87UH\\x14\\xf9\\xd6\\x10s6\\xd2G:\\xfex\\x87\\x89\\xea\\xba\\x0e\\xd6\\\\a\\xf5\\xda\\x0c\\xceSP\\xe9m\\x08S\\xc8\\x1eQj_\\xedM\\x10)Q\\x18eb5\\x1e\\xdc\\xaa\\xfa\\x17*\\xc2u\\x0cT\\xbfl\\x95\\x99g\\xb7e|+\\x7fJ\\xc4>\\x95)v\\x1a\\xaa\\xe4T\\x81\\x8b\\xc7\\x93\\xd8yTi&\\xd0#\\x97*\\\\\\xc1j\\xabW\\x1f\\x84\\x9b\\x0c \\x99+PC\\xc4A\\xaf\\xb9o3c\\xcb\\xe00{\\xeaY0I7\\n\\x93C@\\xf2\\xf77Q\\xa5\"_\\x14=\\xa5\\xf5\\xcbO\\xf3\\xb0\\x1eV`Z<\\x8a\\x10\\xdc%\\xb1\\xa0(\\xdc\\xd7jVz~'",
+          "video_metadata": null
+        }
+      ],
+      "role": "model"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "[The user exited the conversation.]",
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "user"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "Thank you!",
+          "thought": null,
+          "thought_signature": "b'\\n\\xab\\x02\\x01\\x0c9\\xd6\\xc7\\xd5\\xd6\\xe7\\xe4\\x04\\n\\x1f\\xa5F\\x14\\x08]\\xb9x_\\x0eTY\\xffR\\x91\\x90\\xa0\\xb2\\xe2\\x891\\x8dT9\\xbaAoR\\xf1\\xc9\\tr\\xa9\\xfb\\'\\xf1.\\xde\\xe4d\\xad\\xcb=XT\\x8e<\\x92U\\x05\\xbf\\xe5\\x8eq\\x8f^\\x99\\xfdn\\xc5\\xbc\\xcd\\xcd\\xed\\xa0\\x19>|$H\\t\\xb5q\\xd2L/Pa\\x82\\xe8}\\xb3q~\\xee\\x8e\\xe9\\xa5pd\\xfdG\\xb3\\xa6b\\xef\\xe3\\x12\\x88\\x04\\x05^\\xca\\xad\\xea\\x11\\xfd\\x83:0\\xdb\\xff\\xab\\xc8\\xed\\x03\\x1f\\xfa\\x05O\\r\\xf8R\\x02\\xc3F\\xc1\\x83\\xc0/R\\xa1m\\x90\\xbc\\x17\\x92\\x8f\\x1f\\xf6\\xb2\\xc6\\xabV\\xb9\\xee\\t?\\x7f=g\\xdc\\x8e\\xcf\\xab\\xf2j\\xf4\\x8e($\\xe4\\xc6\\xc1\\x86\\x7fK\\x99\\x984\\xf57\\xcb\\xc5\\x1d\\x1b\\x10\\x19\\xc9Q\\xfb(\\x13\\x88)\\xaa9\\xcf<\\xd2y\\xe7\\x81\\xd0r\"\\xbc\\xa3zD\\x98\\xf5\\xb1\\xd8\\x10<%mL:=?\\xc5\\x15.\\x14\\'\\x15,\\x1ao\\xcf/Mp1\\xcc\\xe9\\x0f\\x89\\x1c%]_\\xdc\\x98\\xa3\\xef\\x86\\x8d6\\x8d\\xa0\\xfdZ\\xae\\x05\\xef\\t\\xc8\\xe0\\xe3\\xbc\\xc2V\\x7fA\\xb6\\xf0\\xcf\\x1d\\xe4\\xb0b\\x13\\xc2\\x86<$\\xb6\\xa1G\\x92AjN\\x05\\x14\\x814+4\\xfd\\xbd\\xcc\\x02\\x1d\\x9e'",
+          "video_metadata": null
+        }
+      ],
+      "role": "model"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "[The user exited the conversation.]",
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "user"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "Thank you!",
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "model"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "[The user exited the conversation.]",
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "user"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "Thank you!",
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "model"
+    }
+  ],
+  "derived": {
+    "total_turn_count": 12,
+    "total_mcp_calls": 7,
+    "availability_calls": 5,
+    "first_check_availability_params": {
+      "start_datetime": "2026-06-02T00:00:00+02:00",
+      "topic_id": "investing",
+      "end_datetime": "2026-06-02T23:59:00+02:00",
+      "contact_medium_id": "phone"
+    },
+    "booked": false,
+    "total_simulated_latency_ms": 6574.668481493289,
+    "total_actual_latency_ms": 124.22909999986587,
+    "parse_accuracy_score": 0.0,
+    "unsupported_facts_count": 0,
+    "faithful": true,
+    "slots_presented_per_turn": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "efficiency_ratio": 5.0,
+    "optimal_availability_calls": 1,
+    "dead_end_turn_count": 1
+  },
+  "grounding_facts": [
+    {
+      "fact_type": "topic",
+      "asserted_value": "investing",
+      "asserted_in_turn": 1,
+      "supported": true,
+      "source_tool_call_ref": null,
+      "notes": "case-insensitive substring match against get_appointment_topics response"
+    },
+    {
+      "fact_type": "medium",
+      "asserted_value": "phone",
+      "asserted_in_turn": 1,
+      "supported": true,
+      "source_tool_call_ref": null,
+      "notes": "case-insensitive substring match against get_appointment_contact_medium response"
+    },
+    {
+      "fact_type": "topic",
+      "asserted_value": "investing",
+      "asserted_in_turn": 2,
+      "supported": true,
+      "source_tool_call_ref": null,
+      "notes": "case-insensitive substring match against get_appointment_topics response"
+    },
+    {
+      "fact_type": "medium",
+      "asserted_value": "phone",
+      "asserted_in_turn": 2,
+      "supported": true,
+      "source_tool_call_ref": null,
+      "notes": "case-insensitive substring match against get_appointment_contact_medium response"
+    },
+    {
+      "fact_type": "medium",
+      "asserted_value": "branch meeting",
+      "asserted_in_turn": 2,
+      "supported": true,
+      "source_tool_call_ref": null,
+      "notes": "case-insensitive substring match against get_appointment_contact_medium response"
+    },
+    {
+      "fact_type": "medium",
+      "asserted_value": "online meeting",
+      "asserted_in_turn": 2,
+      "supported": true,
+      "source_tool_call_ref": null,
+      "notes": "case-insensitive substring match against get_appointment_contact_medium response"
+    }
+  ],
+  "langsmith_trace_id": null,
+  "langsmith_trace_url": null,
+  "judge_scores": [
+    {
+      "rep_index": 1,
+      "judge_model": "gemini-2.5-flash",
+      "judge_temperature": 0.3,
+      "temporal_understanding": 4,
+      "negotiation_effectiveness": 2,
+      "conversational_efficiency": 4,
+      "customer_experience": 3,
+      "recovery_quality": null,
+      "justifications": {
+        "temporal_understanding": "The agent correctly identified the user's initial request for \"later today\" as being unavailable and then accurately processed the user's subsequent request for \"tomorrow, June 2nd.\"",
+        "negotiation_effectiveness": "The agent only reported unavailability for the requested day and asked the user to pick a new day or contact medium, without offering specific alternative times or dates.",
+        "conversational_efficiency": "The agent efficiently processed the user's requests without unnecessary questions or redundant API calls, though it did make multiple check_availability calls in Turn 2.",
+        "customer_experience": "The experience was workable but slightly disappointing as the agent did not offer any alternative times when the requested slot was unavailable, leading to a quick end to the conversation.",
+        "recovery_quality": ""
+      },
+      "overall_notes": null
+    }
+  ],
+  "termination_reason": "max_turns",
+  "error": null
+}

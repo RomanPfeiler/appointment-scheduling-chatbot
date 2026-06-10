@@ -1,0 +1,28 @@
+# Local development requirements — the full stack (deployed deps + everything the
+# hosted demo deliberately leaves out). Use this locally and in CI/evaluation:
+#   pip install -r requirements-local.txt
+#
+# The HF Space installs requirements.txt only (the lean Gemini-only stack); these
+# extra packages are either user-facing-removed (Claude) or can't run on free HF
+# hardware (the local GGUF model), or are offline corpus-mining tools.
+-r requirements.txt
+
+anthropic==0.84.0     # Claude provider — retained as code; used only locally / in evaluation.
+datasets==4.8.5       # evaluation/mining (SGD + MultiWOZ) — NOT on the deploy boot path.
+pyyaml==6.0.3         # evaluation.runner (selection-profile YAML) — eval-only; the ad-hoc
+                      # recorder is disabled on HF, so evaluation/ never loads on the Space.
+
+# llama-cpp-python — local-LLM Arm 2 (IMPROVEMENT_PLAN §9), CPU-only.
+# Install the prebuilt CPU wheel (no MSVC/CMake build) with:
+#   pip install "llama-cpp-python==0.3.2" --only-binary=:all: \
+#       --extra-index-url https://abetlen.github.io/llama-cpp-python/whl/cpu
+# Pinned to 0.3.2: the newest CPU wheels (e.g. 0.3.25) are built requiring
+# AVX-512 and fault with STATUS_ILLEGAL_INSTRUCTION (0xc000001d) on CPUs that
+# lack it (e.g. AMD Zen 2 / Ryzen 5000U, which has AVX2 but not AVX-512).
+# 0.3.2 runs on an AVX2 baseline. This is itself a deployability finding — and
+# the reason Arm 2 is not deployed to the free HF Space.
+llama-cpp-python==0.3.2
+
+# en_core_web_sm — Arm 1 entity trained model (optional; blank-pipeline fallback
+# if absent). Install via:
+#   python -m spacy download en_core_web_sm

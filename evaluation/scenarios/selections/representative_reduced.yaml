@@ -1,0 +1,100 @@
+name: representative_reduced
+description: >
+  Cost-tuned representative profile — Tiers 1–2 cut to 5/tier, Tiers 3–7 full
+  (10/tier), reps=2. 60 scenarios × 2 = 120 conversations/stage (vs 210).
+tiers: [1, 2, 3, 4, 5, 6, 7]
+max_per_tier: 10        # documentary only — include_ids below takes precedence
+seed: 42                # documentary — the include_ids were derived from the seed-42 draw
+reps: 2
+notes: |
+  Phase B reduced profile. The binding constraint is Gemini API cost, not
+  CPU/wall-clock, so the cut falls on the cheapest, lowest-signal tiers
+  (cooperative-persona Tiers 1–2) while the negotiation / grounding /
+  out-of-scope tiers (3–7) stay whole.
+
+  Construction (comparability — EVALUATION_FRAMEWORK §10):
+  - include_ids is a DETERMINISTIC SUBSET of the full representative.yaml
+    seed-42 draw: Tiers 1–2 = the first 5 ids in that tier's seeded sample;
+    Tiers 3–7 = all 10. No schema/runner change (include_ids derived rather
+    than extending max_per_tier to a per-tier map).
+  - Identical selection across all four stages (baseline / arm1 / arm2 / arm3)
+    because the ids are fixed here — every stage runs the SAME 60 scenarios,
+    so the comparison is paired.
+  - booking_reachable=false coverage PRESERVED: the 13 unreachable cases of the
+    full draw (Tier 2 ×1, Tier 3 ×2, Tier 7 ×10) are all retained. The single
+    Tier-2 unreachable case already falls inside the first-5 cut, so no manual
+    swap was needed.
+
+  Per-tier counts: T1 5, T2 5, T3 10, T4 10, T5 10, T6 10, T7 10 = 60.
+  reps=2 -> 120 conversations/stage. Drop to reps=1 ONLY if the cost estimate
+  exceeds budget; if so, record in the report that representative CIs rest on
+  single runs (lean on per-tier patterns over CI overlap).
+include_ids:
+  # Tier 1 — first 5 of seed-42 draw (0 unreachable; matches full draw)
+  - t1_en_native_014
+  - t1_en_native_003
+  - t1_en_de_035
+  - t1_en_native_031
+  - t1_en_de_028
+  # Tier 2 — first 5 of seed-42 draw (includes the 1 unreachable case)
+  - t2_en_native_004
+  - t2_en_native_003
+  - t2_en_native_011
+  - t2_en_native_027
+  - t2_en_native_029
+  # Tier 3 — full 10 (2 unreachable)
+  - t3_en_native_053
+  - t3_en_native_028
+  - t3_en_de_057
+  - t3_en_de_075
+  - t3_en_native_035
+  - t3_en_native_000
+  - t3_en_native_020
+  - t3_en_native_054
+  - t3_en_fr_043
+  - t3_en_native_076
+  # Tier 4 — full 10
+  - t4_en_fr_019
+  - t4_en_native_027
+  - t4_en_native_043
+  - t4_en_de_013
+  - t4_en_de_011
+  - t4_en_native_048
+  - t4_en_native_012
+  - t4_en_native_045
+  - t4_en_native_044
+  - t4_en_it_033
+  # Tier 5 — full 10
+  - t5_en_native_005
+  - t5_en_de_058
+  - t5_en_native_068
+  - t5_en_fr_015
+  - t5_en_native_048
+  - t5_en_native_010
+  - t5_en_fr_070
+  - t5_en_de_037
+  - t5_en_de_046
+  - t5_en_it_024
+  # Tier 6 — full 10
+  - t6_en_native_045
+  - t6_en_native_004
+  - t6_en_native_002
+  - t6_en_de_042
+  - t6_en_de_014
+  - t6_en_native_049
+  - t6_en_de_018
+  - t6_en_native_005
+  - t6_en_native_055
+  - t6_en_native_006
+  # Tier 7 — full 10 (all unreachable by definition)
+  - t7_en_native_024
+  - t7_en_de_017
+  - t7_en_native_029
+  - t7_en_native_023
+  - t7_en_native_010
+  - t7_en_de_036
+  - t7_en_de_022
+  - t7_en_native_013
+  - t7_en_native_038
+  - t7_en_it_033
+exclude_ids: []

@@ -1,0 +1,469 @@
+"""Pydantic schemas for the evaluation conversation record.
+
+These models are the canonical structured artifact produced per scenario-run
+(and per ad-hoc Chainlit session). See:
+- architecture/EVALUATION_FRAMEWORK.md Section 7 (record + storage)
+- architecture/EVALUATION_FRAMEWORK.md Section 9 (latency model)
+- architecture/EVALUATION_FRAMEWORK.md Section 8 (judge dimensions)
+
+Schema version is tracked so older records remain identifiable after future
+model changes.
+"""
+
+from __future__ import annotations
+
+from datetime import date, datetime
+from typing import Any, Literal
+
+from pydantic import BaseModel, ConfigDict, Field
+
+SCHEMA_VERSION = "1.0"
+
+# Suite-wide scenario clock (EVALUATION_FRAMEWORK.md §3a). Every date-bearing
+# field in a scenario (availability-override offsets, weekday/relative phrasings,
+# parse-accuracy ground truth) resolves against this single pinned reference date
+# instead of the wall clock at run time, so a scenario produces the identical
+# effective fixture on any run day. 2026-06-01 is a Monday — chosen so that
+# "next Tuesday" deterministically means today+1 and the suite is trivially
+# reproducible. This matches the scenario generator's anchor.
+REFERENCE_DATE = date(2026, 6, 1)
+
+Stage = Literal[
+    "baseline",
+    "nlp",          # legacy single-NLP stage, kept so old records validate
+    "nlp_arm1",     # spaCy + dateparser (IMPROVEMENT_PLAN §7/§8 Arm 1)
+    "nlp_arm2",     # local LLM (IMPROVEMENT_PLAN §7/§8 Arm 2 + §9)
+    "nlp_arm3",     # API LLM / Gemini JSON mode (IMPROVEMENT_PLAN §7/§8 Arm 3)
+    "expansion",    # executor-side window-expansion policy, NLP off (ARCHITECTURE §8 2026-06-07)
+    "nlp_arm3_expansion",  # Arm 3 NLP + executor expansion combined (ARCHITECTURE §8 2026-06-08)
+    # Weak-agent-model family (ARCHITECTURE §8 2026-06-10): same flag families as
+    # the strong counterparts, but the AGENT runs on a weaker model (thinking off).
+    # Judge / simulator / NLP Arm 3 stay pinned at gemini-2.5-flash.
+    "weak_baseline",
+    "weak_nlp_arm1",
+    "weak_nlp_arm2",
+    "weak_nlp_arm3",
+    "weak_expansion",
+    "weak_nlp_arm3_expansion",
+    "planner",
+    "robustness",
+    "adhoc",
+]
+PersonaProfile = Literal["cooperative", "negotiating", "adversarial", "edge", "adhoc"]
+ResponseType = Literal["function_call", "text"]
+FactType = Literal["topic", "medium", "slot", "booking"]
+# Language variant of the sampled `frozen_phrasing`. `en_native` draws from the
+# mined SGD/MultiWOZ bank; en_de/en_fr/en_it draw from the hand-curated Swiss
+# addendum (`evaluation/phrase_bank/swiss_variants.json`). See
+# EVALUATION_FRAMEWORK.md §5a.
+LanguageVariant = Literal["en_native", "en_de", "en_fr", "en_it"]
+Tier = Literal[1, 2, 3, 4, 5, 6, 7]
+TerminationReason = Literal[
+    "booked",
+    "max_turns",
+    "simulator_goal_complete",
+    "refusal_accepted",
+    "session_end",
+    "error",
+    # Per-scenario wall-clock guard tripped: an intra-turn agent↔execute loop ran
+    # away (hundreds of check_availability calls within a single turn). --max-turns
+    # bounds user turns but not tool calls within a turn, so the runner aborts the
+    # scenario to a `timeout` record and continues. Added 2026-06-06.
+    "timeout",
+]
+RunStatus = Literal["in_progress", "complete", "failed", "crashed"]
+
+
+# ---------------------------------------------------------------------------
+# Latency model — Section 9
+# ---------------------------------------------------------------------------
+
+
+class LatencyModel(BaseModel):
+    """Parameters for the simulated MCP latency model (Section 9a).
+
+    ``latency_ms = base_overhead + per_day_cost * days_queried + jitter``
+    """
+
+    base_overhead_ms: float = 400.0
+    per_day_cost_ms: float = 500.0
+    jitter_sigma_ms: float = 50.0
+
+
+DEFAULT_LATENCY_MODEL = LatencyModel()
+
+
+# ---------------------------------------------------------------------------
+# Scenario contract — Section 3b
+# ---------------------------------------------------------------------------
+
+
+class AvailabilityOverride(BaseModel):
+    """Per-scenario fixed availability profile (EVALUATION_FRAMEWORK.md §3a).
+
+    Keys are relative-date offsets like ``"today+1"`` resolved to real ISO 8601
+    datetimes at execution time. Values are lists of slot windows in
+    ``"HH:MM-HH:MM"`` form (local Europe/Zurich time). Any (date, topic_id,
+    contact_medium_id) combination NOT in the override returns empty (fully
+    booked) — see §3a.
+    """
+
+    slots_by_offset: dict[str, list[str]]
+    notes: str = ""
+
+
+class ExpectedDateTimeWindow(BaseModel):
+    """The window the agent's *first* ``check_availability`` should query.
+
+    Used by the parse-accuracy KPI (§4f). Offsets are relative to scenario
+    execution time, e.g. ``"today+3T09:00"`` → ``"today+3T12:00"``.
+    """
+
+    start_offset: str
+    end_offset: str
+
+
+class Scenario(BaseModel):
+    """A single evaluation scenario (EVALUATION_FRAMEWORK.md §3b).
+
+    Scenarios are authored as data, generated by ``evaluation/scenarios/generator.py``
+    from tier templates × phrase bank × topic/medium × language_variant. The
+    runner consumes them; the simulator's prompt is composed as
+    ``goal + persona_profile + frozen_phrasing``.
+    """
+
+    scenario_id: str
+    tier: Tier
+    description: str
+    topic_id: str
+    contact_medium_id: str
+    availability_override: AvailabilityOverride
+    # The date all of this scenario's relative expressions anchor to (§3a).
+    # The runner injects it as the agent's and simulator's notion of "today" and
+    # resolves the availability-override offsets against it, so weekday phrasings
+    # ("next Tuesday") and the override's ``today+N`` keys never drift apart.
+    reference_date: date = REFERENCE_DATE
+    simulator_goal: str
+    persona_profile: PersonaProfile
+    frozen_phrasing: str
+    language_variant: LanguageVariant
+    expected_datetime_window: ExpectedDateTimeWindow | None = None
+    optimal_availability_calls: int = 1
+    expected_turn_range: tuple[int, int] = (4, 8)
+    booking_reachable: bool = True
+    notes: str = ""
+
+
+# ---------------------------------------------------------------------------
+# Run config + manifest
+# ---------------------------------------------------------------------------
+
+
+class RunConfig(BaseModel):
+    """Snapshot of the runtime configuration for a run.
+
+    Persisted in both the per-run manifest and inside every ConversationRecord
+    so each record is self-contained for downstream analysis.
+    """
+
+    llm_provider: str
+    llm_model: str
+    llm_temperature: float
+    llm_max_tokens: int | None = None
+    judge_model: str | None = None
+    # Weak-agent experiment fields (ARCHITECTURE §8 2026-06-10) — every record
+    # names the pinned companion models and the agent's *effective* thinking
+    # budget, so agent-model variation can never be confused with a change in
+    # the simulator/judge/NLP-extraction models. Optional: older records lack
+    # them and still validate.
+    simulator_model: str | None = None
+    agent_thinking_budget: int | None = None
+    nlp_api_model: str | None = None
+    seeds: dict[str, int] = Field(default_factory=dict)
+    max_turns: int = 30
+    latency_model: LatencyModel = Field(default_factory=lambda: DEFAULT_LATENCY_MODEL)
+    simulate_latency: bool = False
+    runner_version: str = "0.1.0"
+    extras: dict[str, Any] = Field(default_factory=dict)
+
+
+class RunManifest(BaseModel):
+    """One manifest per ``<stage>/<run_id>/`` directory.
+
+    See EVALUATION_FRAMEWORK.md Section 7c — the manifest is the per-run
+    table of contents. ``status`` only flips to ``complete`` after every
+    scenario-run has been finalized cleanly.
+    """
+
+    schema_version: str = SCHEMA_VERSION
+    run_id: str
+    stage: Stage
+    timestamp_start: datetime
+    timestamp_end: datetime | None = None
+    git_commit: str
+    git_dirty: bool = False
+    change_note: str | None = None
+    config: RunConfig
+    scenario_set_version: str | None = None
+    scenario_count: int = 0
+    rep_count: int = 1
+    record_count_written: int = 0
+    status: RunStatus = "in_progress"
+
+
+# ---------------------------------------------------------------------------
+# Per-turn building blocks
+# ---------------------------------------------------------------------------
+
+
+class LLMCallRecord(BaseModel):
+    """One LLM API call. A single turn may produce several
+    (function_call → tool → text)."""
+
+    provider: str
+    model: str | None = None
+    prompt_message_count: int
+    response_type: ResponseType
+    function_name: str | None = None
+    function_args: dict | None = None
+    text_preview: str | None = None
+    latency_ms: float | None = None
+    input_tokens: int | None = None
+    output_tokens: int | None = None
+    # Thought tokens reported by the API (None when the SDK/model exposes none).
+    # The runtime tripwire for the thinking-config assertion: a thinking-off run
+    # whose agent calls carry thought tokens is a measurement bug.
+    thoughts_tokens: int | None = None
+    temperature: float | None = None
+    raw_response_excerpt: str | None = None
+
+
+class ToolCallRecord(BaseModel):
+    """One MCP tool call: parameters, response, both measured and simulated latency."""
+
+    tool_name: str
+    parameters: dict
+    response: Any  # dict for most tools, list for some MCP returns
+    simulated_latency_ms: float | None = None
+    actual_latency_ms: float | None = None
+    success: bool = True
+    error_message: str | None = None
+
+
+class TurnRecord(BaseModel):
+    """A single user↔agent exchange.
+
+    Numbering: ``turn_index`` is 1-based and counts user↔agent exchanges per
+    Section 4b. A turn may contain multiple LLM calls and tool calls (the
+    agent loops internally between LLM and execute nodes).
+    """
+
+    turn_index: int
+    timestamp: datetime
+    user_message: str | None = None
+    agent_response: str | None = None
+    llm_calls: list[LLMCallRecord] = Field(default_factory=list)
+    tool_calls: list[ToolCallRecord] = Field(default_factory=list)
+    state_snapshot: dict = Field(default_factory=dict)
+    turn_duration_ms: float | None = None
+    # Executor window-expansion debug (one entry per widening-ladder step that
+    # ran this turn). Empty when the ladder did not fire or the expansion policy
+    # is off. This is the *clean* per-turn ladder-fire signal — distinct from the
+    # cache-confounded proxy (counting check_availability tool_calls), which
+    # undercounts cache-served steps. Default ``[]`` so pre-expansion records and
+    # every NLP/baseline record validate unchanged. (ARCHITECTURE §8 2026-06-08)
+    ladder_steps: list[dict] = Field(default_factory=list)
+
+
+# ---------------------------------------------------------------------------
+# Derived metrics + grounding + judge
+# ---------------------------------------------------------------------------
+
+
+class GroundingFact(BaseModel):
+    """A concrete fact the agent asserted (slot, topic, medium, booking).
+
+    Populated by the grounding/faithfulness check (Section 4d). ``supported``
+    is True iff the fact was present in a prior tool response in this
+    conversation.
+    """
+
+    fact_type: FactType
+    asserted_value: str  # normalized form
+    asserted_in_turn: int
+    supported: bool
+    source_tool_call_ref: dict | None = None  # {"turn_index": int, "tool_call_index": int}
+    notes: str | None = None
+
+
+class DerivedMetrics(BaseModel):
+    """Computed by the metrics step from a finalized ConversationRecord."""
+
+    total_turn_count: int
+    total_mcp_calls: int
+    availability_calls: int
+    first_check_availability_params: dict | None = None
+    booked: bool = False
+    total_simulated_latency_ms: float = 0.0
+    total_actual_latency_ms: float = 0.0
+    parse_accuracy_score: float | None = None
+    unsupported_facts_count: int = 0
+    faithful: bool = True
+    slots_presented_per_turn: list[int] = Field(default_factory=list)
+    efficiency_ratio: float | None = None
+    optimal_availability_calls: int | None = None
+    # §4h: a turn is "dead-end" when check_availability returned [] AND the
+    # agent surfaced 0 slots in that turn's text. Default 0 for backwards
+    # compatibility with older records.
+    dead_end_turn_count: int = 0
+
+
+class JudgeScoreSet(BaseModel):
+    """One run of the LLM-as-a-Judge. Section 8b allows N reps per record;
+    the runner default is 1 (configurable via ``--judge-reps``)."""
+
+    rep_index: int
+    judge_model: str
+    judge_temperature: float
+    temporal_understanding: int = Field(ge=1, le=5)
+    # §8a dimension 2 — nullable as of 2026-05-25 so the judge can skip
+    # Tier 7 (out-of-scope refusal, where "offering alternatives" is wrong).
+    negotiation_effectiveness: int | None = Field(default=None, ge=1, le=5)
+    conversational_efficiency: int = Field(ge=1, le=5)
+    # §8a dimension 4 — Customer Experience (added 2026-05-25). Nullable for
+    # both (a) backwards compatibility with records scored before this
+    # dimension existed and (b) Tier 7 skip (the standard CX rubric rewards
+    # smooth bookings, which is the wrong contract for an out-of-scope refusal).
+    customer_experience: int | None = Field(default=None, ge=1, le=5)
+    # Recovery is dimension 5 — scored only for Tiers 3–5.
+    recovery_quality: int | None = Field(default=None, ge=1, le=5)
+    justifications: dict[str, str] = Field(default_factory=dict)
+    overall_notes: str | None = None
+
+
+# ---------------------------------------------------------------------------
+# The canonical conversation record
+# ---------------------------------------------------------------------------
+
+
+class ConversationRecord(BaseModel):
+    """The canonical per-scenario-run artifact (EVALUATION_FRAMEWORK.md §7b).
+
+    Written as JSON to ``<stage>/<run_id>/records/<scenario_id>__rep<k>.json``.
+    A markdown transcript rendered from this record lives alongside under
+    ``transcripts/``. The judge step adds entries to ``judge_scores``; the
+    metrics step populates ``derived`` and ``grounding_facts``.
+    """
+
+    model_config = ConfigDict(arbitrary_types_allowed=False)
+
+    schema_version: str = SCHEMA_VERSION
+
+    # --- Identity (Section 7b) ---
+    scenario_id: str
+    tier: int | str  # 1–7 or "adhoc"
+    stage: Stage
+    persona_profile: PersonaProfile | None = None
+    run_index: int = 1
+    run_id: str
+    timestamp_start: datetime
+    timestamp_end: datetime | None = None
+
+    # --- Provenance (Section 7b) ---
+    git_commit: str
+    git_dirty: bool = False
+    change_note: str | None = None
+    config: RunConfig
+    scenario_set_version: str | None = None
+    availability_override: dict | None = None
+    frozen_phrasing: str | None = None
+    expected_datetime_window: dict | None = None
+
+    # --- Content ---
+    turns: list[TurnRecord] = Field(default_factory=list)
+    final_messages: list[dict] = Field(default_factory=list)  # full Gemini Content history
+
+    # --- Derived (populated later) ---
+    derived: DerivedMetrics | None = None
+    grounding_facts: list[GroundingFact] = Field(default_factory=list)
+
+    # --- External links ---
+    langsmith_trace_id: str | None = None
+    langsmith_trace_url: str | None = None
+
+    # --- Judge (added by judge step) ---
+    judge_scores: list[JudgeScoreSet] = Field(default_factory=list)
+
+    # --- Termination ---
+    termination_reason: TerminationReason | None = None
+    error: str | None = None
+
+
+# ---------------------------------------------------------------------------
+# KPI history row
+# ---------------------------------------------------------------------------
+
+
+class KPIHistoryRow(BaseModel):
+    """One row of reports/kpi_history.csv (Section 7d)."""
+
+    run_id: str
+    stage: Stage
+    timestamp: datetime
+    git_commit: str
+    change_note: str | None = None
+    scenario_count: int = 0
+    rep_count: int = 1
+    booking_completion_rate: float | None = None
+    median_turns: float | None = None
+    median_efficiency_ratio: float | None = None
+    faithful_rate: float | None = None
+    mean_total_simulated_latency_ms: float | None = None
+    dead_end_turns_total: int | None = None
+    judge_mean_temporal: float | None = None
+    judge_mean_negotiation: float | None = None
+    judge_mean_efficiency: float | None = None
+    judge_mean_recovery: float | None = None
+    judge_mean_customer_experience: float | None = None
+
+    @classmethod
+    def csv_header(cls) -> list[str]:
+        """Stable column order for the CSV file."""
+        return list(cls.model_fields.keys())
+
+    def to_csv_row(self) -> list[str]:
+        """Render fields in ``csv_header()`` order, formatting datetimes ISO."""
+        out: list[str] = []
+        for name in self.csv_header():
+            value = getattr(self, name)
+            if value is None:
+                out.append("")
+            elif isinstance(value, datetime):
+                out.append(value.isoformat())
+            else:
+                out.append(str(value))
+        return out
+
+
+__all__ = [
+    "SCHEMA_VERSION",
+    "REFERENCE_DATE",
+    "DEFAULT_LATENCY_MODEL",
+    "LatencyModel",
+    "RunConfig",
+    "RunManifest",
+    "LLMCallRecord",
+    "ToolCallRecord",
+    "TurnRecord",
+    "GroundingFact",
+    "DerivedMetrics",
+    "JudgeScoreSet",
+    "ConversationRecord",
+    "KPIHistoryRow",
+    "Stage",
+    "PersonaProfile",
+    "ResponseType",
+    "FactType",
+    "TerminationReason",
+    "RunStatus",
+]

@@ -1,0 +1,723 @@
+{
+  "schema_version": "1.0",
+  "scenario_id": "t7_en_de_017",
+  "tier": 7,
+  "stage": "nlp_arm1",
+  "persona_profile": "edge",
+  "run_index": 2,
+  "run_id": "20260531_163412__nlp_arm1__a00c977__representative",
+  "timestamp_start": "2026-05-31T19:15:50.712654Z",
+  "timestamp_end": "2026-05-31T19:16:11.372342Z",
+  "git_commit": "a00c977a6ec14bc68d1b7e38c1047ea7efeaa317",
+  "git_dirty": true,
+  "change_note": "Arm 1 representative — spaCy + dateparser wired into annotate node",
+  "config": {
+    "llm_provider": "gemini",
+    "llm_model": "gemini-2.5-flash",
+    "llm_temperature": 0.7,
+    "llm_max_tokens": null,
+    "judge_model": null,
+    "seeds": {
+      "profile_seed": 42
+    },
+    "max_turns": 12,
+    "latency_model": {
+      "base_overhead_ms": 400.0,
+      "per_day_cost_ms": 500.0,
+      "jitter_sigma_ms": 50.0
+    },
+    "simulate_latency": true,
+    "runner_version": "step3/1.0",
+    "extras": {
+      "profile_name": "representative",
+      "nlp_datetime_enabled": true,
+      "nlp_entity_enabled": true,
+      "datetime_arm": "dateparser",
+      "entity_arm": "spacy",
+      "nlp_llm_backend": null
+    }
+  },
+  "scenario_set_version": null,
+  "availability_override": {
+    "slots_by_offset": {},
+    "notes": "Tier 7 — out-of-scope; correct response is polite refusal"
+  },
+  "frozen_phrasing": "Ich möchte einen wöchentlichen Beratungstermin jeden Montag um 10 Uhr für die nächsten sechs Wochen.",
+  "expected_datetime_window": null,
+  "turns": [
+    {
+      "turn_index": 1,
+      "timestamp": "2026-05-31T19:15:51.637371Z",
+      "user_message": "Guten Tag. My name is Alex Smith, and I'd like to schedule a mortgage appointment. Ich möchte einen wöchentlichen Beratungstermin jeden Montag um 10 Uhr für die nächsten sechs Wochen.",
+      "agent_response": "Vielen Dank. Für eine Hypothekenberatung stehen Ihnen folgende Kontaktmöglichkeiten zur Verfügung:\n\n*   **Filialbesprechung** (Branch Meeting)\n*   **Online-Besprechung** (Online Meeting)\n\nWelches Kontaktmedium bevorzugen Sie für Ihre wöchentlichen Termine?",
+      "llm_calls": [
+        {
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "prompt_message_count": 1,
+          "response_type": "function_call",
+          "function_name": "get_appointment_contact_medium",
+          "function_args": {
+            "topic_id": "mortgage"
+          },
+          "text_preview": null,
+          "latency_ms": 2166.075599991018,
+          "input_tokens": 1455,
+          "output_tokens": 81,
+          "temperature": 0.7,
+          "raw_response_excerpt": null
+        },
+        {
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "prompt_message_count": 3,
+          "response_type": "text",
+          "function_name": null,
+          "function_args": null,
+          "text_preview": "Vielen Dank. Für eine Hypothekenberatung stehen Ihnen folgende Kontaktmöglichkeiten zur Verfügung:\n\n*   **Filialbesprechung** (Branch Meeting)\n*   **Online-Besprechung** (Online Meeting)\n\nWelches Kont",
+          "latency_ms": 2169.974899996305,
+          "input_tokens": 1596,
+          "output_tokens": 65,
+          "temperature": 0.7,
+          "raw_response_excerpt": null
+        }
+      ],
+      "tool_calls": [
+        {
+          "tool_name": "get_appointment_contact_medium",
+          "parameters": {
+            "topic_id": "mortgage"
+          },
+          "response": [
+            {
+              "contact_medium_id": "branch",
+              "contact_medium_name": "Branch Meeting"
+            },
+            {
+              "contact_medium_id": "online",
+              "contact_medium_name": "Online Meeting"
+            }
+          ],
+          "simulated_latency_ms": 403.33729042610463,
+          "actual_latency_ms": 19.160900003043935,
+          "success": true,
+          "error_message": null
+        }
+      ],
+      "state_snapshot": {
+        "topic_id": null,
+        "topic_name": null,
+        "contact_medium_id": null,
+        "contact_medium_name": null,
+        "phase": "intent",
+        "turn_count": 1,
+        "pending_tool_call": null,
+        "tool_result": null,
+        "last_annotation": {
+          "raw_text": "Guten Tag. My name is Alex Smith, and I'd like to schedule a mortgage appointment. Ich möchte einen wöchentlichen Beratungstermin jeden Montag um 10 Uhr für die nächsten sechs Wochen.",
+          "intent": "schedule",
+          "confidence": 1.0,
+          "topic": "mortgage",
+          "contact_medium": null,
+          "datetime_ranges": [
+            {
+              "start_datetime": "2026-05-10T00:00:00+02:00",
+              "end_datetime": "2026-05-10T23:59:00+02:00",
+              "is_flexible": true,
+              "original_text": "Montag um 10 Uhr",
+              "specificity": "day_vague"
+            },
+            {
+              "start_datetime": "2026-06-02T00:00:00+02:00",
+              "end_datetime": "2026-06-02T23:59:00+02:00",
+              "is_flexible": true,
+              "original_text": "die",
+              "specificity": "day_vague"
+            },
+            {
+              "start_datetime": "2026-07-12T00:00:00+02:00",
+              "end_datetime": "2026-07-12T23:59:00+02:00",
+              "is_flexible": true,
+              "original_text": "sechs Wochen",
+              "specificity": "day_vague"
+            }
+          ],
+          "entities_raw": {
+            "topic_matches": [
+              {
+                "label": "mortgage",
+                "start": 16,
+                "end": 17,
+                "text": "mortgage"
+              }
+            ],
+            "medium_matches": [],
+            "compound": true
+          }
+        }
+      },
+      "turn_duration_ms": 4950.368499994511
+    },
+    {
+      "turn_index": 2,
+      "timestamp": "2026-05-31T19:15:57.675227Z",
+      "user_message": "Ich würde eine Filialbesprechung bevorzugen.",
+      "agent_response": "Es tut mir leid, Alex. Es sieht so aus, als ob der erste Montag, der 1. Juni 2026, um 10:00 Uhr für eine Filialbesprechung nicht verfügbar ist.\n\nMöchten Sie stattdessen einen anderen Zeitpunkt am 1. Juni oder einen anderen Tag in dieser Woche in Betracht ziehen? Oder möchten Sie, dass ich direkt mit der Überprüfung der Verfügbarkeit für den nächsten Montag (8. Juni) um 10:00 Uhr fortfahre?",
+      "llm_calls": [
+        {
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "prompt_message_count": 5,
+          "response_type": "function_call",
+          "function_name": "check_availability",
+          "function_args": {
+            "topic_id": "mortgage",
+            "contact_medium_id": "branch",
+            "end_datetime": "2026-06-01T11:00:00+02:00",
+            "start_datetime": "2026-06-01T10:00:00+02:00"
+          },
+          "text_preview": null,
+          "latency_ms": 1102.7704000007361,
+          "input_tokens": 1357,
+          "output_tokens": 159,
+          "temperature": 0.7,
+          "raw_response_excerpt": null
+        },
+        {
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "prompt_message_count": 7,
+          "response_type": "text",
+          "function_name": null,
+          "function_args": null,
+          "text_preview": "Es tut mir leid, Alex. Es sieht so aus, als ob der erste Montag, der 1. Juni 2026, um 10:00 Uhr für eine Filialbesprechung nicht verfügbar ist.\n\nMöchten Sie stattdessen einen anderen Zeitpunkt am 1. J",
+          "latency_ms": 1992.583299987018,
+          "input_tokens": 1530,
+          "output_tokens": 111,
+          "temperature": 0.7,
+          "raw_response_excerpt": null
+        }
+      ],
+      "tool_calls": [
+        {
+          "tool_name": "check_availability",
+          "parameters": {
+            "topic_id": "mortgage",
+            "contact_medium_id": "branch",
+            "end_datetime": "2026-06-01T11:00:00+02:00",
+            "start_datetime": "2026-06-01T10:00:00+02:00"
+          },
+          "response": [],
+          "simulated_latency_ms": 845.8306000233991,
+          "actual_latency_ms": 19.100199977401644,
+          "success": true,
+          "error_message": null
+        }
+      ],
+      "state_snapshot": {
+        "topic_id": null,
+        "topic_name": null,
+        "contact_medium_id": null,
+        "contact_medium_name": null,
+        "phase": "intent",
+        "turn_count": 2,
+        "pending_tool_call": null,
+        "tool_result": null,
+        "last_annotation": {
+          "raw_text": "Ich würde eine Filialbesprechung bevorzugen.",
+          "intent": "schedule",
+          "confidence": 1.0,
+          "topic": null,
+          "contact_medium": null,
+          "datetime_ranges": [],
+          "entities_raw": {
+            "topic_matches": [],
+            "medium_matches": []
+          }
+        }
+      },
+      "turn_duration_ms": 4874.756199977128
+    },
+    {
+      "turn_index": 3,
+      "timestamp": "2026-05-31T19:16:03.474087Z",
+      "user_message": "Ich möchte wirklich jeden Montag um 10 Uhr für die nächsten sechs Wochen. Können Sie das bitte so einrichten?",
+      "agent_response": "Alex, ich verstehe, dass Sie diese Termine wirklich buchen möchten. Allerdings kann ich nur Termine buchen, die vom System als verfügbar gemeldet werden. Da der 1. Juni um 10:00 Uhr nicht verfügbar ist, kann ich diesen speziellen Termin leider nicht buchen.\n\nGerne überprüfe ich die Verfügbarkeit für die folgenden Montage um 10:00 Uhr. Soll ich mit dem 8. Juni um 10:00 Uhr beginnen und dann die weiteren Wochen prüfen, oder möchten Sie für den 1. Juni einen anderen Zeitpunkt oder Tag wählen?",
+      "llm_calls": [
+        {
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "prompt_message_count": 9,
+          "response_type": "text",
+          "function_name": null,
+          "function_args": null,
+          "text_preview": "Alex, ich verstehe, dass Sie diese Termine wirklich buchen möchten. Allerdings kann ich nur Termine buchen, die vom System als verfügbar gemeldet werden. Da der 1. Juni um 10:00 Uhr nicht verfügbar is",
+          "latency_ms": 2913.4024000086356,
+          "input_tokens": 2060,
+          "output_tokens": 127,
+          "temperature": 0.7,
+          "raw_response_excerpt": null
+        }
+      ],
+      "tool_calls": [],
+      "state_snapshot": {
+        "topic_id": null,
+        "topic_name": null,
+        "contact_medium_id": null,
+        "contact_medium_name": null,
+        "phase": "intent",
+        "turn_count": 3,
+        "pending_tool_call": null,
+        "tool_result": null,
+        "last_annotation": {
+          "raw_text": "Ich möchte wirklich jeden Montag um 10 Uhr für die nächsten sechs Wochen. Können Sie das bitte so einrichten?",
+          "intent": "schedule",
+          "confidence": 1.0,
+          "topic": null,
+          "contact_medium": null,
+          "datetime_ranges": [
+            {
+              "start_datetime": "2026-05-10T00:00:00+02:00",
+              "end_datetime": "2026-05-10T23:59:00+02:00",
+              "is_flexible": true,
+              "original_text": "Montag um 10 Uhr",
+              "specificity": "day_vague"
+            },
+            {
+              "start_datetime": "2026-06-02T00:00:00+02:00",
+              "end_datetime": "2026-06-02T23:59:00+02:00",
+              "is_flexible": true,
+              "original_text": "die",
+              "specificity": "day_vague"
+            },
+            {
+              "start_datetime": "2026-07-12T00:00:00+02:00",
+              "end_datetime": "2026-07-12T23:59:00+02:00",
+              "is_flexible": true,
+              "original_text": "sechs Wochen",
+              "specificity": "day_vague"
+            },
+            {
+              "start_datetime": "2026-06-07T00:00:00+02:00",
+              "end_datetime": "2026-06-07T23:59:00+02:00",
+              "is_flexible": true,
+              "original_text": "so",
+              "specificity": "day_vague"
+            }
+          ],
+          "entities_raw": {
+            "topic_matches": [],
+            "medium_matches": [],
+            "compound": true
+          }
+        }
+      },
+      "turn_duration_ms": 3077.9687000031117
+    },
+    {
+      "turn_index": 4,
+      "timestamp": "2026-05-31T19:16:07.161874Z",
+      "user_message": "Ich möchte keinen einzelnen Termin buchen, sondern einen wöchentlichen Beratungstermin jeden Montag um 10 Uhr für die nächsten sechs Wochen. Wenn das System das nicht kann, ist das in Ordnung.",
+      "agent_response": "Alex, ich verstehe Ihren Wunsch nach einem wöchentlichen Beratungstermin jeden Montag um 10 Uhr für die nächsten sechs Wochen.\n\nLeider kann unser System keine wiederkehrenden Termine als eine einzige Buchung verwalten. Jeder Termin muss einzeln überprüft und gebucht werden.\n\nWie ich bereits erwähnt habe, war der erste Montag, der 1. Juni 2026, um 10:00 Uhr nicht verfügbar.\n\nMöchten Sie, dass ich die Verfügbarkeit für die verbleibenden fünf Montage (8. Juni, 15. Juni, 22. Juni, 29. Juni und 6. Juli) um 10:00 Uhr separat prüfe und die verfügbaren Termine für Sie buche?",
+      "llm_calls": [
+        {
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "prompt_message_count": 11,
+          "response_type": "text",
+          "function_name": null,
+          "function_args": null,
+          "text_preview": "Alex, ich verstehe Ihren Wunsch nach einem wöchentlichen Beratungstermin jeden Montag um 10 Uhr für die nächsten sechs Wochen.\n\nLeider kann unser System keine wiederkehrenden Termine als eine einzige ",
+          "latency_ms": 3333.0833000072744,
+          "input_tokens": 2148,
+          "output_tokens": 164,
+          "temperature": 0.7,
+          "raw_response_excerpt": null
+        }
+      ],
+      "tool_calls": [],
+      "state_snapshot": {
+        "topic_id": null,
+        "topic_name": null,
+        "contact_medium_id": null,
+        "contact_medium_name": null,
+        "phase": "intent",
+        "turn_count": 4,
+        "pending_tool_call": null,
+        "tool_result": null,
+        "last_annotation": {
+          "raw_text": "Ich möchte keinen einzelnen Termin buchen, sondern einen wöchentlichen Beratungstermin jeden Montag um 10 Uhr für die nächsten sechs Wochen. Wenn das System das nicht kann, ist das in Ordnung.",
+          "intent": "schedule",
+          "confidence": 1.0,
+          "topic": null,
+          "contact_medium": null,
+          "datetime_ranges": [
+            {
+              "start_datetime": "2026-05-10T00:00:00+02:00",
+              "end_datetime": "2026-05-10T23:59:00+02:00",
+              "is_flexible": true,
+              "original_text": "Montag um 10 Uhr",
+              "specificity": "day_vague"
+            },
+            {
+              "start_datetime": "2026-06-02T00:00:00+02:00",
+              "end_datetime": "2026-06-02T23:59:00+02:00",
+              "is_flexible": true,
+              "original_text": "die",
+              "specificity": "day_vague"
+            },
+            {
+              "start_datetime": "2026-07-12T00:00:00+02:00",
+              "end_datetime": "2026-07-12T23:59:00+02:00",
+              "is_flexible": true,
+              "original_text": "sechs Wochen",
+              "specificity": "day_vague"
+            }
+          ],
+          "entities_raw": {
+            "topic_matches": [],
+            "medium_matches": [],
+            "compound": true
+          }
+        }
+      },
+      "turn_duration_ms": 3495.9093000215944
+    }
+  ],
+  "final_messages": [
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "Guten Tag. My name is Alex Smith, and I'd like to schedule a mortgage appointment. Ich möchte einen wöchentlichen Beratungstermin jeden Montag um 10 Uhr für die nächsten sechs Wochen.",
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "user"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "Guten Tag, Alex. Gerne helfe ich Ihnen bei der Terminplanung für eine Hypothekenberatung.\n\nBevor ich die wöchentlichen Termine für Sie buchen kann, möchte ich die verfügbaren Kontaktmedien für Hypothekenberatungen überprüfen.\n\n",
+          "thought": null,
+          "thought_signature": "b'\\n\\x81\\t\\x01\\x0c9\\xd6\\xc7\\x90v#\\xb3%\\x91\\xb2\\xfe\\x91\\xf6u,`\\xb0\\xbf\\xc4\\xf1\\xe8k\\x89\\x99\\xef<\\xd7\\x80V:t\\xeb\\x98Zn\\x01\\n\\x91\\x06\\x90~m\\x1eH\\xb7J1J\\x02\\xb6B\\xa2\\xc3F\\xa3#\\x12\\xe4\\x98\\x85y\\tRf\\xfe\\x9d\\xeaKf\\x96y\\xb4>j\\xddT\\x0c\\xfb\\xb8\\x9c\\x02\\xc7\\xbd\\x02\\x9c9q\\xd1\\xce\\xec2\\xd1\\x03\\xdb\\x7f\\xde\\x96\\xe9\\xf4\\x88\\x99E`\\xcefom\\x9b\\'\\xcd&\\xe2q\\xde\\x10w\\xf3\\xec\\xb7\\x8e\\x1bQ\\xbe0\\x1d\\xe4\\xa4\\x15\\xd7E9-\\x8a\\xc6\\xe1@\\xdb\\xb2=\\xe6i\\xccX\\xe0lG\\r\\xb2\\xad{\\xb3_\\x17\\xc8K8\\xa1u\\xc9\\xea\\x9cc\\xb3\\xc4\\xd1U\\x15\\xeb\\xf1mY\\xeb\\xdd\\xa5\\xda\\xec\\xf7\\xac\\x99\\xd3\\'\\xf0\\x0e4a\\x9aF\\x93\\xef\\xe6\\xf06FH\\xb5\\x0f\\xa4\\xce\\x1e\\xf4w\\x12\\x87\\xd2iYOC\\xb3\\xde\\x1d\\xa8\\x82\\xca\\xb1\\x13\\xfd\\xf7Y\\xff]\\xbe\\x11Yj\\xed\\xa3\\x93\\xcdb\\'\\x19\\x04\\xc0\\xb0f\\xf7\\x17\\x82\\xeau\\x15\\xd3\\x9d\\x1d\\x11\\xa1-\\xe1\\xd1\\xd9\\xea\\xd4\\xc9\\x99\\xcf|\\x0f\\xf7\\xe6MT\\xddy\\xc9\\xf9\\x85\\xbd\\xc9\\xfa\\xcd\\xdd\\xd1;^Tp)B\\x14\\x83\\x99\\xdd\\xd2sn\\xba\\x04\\xcf\\xd0\\xe2\\r\\xe2\\xd5\\x95\\xc8\\xc4\\xb0*\\xb8xS\\xb7\\xa0\\x05Ze\\xa2\\x18\\xcd\\x89\\x1c\\xffl\\x1b\\xc7o\\xb1\\xf9\\xa3\\xc0/\\x95\\xef\\xe4\\x87\\x863\\xbfH\\x10\\x80\\x12\\x9a\\xe8\\x9fR\\xcbY0\\xd82\\xd1\\x82\\x1f\\x17y\\x13{enh\\xec\\x16U\\xce\\xb9\\xd7z\\xd6\\xb4\\x7fp\\xe7\\xf0#\\xf8{!\\xd9\\x90\\xe5\\x83\\x8aT\\x1a\\x18\\xc6\\xd1n\\x83\\x1b\\xd6\\x16\\xf3s\\xf8\\xa3un\\xa0 \\x04\\xd5\\xd2\\xab\\x18OeB/\\xb7C|n^\\xaa\\xb5\\xafv\\x7f\\xa2\\xaf\\xae\\x19\\xca\\x9b\\xaa\\xe8\\xe6\\x1f5\\x8e\\xcd\\xf7\\x06\\xde\\x97\\xa8\\x95\\xdf\\xebB\\x1c\\xff\\xf5\\xbb<v\\xbee\\xdf\\xf2Y\\xe2\\nQH9>\\x0c=\\x06\\xff\\x80>Fdk&\\xf9b\\xee\\xa7\\xf9<\\x18TA3ijz\\x0b\\xe3L\\x9f\\x13\\xf0\\x11\\rH\\x05j\\xde\\xedg\\x19\\xcc\\x93T\\xbc\\x81\\x12\\x80\\x89\\xa2(a\\xbb\\x9c\\xb4\\xff3\\xb3\\x19%\\xd0\\xf2]\\xb7j\\xda\\xf4e\\xfaA\\x9b\\x03\\x92`\\xb8-\\xb3*~\\x1a\\xe4\\x1c\\xf4\\x9c\\xe5\\xcb\\xe7\\xf0k\\x1c\\x15\\tK\\x10\\xfc\\xcd\\x0fq\\xbc1<93\\x1a5\\xc0\\x9eo\\xe2\\xdc\\x8a\\xee\\xcf$\\n\\xb3I\\xe7\\xf7\\xba[7\\xa9<\\xc2aug\\xc3\\r\\xec\\x0e\\xcc]\\xf4\\xab{\\xdc\\x14d\\xad\\x8d\\xf8\\x04>\\x10?\\xf1QvI\\x8e\\x88\\x83\\xf0\\r/Y72\\x87\\xaa7>\\xe7\\xc0\\xd2>:\\x8f\\xabG\\xfeM\\xb6<\\xd5\\xda?\\xa1\\x9d\\xb6\\xb1\\xd0\\'t8\\xc8\\xff\\x91\\xec\\x8ak\\x83\\x8d\\xd4\\'\\xb2\\x92\\xed\\x04q#\\xa9\\x16F\\'\\x12\\xd9U]b\\x8a\\x85\\xe7\\xdd\\xa7\\xf7\\x15m\\x15\\xe7\\xe7`\\xfa5\\xe0K\\x11\\xab\\xa0~\\xaa\\xdcO\\xdd@\\x988\\x0c\\x0f\\x19\\xbe\\x01\\xf9H\\xf7\\xbe\\xaa\\x0bha_\\xa0+\\xf1\\x0f\\xbb\\x0bee]u\\x95\\xb8\\xe6\\xf2_\\xc9sh$\\xd98\\x91\\x1c\\x91\\x19\\xb4P\\xfa\\x86\\x9cQ^\\x1bW,G\\x07\\x1c}\\xf8\\xe3\\xe5\\xeaH\\x04D`mM2?](.(\\x80\\xd9\\t\\xe1\\x8e@X\\x01g\\x0e\\x06\\x1b\\x8f\\xcc1S\\x87\\xdd\\xd6\\xd5\\x19\\x8f\\xe6t\\x83\\x0fe\\x80\\x0e\\x1a\\xfeV\\xb1\\xcf\\x10\\x01`8\\x7f.3\\x98\\xa8\\x1f~\\x89\\x90\\'MG\\xb0\\x9e \\'8|>\\x13P5\\x07{\\xb3\\x96\\n\\x8f\\x87\\xd9\\x05\\xd3\\xa0dH@v\\x8dx\\xaao?\\xd2\\xffL\\xbfy3\\xcf\\xa0\\xe6\\x966\\xc3)^9\\x11\\xdcev\\'\\xb1\\x8b\\x93r\\xa9H3,||\\x840\\xf7\\xe7h\\xd7\\xb3x6=\\xeax\\x0f\\xac\\xbe\\x8d\\x90z\\xe9\\x85W\\xd4\\xee\\xc4&c\\xe3\\x16\\xc1\\xf4\\xa2\\xe77\\x10^V\\xd2d\\x91\\xcd\\xf7U\\x02\\xe0\\x89\\x0e\\x9c\\x02\\x08\\x82&\\xbf\\xb8\\xcb\\x80\\xfe\\x9fE\\xc6\\xd7?\\xacI\\x9c\\xe3V4j\\xa8\\x96s\\xf7<Ph\\xad\\xfb\\xc9\\x87\\xbc\\xf5\\x87P\\x00L>z@~\\x98\\xdf\\xfbG\\xe6\\xb2\\x07\\xda8\\x95\\xe7\\xca\\x1ce\\xc6\\x02\\xc97\\x8a2\\xd7a\\x81@K\\x87\\x1fiZ\\xad\\x8e\\xf2\\x06*-\\x98\\xc2SHY6N<\\xdc\\xae\\xc4\\xd0\\x02\\xad\\xe1\\xd8\\x10~\\xf9\\x12\\xe5-Ln\\x9b\\xfe\\xb7u\\x10-\\x04\\x98a+\\xc9QI=\\x15\\xd6\\xfb\\x1a\\xdd\\xfb[g\\xe3\\x012]\\xafS\\xdb\\xcb\\xc1kc\\xd4E\\x1aw\\x0ce~B\\x0e\\x1cB\\x1f~\\xb4S\\xe0\\xfbBa\\xb4\\x86\\x8b\\xc4m\\xae\\x9e\\xeeN\\x04P@\"\\xfe\\xcc\\xb6\\x1f\\xb3\\xeaS=4V\\xd6\\x1b\\xbb\\\\\\x12\\x1be\\xf2\\xdf\\xb9C\\x18\\xac\\xe0L\\x95\\x0b^\\x81\\xce\\x98c[\\x8d\\x97\\x9dIV\\x89\"\\xfdA\\xe6\\xe7\\x91p%\\xbd\\x10H\\xda6\\xd8\\xef+Z\\x16\\x99:\\x83\\xa4\\x170m\\x07\\xbd/\\x17\\x19`\\xd0\\x91R'",
+          "video_metadata": null
+        },
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": {
+            "id": null,
+            "args": {
+              "topic_id": "mortgage"
+            },
+            "name": "get_appointment_contact_medium",
+            "partial_args": null,
+            "will_continue": null
+          },
+          "function_response": null,
+          "inline_data": null,
+          "text": null,
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "model"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": {
+            "will_continue": null,
+            "scheduling": null,
+            "parts": null,
+            "id": null,
+            "name": "get_appointment_contact_medium",
+            "response": {
+              "result": [
+                {
+                  "contact_medium_id": "branch",
+                  "contact_medium_name": "Branch Meeting"
+                },
+                {
+                  "contact_medium_id": "online",
+                  "contact_medium_name": "Online Meeting"
+                }
+              ]
+            }
+          },
+          "inline_data": null,
+          "text": null,
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "user"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "Vielen Dank. Für eine Hypothekenberatung stehen Ihnen folgende Kontaktmöglichkeiten zur Verfügung:\n\n*   **Filialbesprechung** (Branch Meeting)\n*   **Online-Besprechung** (Online Meeting)\n\nWelches Kontaktmedium bevorzugen Sie für Ihre wöchentlichen Termine?",
+          "thought": null,
+          "thought_signature": "b'\\n\\xce\\x06\\x01\\x0c9\\xd6\\xc7;\\xee\\xb1\\xf49\\xe33\\xa1\\x9e:\\x99mZ\\xe0\\x01\\x086\\xbd\\x85\\xb8\\x02\\x86}\\t\\x13\\xc0Q\\xd9\\x17\\xc9\\xdd\\xe85\\xdf\\xd5\\xffRx\\xc27|\\x04\\xbc_\\xea\\xac\\xd9C\\xe4\\x00o\\x92\\xf9\\x0b?H\\xf3\\\\CC\\xbf1\\xcaSlx97$\\xc2\\x87\\xf4`\\xe9\\xfcO>F\\x9c\\xe0\\xef\\xaelV\\xe7\\xe3\\x81\\xc3p\\x1fu\\x8eQ\\x84\\xe1\\xde\\xbdn_\\x95\\x80\\xfc\\r\\xd5\\x85s\\xbfr\\xcb\\x04\\x9a\\xf3\\xf5q\\x1d\\xe2D\\x87\\xd6\\x9b\\x91v\\x93\\r\\x0f\\xee\\xa1cHK\\xaf\\x17\\xb5\\xe0\\x14F\\x9a\\xd5r\\xe3(\\x06\\xac\\x15\\x86\"\\xa1S\\xee\\x8b\\x7f\\x8eMc(-\\xe0\\x15\\xa6\\x99\\xa3\\xd0\\xf8E\\xf2\\xb2\\xb0\\xbcF\\xaaV\\xa7\\x8fkP\\xf7\\x80\\xbe\\xfa\\xa4^6w\\xa2\\xc7y|\\xdfS\\x0c\\x00\\x0b\\xb2\\xb0y\\x1c\\xa3A\\x82\\x8c \\x01]\\xc2\\xe2\\xfe5\\x1e9\\xa4\\x8e;G\\xbd\\xd9T\\xbd\\xce\\xc7\\xb2\\xfd\\xbb\\xea\\xd3\\x9a\\x86;\\xee8\\xd5\\xe0\\x99a\\xba\\xbf\\x9f\\xd5\\x13\\x81\\t\\x18G\\xdb%Z!\\x9ch\\xb3(@I\\xbe\\xb3H\\xfd\\xd1c\\xa6\\x12t\\xe6B\\xf7\\xcb\\xec\\xb2\\xb4\\xca\\xfb\\xa3\\x00[\\x16z(h\\xf1\\xfaj\\xdc\\xb3//Mk\\x93\\x1ca\\xd4o\\x92\\xc4&\\xb0J\\xc0\\x0e\\xb8\\xfci\\xc0d\\xb5Gd\\x92\\xcbY\\xe2;\\x19VH\\xb7\\xdfd8\\xe5n\\x1b\\x10\\x90b|,\\xa8\\x86\\x8c/b\\xc1>\\x8a\"\\xaf\\xfa\\x85\\xbeLA6\\xd5\\x10\\x82\\xc7s\\xeb\\xf2\\x8ev\\xa8\\xae\\xa4\\x85C\\xf0XD)\\xf6\\x83\\x8b$)}@Ah\\xf0Y?Z\\xa4\\x8b\\xe8q\\xcb3qQ\\xf7[\\x02\\x84\\x82\\xe8\\xf5\\x9d\\xd9\\xd1\\xbb]\\x0c\\x0bp\\x80\\x18\\x81/\\x99:9\\x96^,\\xa9\\x9f\\xfe\\xc9\\xcdT\\x99\\xd8\\xd2\\xb0\\xa3\\xecO\\xf0\\x16\\xa0+\\x905{i$)\\xb4\\xe8\\xdd3\\x01\\x08\\x15v\\xff\\xc9#\\x1a\\xb0\\xcfB\\xef\\x04t^]I\\x02\\xf2\\xc0\\xec\\x8dAVe\\x0f\\xbf\\xa1^J\\xb6\\x960\\t\\xcf\"\\xa0&_l\\xee8[9M9\\t\\x91\\xf5\\xfc\\x88\\xb8\\x17?|m\\x12n\\x8d\\x1a_\\xecg\\x8f9\\xf6\\r\\xeca\\xff\\xc26\\xee\\x1d\\x19\\x10O\\xd8\\xa1&\\xa6AlE?\\x00\\x0f\\x9e\\x9d\\xd66\\xcd \\x80AKe\\x0f\\'\\xac\\x1a\\x08b\\x160\\xef\\xf5\\xe3\\x9b}\\xc5\\xf2lm]\\xa8\\xf5I\\xfcU7\\x1eLZ\\xb8\\x1c\\xedx\\xae\\x7f\\xeb\\xf9|\\xc6\\xcb\\xb7\\xef\\xc8\\xac\\xea\\xac\\xde\\xc6?\\xe5\\xd8\\x1a\\x1fhR\\xe0\\x1f^\\x1b\\xb1\\xff\\xefB\\xa8j\\x9ep\\x11Jo9\\xbb\\xee>^\\xfb\\xe7wc\\x14\\x1fH\\x01\\x1a\\xe9_\\xdbQ\\n\\x0e\\x81W\\xf2\\xf9\\x1a\\xf3\\xd7\\xf4&*:!\\x82&+\\xe0\\xf3\\xc5ln\\xd7G1!\\xbd\\xcf\\x87>\\xf2\\xbc6m\\x15\\x8c3\\x9eH\\x80\\x13fb\\xb9tW\\xbfR\\x08\\xdf\\x7f6\\xea\\\\`\\x96cv\\xf1\\x9e\\xbb?\\xbc@\\xb2\\x92\\x15#W2\\x89n\\x9a\\xbf\\x98\\xb9||\\xfcY\\xc8\\xa89\\xd7\\xab\\xd8G\\x9c>\\xb2\\xc9\\xb9hI\\xfb\\x814\\x0b\\xad\\xa6p\\xe0m\\xbe\\xa5\\xf0F\\xe8\\x85\\x1d\\x87CK\\xa5\\xd9\\xee*\\x90\\x9f%\\xf9\\x96\\xe2\\xa5\\xb8\\xa9\"\\xa7!\\xfcj\\x0f\\xb6\\xbf\\x98\\x1f\\xcb\\xdf\\x8a{\\x7fI\\xab\\x07Szy[-\\x1b\\x0b(\\x01\\x88\\xd9)]I\\x11\\xd4q\\xd7\\x17\\x1a\\xf9i\\xed_}Y\\xe0p\\x88\\xc9\\x18R\\xc4\\x14\\x1cj\\xc2\\x00\\xccQ\\xd9\\xd5\\xae\\xff\\xab\\xdf;\\xd4R\\xfe\\x98\\xa0W\\x98\\xd7Z\\xb0\\xa0P\\x99\\xa0\\x8f\\xbc\\xc2e\\xe5XQ\\xfd\\x83?\\xd1\\xe2M\\x92y9o\\xe0\\xbai'",
+          "video_metadata": null
+        }
+      ],
+      "role": "model"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "Ich würde eine Filialbesprechung bevorzugen.",
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "user"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "Alles klar, Alex. Eine Filialbesprechung ist notiert.\n\nSie möchten jeden Montag um 10:00 Uhr einen Termin für die nächsten sechs Wochen. Da ich Termine nur maximal drei Tage im Voraus überprüfen kann, werde ich die Verfügbarkeit schrittweise prüfen.\n\nBeginnen wir mit dem ersten Montag.\n\n",
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        },
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": {
+            "id": null,
+            "args": {
+              "topic_id": "mortgage",
+              "contact_medium_id": "branch",
+              "end_datetime": "2026-06-01T11:00:00+02:00",
+              "start_datetime": "2026-06-01T10:00:00+02:00"
+            },
+            "name": "check_availability",
+            "partial_args": null,
+            "will_continue": null
+          },
+          "function_response": null,
+          "inline_data": null,
+          "text": null,
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "model"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": {
+            "will_continue": null,
+            "scheduling": null,
+            "parts": null,
+            "id": null,
+            "name": "check_availability",
+            "response": {
+              "result": []
+            }
+          },
+          "inline_data": null,
+          "text": null,
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "user"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "Es tut mir leid, Alex. Es sieht so aus, als ob der erste Montag, der 1. Juni 2026, um 10:00 Uhr für eine Filialbesprechung nicht verfügbar ist.\n\nMöchten Sie stattdessen einen anderen Zeitpunkt am 1. Juni oder einen anderen Tag in dieser Woche in Betracht ziehen? Oder möchten Sie, dass ich direkt mit der Überprüfung der Verfügbarkeit für den nächsten Montag (8. Juni) um 10:00 Uhr fortfahre?",
+          "thought": null,
+          "thought_signature": "b'\\n\\xb7\\x05\\x01\\x0c9\\xd6\\xc7\\xc9\\x981:\\xe9@\\xaaN\\xb2M\\xbc\\xa7\\x8a\\xb1+XZ7f\\xe1\\xd8\\x85G)\\x84\\xbe\"\\xb8\\x1c\\xd5\\xd0\\xc5\\x04jxn,`\\x95\\xe0\\xa4\\x08\\xdc\\xbf\\x96\\xa5\\x1e\\x99\\xdb\\xc2\\xb3\\xd1\\x06\\x997\\xc72\\xb3\\xe7\\xec\\xcd\\xe5\\n<&xl\\x83n\\x9ari\\xec\\x9d\\x86]\\x9c\\x91\\xbbn\\x95\\xd8c\\xb2\\xc8\\xcfq\\x89u\\x18s\\x89\\xcb\\xcej\\x07.i7\\x18uy\\x1cJQ\\xdfH!f\\x9bO\\x9b\\xe9]\\xdc\\xc9\\xf1\\xe0[_\\xdf\\xb3\\xad\\xd4\\xb3l2\\xcc\\r4W@\\x98\\x89\\xd7(\\xc3^\\xb1\\xc6\\xe7\\xf2\\x10\\xf4\\xce\\xa0D\\x93\\xa9K\\xc2\\x83(\\xb2\\xcb\\xad\\xa4\\xbd{\\x16\\x85\\xdf`\\x1e\\x94\\x18\\xdf\\xcc\\x08\\xb0+-B\\xfa\\xb8\\xfd\\xb5=\\'\\x84\\xb4\\xa3\\x80jh4\\xa5^5\\xa2Z\\xb2\\xaa\\xb6\\xfa\\x8cQ\\xc5\\xc7\\xd8\\x9b\\x16\\xf7\\x8c\\xa4B\\xc3\\xf9\\xf99\\xe9\\r\\xd7\\xc9\\xdb\\xb1\\xefrCq\\x91\\x96`\\x9c\\x8a@\\xc7\"/E\\xc1\\xeeR\\xder\\x08\\x19\\xef\\xc0Xgk$\\xba\\x92\\xb3-\\x02\\x13+\\\\\\x87\\xac)\\nl\\xc0\\xbce\\x85\\xc4\\xf66\\xdb\\x1d8$4(}\\xa1N\\x1b\\xadr\\xfa\\xde#\\xd2\\xf5F\\x86A\\x87\\x14\\x13\\xde\\xcd\\x7f^\\x82k\\x9b\\xcd\\x80\\xe8\\xd27h\\xcb\\x17\\x13\\x15\\xf9*\\xb0\\xac*\\xae\\x11\\xbf\\xc5`L\\xfa\\xc6\\x1c)4\\xb8\\x92!\\xe0\\xad\\x88\\xef\\xc3\\xbf\\xbd\\xb3\\x94\\xca\\xe5\\xdf\\x07}\\xcf\\xad\\x1c\\xe8\\x83}\\x06j\\xcd\\xffy\\\\\\xe8\\x01\\xfb\\xdd\\xd3\\xeb\\x11\\xd0\\xa7\\xb5\\x99\\x8cU}{)/\\xd8\\xd8WD\\x07\\xce\\x93\\xcd7\\x7f\\x0e\\xc3\\xe0v\\xc7\\x80\\x9b\\x95\\x87w\\x8aSj\\xfdR\\xe4\\xa5\\t\\x9f\\x90P\\x9d\\xef\\x8a3\\xfeH\\x8f1\\xec\\xcf\\x82\\xd4ok\\x9f\\xc27\\xcf\\xed\\x17\\xb1KD\\xc1*\\xcd\\x94E\\x02\\xee\\xe3\\xac=\\xff\\x03-\\x19\\x97\\x1b\\x97\\xd20\\xae\\xec\\xb9\\x0e\\x80\\x81u-$\\xc7\\xc6\\x80=CH\\xc3\\xb9.Y\\x1ajX\\x9f\\x89(\\x9c\\xdcO\\xa1\\xd6\\xcd\\x0fdq4\\xbdH<\\xd2\\xc9&h\\xbdD(\\xff\\x89K\\x9e\\x81\\xe4\\x15t\\xe2\\x11\\xd3nn\\x84U5\\xa5\\x9d\\xd8\\xf6U\\xaa\\xbd\\xd2\\x1f\\xfc\\x8f&P?S\\x1b\\x16ou\\xe9\\x9f;\\x1d-b+j\\xac\\x02\\xe0\\xe8\\x9c\\xd5#u\\xd6\\x12cd\\xc4{8\\x1f\\x19G?\"\\x91\\xc4\\x11M\\x9f,\\xb7\\xaa\\xcd\\x011\\xb67\\x8e\\xd0\\x99\\n\\x05\\xb9\\xac\\xdc\\xc7\\xfe\\x1a\\x00\\xa24\\xe6\\xb8\\xc5\\xd0\\xc1:\\x17Rs\\xc9\\x8b\\x0cE\\xf1\\xe4\\x7f\\xa3\\xe33\\xdc\\xe2\\x0f\\xe95\\x8c\\x12\\x8a$\\x14\\xe8\\xd0\\xcf\\xce\\xc0\\xd23\\xb7\\x03\\x96\\x94H>^2\\x1a\\xc8\\x8e\\xff\\xcf,{\\x1c1\\x8cR]\\xee\\x05\\xfeM\\x1b3!\\x9c-J\\xc0]L\\x17\\x86Z\\xd3\\xe6o\\xbd\\x06\\xc6\\xed\\xe8O#[\\xa6\\xdb\\x19\\xd3uYt\\x05\\xa9\\xe1k\\x93@/a\\xcf(\\xd1\\x97\\x1e\\x88\\x06%\\x845j>R\\xa5w\\x07\\xfcB\\xb6'",
+          "video_metadata": null
+        }
+      ],
+      "role": "model"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "Ich möchte wirklich jeden Montag um 10 Uhr für die nächsten sechs Wochen. Können Sie das bitte so einrichten?",
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "user"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "Alex, ich verstehe, dass Sie diese Termine wirklich buchen möchten. Allerdings kann ich nur Termine buchen, die vom System als verfügbar gemeldet werden. Da der 1. Juni um 10:00 Uhr nicht verfügbar ist, kann ich diesen speziellen Termin leider nicht buchen.\n\nGerne überprüfe ich die Verfügbarkeit für die folgenden Montage um 10:00 Uhr. Soll ich mit dem 8. Juni um 10:00 Uhr beginnen und dann die weiteren Wochen prüfen, oder möchten Sie für den 1. Juni einen anderen Zeitpunkt oder Tag wählen?",
+          "thought": null,
+          "thought_signature": "b'\\n\\xe4\\t\\x01\\x0c9\\xd6\\xc7\\xddi7\\xf0\\xe6\\x9f\\xfbu\\xcfo\\x83\\xff\\xac\\x16\\xbb94\\xabj\\xf2\\x03\\xcb\\xf01\\xd2j\\x04Ps\\xe0\\x9e\\xc40\\xeb]\\xbd\\xd5\\xb0\\xd6$ZS\\x96\\xa7\\xf3\\xd8\\xd9]U7<?\\xc1\\x9eSIju\\xac\\x1e8\\xc3\\xdf\\x14\\x97\\x8d\\x12\\xda\\x94(\\x143\\xb7\\xefg\\xcd\\xd3R\\xb7MZ\\x01\\x06M\\xfd\\x8a.Qz\\xd2j\\x01\\x0f\\xbf\\x8bn5S\\x9c<\\xc1>3\\xb68\\x9e|\\xda\\xa3B\\xd9\\x13\\x0f\\x19\\xf8\\xa0t\\x02\\x8b\\x18\\xa3d\\xb8\\x01\\x1b\\xf5\\xde\\x844\\x96\\x93\\xd2\\xd0\\xa8\\x81\\xe8E\\x14aU@X\\x90\\xa5\\x84}\\xbc\\x18[.s~\\xf2\\xc3\\x8f-z\\xe9\\x04\\xa2\\x00\\x08\\xe0,\\xfe\\x9c\\xed=o\\xc6\\x86\\xc9/\\x8bW\\t\\xe2~\\x0e!p6\\xd7\\x9e\\x8ar\\r\\x85Cp.`\\x1f\\xe0\\x01\\x8a]\\xf0\\xae\\x88D\\x89\\x10/\\na\\xf9_\\xac{\\x97\\x92\\x9ajA\\xd4\\x02\\xc8\\xde,@\\xff\\x07\\xcai\\x98\\x9dY\\x96\\x91Ga<\\x07\\xc3\\xf7\\x9c1^>F\\x9d\\xbb\\xbc\\xf1\\xe2\\x89+\\xd6Z\\xaegkU.\\x1fV\\xe2\\x06\\x9du\\xa1\\xbe\\x02\\xf5\\xce#\\xc1\\xfb\\x89%\\x08\\x14\\xae%y\"[\\xa5\\x88\\xc4\\xe8\\x99\\xd4\\xc5Jl\\xe9\\xf3V\\xe9j7G-\\xf94\\x11nxd3J\\xa3P\\xa5\\xbee}\\xf1\\xd2\\xd1\\x9f>\\x19\\x98\\xae\\x1ae\\xd2\\xb2\\xc9\\xd4\\x96*\\xc8f\\xae\\x01\\xdd\\xb8\\xe7By\\x8e\\xd9S\\xa0\\xa8\\xeb\\xb1\\xe4\\xe0\\xc5\\xd8[\\xa0\\xd3\\x8c8\\xd1\\xc5\\xec\\xd2\\xabD\\xf4\\x86z\\x81\\xc5\\xb7\\x0b\\xfd\\x9aH\\xa6o8\\xa5\\xef\\x9d4\\xb8\\xff\\x88w\\'P\\xe7\\x96\\xda\\t\\x19\\xae\\xb8@?\\x08\\xb1)x\\xc5IO\\xe1#?v\\xb3N\\xd7\\x17\\xe5\\x9d/5N\\xd3\\x01\\xec\\x8cj*\\xe4F\\xef\\x15L\\xddq\\xe0:|qZ\\xef\\xc6#Bo\\xcdQ\\xe1*\\xc3kt\\xd9\\xb1l\\xce\\xe3r\\xbc.\\xe0H&\\x13?g\\x16\\xd2o1\\x88\\xa9\\x8eg:\\x98\\x88\\x9b\\xdb>A\\xd8\\xe9\\x17<\\xe2\\xbd2\\xdc\\xd3\\xc1\\xc0z#s\\xad\\xd9\\xae\\xc5\\xf9N\\x89ZOP\\xd3\\x05\\xb5\\xfa\\n\\xa28Nq\\xb8\\xa26\\xa2\\x82\\xf0\\xc0\\x1e\\r\\x18\\xa3\\t\\x11\\xed\\xe3\\xa91hTV\\x0e\\x9e%\\\\\\x95LA\\xe1\\xef$\\xa84\\x15\\xc0S7\\xd8\\xa924zqJ\\xfd\\xcfW\\xd8\\x13\\xb9l\\x18\\xed\\x95\"\\x13\\xb7\\xf2h\\xb4\\xdf \\x92\\x19g\\xa9p\\x051\\xf9\\xdc\\x0f}\\xa5V.\\xd2<\\x05\\xce\\x9d\\x10\\xafO\\xca\\xbeO\\xbb\\x057\\xef\\x15\\x9b\\x85\\xf6_AP\\x14\\xc1\\xaf\\xca\\xf9\\xdb\\x8fp\\x00\\xc5Ex\\x82\\xb5W\\xd2\\x8e\\xcc\\x9e\\xc1\\x99\\xf2)\\xf7\\x89\\x9a\\xf0\\\\\\xd7\\xe3\\xb3{\\xf2\\x12\\xca8>\\x05\\xf3%\\x1d\\xf1\\xa8\\x8a\\xa8\\x94\\xfeC\\xe3 \\x88\\xf1\\x15;\\xf5C\\xa4\\x06\\xe5n\\xda\\xb6\\xa8\\xab,hU\\x12\\x83*\\xb9+sw|.\\'\\x15\\x18\\xec\\xe2\\x1d\\x0b$\\xc2\\x83Y\\x85\\xb2#\\xf8\\xb2\\xb0Y0&\\xc0^%\\x90\\xd2r\\'&_\\x8dwx\\xae\\xb1\\xc8\\xcc\\xb0\\xdfB\\xc4\\x819\\xaa}\\xfd]\\x0f;\"\\xaa\\xab~\\x12\\x95a\\xf0zv\\x94R0\\xb4\\xe0%\\xb1\\x8f\\n\\xc3\\x9f<\\xe9Lj\\xb2\\x8e\\xebF\\x92\\xcc\\xd9M\\x0c\\xd0_\\xb7\\xdc\\xfaz\\xd5Z\\x89\\xaaY@\\xeb\\x83EH\\x0e\\xb7IJ`\\xd7\\xd0<\\xfdN\\xfa\\xa0\\x07\\x94\\xa4\\xbb2\\xc1Q\\r\\xd8b\\x12\\xa0\\xad\\x9c\\xb1\\xf2\\x91\\xf1\\xcf\\xfa\\xef/^@e\\xe6\"\\xe1l\\xa9\\x12\\xec\\xb3\\x1b\\n\\xf7\\xb1\\x01N\\x99\\x10\\xae4\\x96\\xd0+S\\xda\\xd8\\xaf<r\\x99>\\xec\\xcct\\xc1q\\xbd\\xe7\\xc5\\x950\\xcc\\xc6\\x06M\\xaa\\xb64_\\x14lN\\x02\\x80\\xcf2\\x02u&_\\xd9\\xf4\\x02\\'\\xd6\\x19X\\xb8\\x81%3\\xc1\\xaf?\\x03\\x06 \\xdd\\xb1\\x97GL2\\xf1\\xe0-\\x92\\x89\\xde\\xd4%\\xe1\\xf7I\\xedoE0\\xb9_iA\\'\\xb4\\xb6B\\xc5\\x80h\\xd1}\\xc9\\x07f\\x9eT\"x\\x06\\xbe=N\\x06\\xb7\\xdf\"\\xe2=\\xd1\\x88T}\\x906\\xa2\\x7fVP.\\xe6\\x99\\xb9HN{D\\x19\\'\\x14v^2j\\xed\\x99y\\x8e\\xad\\xc4\\xf2\\x0c\\xf0\\x03Vf\\xb7\\xb7q\\xd3UnS\\xb5J~i\\x94T9\\x182\\x8d@L,\\xa3\\x1d\\x8c\\xc7z\\xd3f\\xe3\\xc9\\xd9\\xa8u+\\xba&\\x89\\x84\\x16\\xce\\xc5]\\x15\\x9e/\\xb7\\xa1\\xfe\\xe8\\xf4\\n\\x13*o\\x88\\x02\\xebBl\\x02\\x80uz^\\xf3a\\xfd\\x1c\\x0f~a\\xfc\\x95\\t\\xbf=\\'\\xaa\\xd9\\xf3\\xfaz\\x8b\\x19E\\xccA^\\xf2\\xf2v\\x88\\n\\n\\x18w9\\x954\\xc0\\x88>]\\x81$2\\xde\\xd8\\xe1\\xb2\\xd5d5\\xd7\\xf0\"\\xd8Iq\\x80,l\\x9b\\xb6\\x88{M\\x90F\\xa45\\x1a\\x92Qo\\x1d<B[\\xc6\\xd7TJ\\x00\\x9d\\xd77\\x06*\\xa30T\\x92\\xda3\\x1b\\xdc\\xa9\\x11\\xc5;\\xc1\\x8aS\\xda]\\xa1\\xb8\\xbde>\\xe2\\xa5\\xf9\\xfb\\x08B,\\x81\\x98\\xaf< \\xdc\\xf9.\\xa4v\\x90j,\\xe1P\\x88\\x91\\xab\\xf8\\xc91\\xfb\\x8c\\x80\\xe4\\xc5\\xac\\xa3\\xd5\\xe7-(\\xd0;8\\x94\\xc5\\xd0|\\xf5\\xa7\\xe1\\xe1N\\xa6\\xad\\xae\\xaay\\x95\\x99\\xd2\\xec9\\x05YF\\x83\\xfa\\n\\xd7\\xcde\\x11\\xc9\\xd4\\xc5\\x8f\\xaa\\xb0\\n\\xef\\xd3\\xbc\\xc0\"C\\xa8\\xa9\\xd7\\x94\\x0e#\\x8e\\xe2~\\x8f\\x89\\xc65\\xbf\\xe5\\xe3\\x0crH\\x8b\\xe5\\xa5'",
+          "video_metadata": null
+        }
+      ],
+      "role": "model"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "Ich möchte keinen einzelnen Termin buchen, sondern einen wöchentlichen Beratungstermin jeden Montag um 10 Uhr für die nächsten sechs Wochen. Wenn das System das nicht kann, ist das in Ordnung.",
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "user"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "Alex, ich verstehe Ihren Wunsch nach einem wöchentlichen Beratungstermin jeden Montag um 10 Uhr für die nächsten sechs Wochen.\n\nLeider kann unser System keine wiederkehrenden Termine als eine einzige Buchung verwalten. Jeder Termin muss einzeln überprüft und gebucht werden.\n\nWie ich bereits erwähnt habe, war der erste Montag, der 1. Juni 2026, um 10:00 Uhr nicht verfügbar.\n\nMöchten Sie, dass ich die Verfügbarkeit für die verbleibenden fünf Montage (8. Juni, 15. Juni, 22. Juni, 29. Juni und 6. Juli) um 10:00 Uhr separat prüfe und die verfügbaren Termine für Sie buche?",
+          "thought": null,
+          "thought_signature": "b'\\n\\xc0\\n\\x01\\x0c9\\xd6\\xc7\\x91N\\xea]<\\x93.\\x1a\\xdc\\xc4\\x1a\\x11\\xb3^\\x80\\xdb\\x95\\x9a\\xe7\\xbc\\xc8\\xaax\\x8f.\\x9c\\xf0\\xa3w;\\xd7\\x12\\x0b\\xa3\\xb9YX\\x84\\xa2[\\x1c\\xca\\xd0\\x13\\xe2\\x1ad\\xcd5:t\\xed|&\\xa3\\x06\\x83\\x16u~\\xedQq\\'~\\x82\\xfb\\xedtc\\x17\\xb7\\xe2\\xa0\\xe6^ h\\x95=\\xe8\\r\\xdb\\xb8\\xf0G\\xf8\\xb3\\x8c2!\\xcb8,W\\xdfe\\x96]Z\\x9c\\xe1\\xc9\\xff\\xf3P\\x19-\\xb9ZP@\\x00N\\x1d\\xdb\\xd3s\\xa4\\xd2?\\x1b\\x0c\\x1f\\xd7s\\xaa\\x1c3\\xbe\\xf3\\x7f\\x15\\x1f4\\x88~\\x12\\xcb9\\xc3\\x01\\xb0\\xf8\\x81\\xc9>\\x0c\\xbe@<\\xa0=\\xca#\\xf5\\x8c\\x13\\xd7\\xe2\\xb0(\\x8d\\xd9\\x8b\\x95\\x1c\\x0b\\xedb\\xf7Y\\xbeJ\\x83R\\x8d\\xe1\\xfd\\')\\xb6\\x1e\\xf2\\x04\\xcd\\x17\\xd0lS|\\x12}\\x18\\xc4\\xfd\\xc5rD\\xa5\\x17`\\xce\\xb3\\xeb\\xaaO\\x05?=\\x9a\\x17ly\\xf5\\xab6\\xb3\\x944v[+Y\\xae\\x86w\\x1c\\xec\\x04w\\x11\\x9e\\x01\\x95\\xc1\\x1f\\xdd\\x12\\xcel7e\\xc3\\x11\\xff\\xe0\\xf8:\\x01h\\xff\\xac7\\xb1\\'\\x8f\\x13-\\xf1\\xb4\\xcdZ>Q\\x08u\\x90\\x820\\x06\\x9cJ$N\\xd5\\xaf^\\x01U\\xb5\\x17o\\xf2v\\x92\\xf1\\x12\\xc64\\x02C\\xa41\\xf0\\x05\\x15Q0\\xf1\\xffh\\xca9\\xf7LV\\x0bT\\x96\\xd8\\x01\\x07fo\\xe1m\\xd9\\xd4\\xa2\\xb8\\xd6V\\xb2\\xd0\\x8eU\\t\\x8e\\x9f\\x03F2\\x8d\\xf8\\x00::\\xf0\\xda#kx\\xae\\x07u]\\xd0c\\xa9x\\xeb\\xf6\\x8a\\xd8L\\xb5,\\xcb\\x18rI\\xc3\\'l\\x95\\xc8:r\\xbe~\\xc6Be\\x14\\xd6\\x84\\xb0\\xc42*\\xad\\x8a\\xf5\\x03\\x925]\\xc6\\x83_%\\xdf\\xf7_\\xec>]\\x01Z-%\\x0f\\xaa\\x89B\\xb0O|\\xceH\\xf1y\\x82\\x13\\x01\\x08\\xd6R]\\xc4\\xc6\\xfb3\\'\\xbc\\x81\\xf6n\\xf8d4\\xe3\\xe4\\x01ZQ\\xbb8\\x96\\x1e\\xc4\\x03-+\\xfd\\'\\x7f\\x9c\\xf1\\x16%\\xb7Z\\x1a\\xeen\\xaf\\x9a\\xe1G\\xb0\\xdd\\x15\\xf1F\\xa7\\xf4\\x1bl\\xc9\\x05\\xe0)(\\x13\\x95\\x82f+\\x07\\xcb\\x8f\\x10bp\\xe0\\xd0\\xf7\\x86p\\x96JG|a\\x84\\xaf\\x81!)i\\x86\\x9bo\\xbd)\\xc2\\xdf\\x89\\x93J\\x08\\x87\\xef\\xa9:\\x0fx\\xa5\\x11\\t\\xc6\\x14\\xc8\\xb6\\xb3\\xb4\\xbc\\xc5\\xd4\\xdfbh\\xbe\\n\\x81\\x1f)\\x87I\\xe7\\xe8\\xeb8\\x0b\\xf0\\xd8\\x91^:1\\x18V\\x85\\xf8\\x92\\xa8\\xf9\\x1b\\x95\\xa5\\xbdp\\xa9X\\x1b\\xff\\x8f\\t\"Y\\xafMw \\xd7\\x12\\xef \\x11\\xf5\\x8e\\xbf\\xeeo\\xb0\\x1fy\\xd9\\xe0S\\xbc\\xa66\\x7f\\xc5\\x16VG\\x15~\\xa9\\x88t^fS\\xa1Yy\\xa6\\xea\\xffj\\xb0?\\xc9*r\\xe4\\xc4+N\\xcd\\x96@)a\\xc5Z\\xf7ge\\r42\\x81\\xc2\\xa9\\xab;\\xb2\\x1d\\x81\\xfeZq\\xce\\xa1\\xf8a\\x16\\x00E\\x84\\xdf\\xa5\\xc0ZD\\xce\\x9e#\\x1a!\\xe0\\xf5\\xeb\\xa7\\xa5\\xae\\x9eI\\xa1JZ&\\xdb\\xc33\\x1bl\\xbb\\xb4I[\\x84\\xd3\\xefE\\xf1\\xfa\\xd7\\xf6\\xf6e\\xe0kP\\x14\\xee\\xda\\\\\\x91[\\xd2\\x05\\xb5j\\x05\\xd0\\xe0\\xe5%\\x98ea0\\n\\x8d\\xce\\x1d\\xd20!\\x1d\\x04)\\x0eF\\x8b9\\x11\\x1ay\\x19\\xba\\xf5*?J,*02\\xb5\\xcc\\xe7Mv\\xcb\\xb4\\xe9\\xb0@\\xb4[\\xd9)p+\\xa4\\xf8Wvk5%|k\\x91\\xfb\\xce\\xee\\xef\\xc7\\xfb\\x90\\xe0+3f\\xf1\\xcc\\xed\\xe5*\\x8dR\\x8e!$\\'\\xfe\\xba_\\x0fs\\xa0\\x90X\\x01\\xbcw\\x94\\xfb\\xce\\xc0P\\x0f\\x9c\\xbf\\xc7h\\xf4\\x9d\\x86\\xaa\\xbez\\xe1\\xf0\\xfa\\x15G\\xee=<\\x19V\\xe0\\xd9\\x97\\x08\\xc3\\xb0\\xc6\\xe4\\xca8 D\\t1\\xecqLv\\xff\\x12\\x1ad\\x89X\\x07\\x1a+\\xe1N\\\\\\xde\\x82\\xc6ij\\x8bQgB\\xdf\\xc7d<Nx\\xd6\\xf9|E\\xdb\\x9b\\x9el\\x86\\x02Z9Q{Y\\xde\\xf8\\x7fe\\x1cX\\x9d\\xb41^\\xab\\xd3\\x83\\xe8@\\xde\\xbeN\\x18\\xd9N{<\\xf6\\x10k\\xd4\\xfcA\\x1e\\xd6\\x81\\'$Nl\\xba\\xa60\\n:(KK\\xe3\\x85=\\xd8Sb\\'\\x96\\xc8\\x9f\\x06k\\\\\\x85\\xe4\\x07\\x13\\xb0\\x82\\xc8\\x00(\\xdf\\xf7\\xcb\\x0b\\x82\\xc1\\xcbo\\xc9u\\x86\\xacQDYqI\\x9a\\xa3\\xdeH\\xbd*\\xe5\\xd5\\x99\\xee#$\\xde\\xb8A\\xc6\\xe4\\xb0\\xeah:I\\xff\\xe9\\xef\\x9b\\xf8\\xd0l!|\\x9d\\xd1\\xd0\\xa5\\x00\\x15P#\\x15\\x0f\\x86[\\x83\\xa7\\xfew\\xabe\\xd5*\\xbaf\\xe9\\x0e\\x0e\\x06\\x9f\\xc1\\xe2\\x01\\xa5\\xb08\\xfdR\\xc3\\x8e_\\x12\\xef\\xc2\\x16u\\x19\\t\\xc4{UPB\\xb8\\xdb\\xc3\\xcd\\x89\\xeab\\xe6F\\x1b\\xb3\\x86F\\xc7~\\xde\\xc01\\x94am\\xf6?w\\'\\x9d\\xa21\\x91S\\xb0C\\x9e\\xadRE\\xa0\\xd4\"\\xb5\\xe4\\xf4\\xa7\\x9eR\\xbe\\x91q\\x97\\x02V\\xe2\\xdd00\\xceK\\xefLf@\\x04\\x9b\\x015\\x02h7\\xe8\\xb8~\\x11\\xcc\\xebc\\xcc\\x85\\xab\\xd1aF\\xbf\\x84\\x00QH\\x02\\x92\\x97\\xa5\\xe874\\xc1\\xddh\\x84\\xb7;s\\xf3\\x05Lr\\x07j!\\x94\\xe4\\xd6\\xd0E\\xba\\xcc\\xfc\\xe43\\x85\\x13o\\xb9Ts\\xdd\\xfb\\x97Jp\\xe1\\x97\\xd6\\x81&\\xbc\\xb7\\xe5\\x8d\\xcc\\xee\\'\\xe4\\x18\\xcb\\xd3s\\xfe\\xcd\\x82\\x0f\\xba8\\x0b\\xa6|\\xc9\\x94&GV\\xb5\\xec\\xe7Ku\\x16\\x8f\\xf0\\xfc\\x82\\xc90\\x02\\x97G\\xe2\\x01\\xf1q\\xd8\\xe9\\x17\\r\\xb9\\xf1\\x9a9\\xdb\\xcc\\xb7\\x0c\\x00\\x92\\xd6\\xd9\\x7f\\xaf+\\x00\\x8b:m\\xc50\\xe3\\x05N\\x9c\\xe7\\x03\\xf3\\xa6\\x03}\\xaa\\xaf?s\\xce\\x01\\x97\\xb3W\\xbfU\\xef2]J\\xb5)Q\\xb17r\\xd9\\xae\\xa3\\x0eR\\xa3\\xc1\\x1f\\xee\\xe1K\\xaeu9\\xd1\\xc6Y\\xa2Jz\\xb6j6^\\t\\xf1)\\x92\\xbc\\x8e\\xfb\\xc9\\x85\\x87\\xe9\\xef@D4D\\xf3p\\xf4H\\xf1\\x19\\xa8\\xf0\\x08t'",
+          "video_metadata": null
+        }
+      ],
+      "role": "model"
+    }
+  ],
+  "derived": {
+    "total_turn_count": 4,
+    "total_mcp_calls": 2,
+    "availability_calls": 1,
+    "first_check_availability_params": {
+      "topic_id": "mortgage",
+      "contact_medium_id": "branch",
+      "end_datetime": "2026-06-01T11:00:00+02:00",
+      "start_datetime": "2026-06-01T10:00:00+02:00"
+    },
+    "booked": false,
+    "total_simulated_latency_ms": 1249.1678904495038,
+    "total_actual_latency_ms": 38.26109998044558,
+    "parse_accuracy_score": null,
+    "unsupported_facts_count": 0,
+    "faithful": true,
+    "slots_presented_per_turn": [],
+    "efficiency_ratio": null,
+    "optimal_availability_calls": null,
+    "dead_end_turn_count": 0
+  },
+  "grounding_facts": [],
+  "langsmith_trace_id": null,
+  "langsmith_trace_url": null,
+  "judge_scores": [
+    {
+      "rep_index": 1,
+      "judge_model": "gemini-2.5-flash",
+      "judge_temperature": 0.3,
+      "temporal_understanding": 3,
+      "negotiation_effectiveness": null,
+      "conversational_efficiency": 3,
+      "customer_experience": null,
+      "recovery_quality": null,
+      "justifications": {
+        "temporal_understanding": "The agent correctly identified the first requested appointment time but struggled to process the recurring nature of the request, leading to repeated clarifications about the user's temporal preferences.",
+        "negotiation_effectiveness": "",
+        "conversational_efficiency": "The agent repeatedly asked about booking individual appointments despite the user's clear request for a recurring weekly appointment, leading to unnecessary turns.",
+        "customer_experience": "",
+        "recovery_quality": ""
+      },
+      "overall_notes": null
+    }
+  ],
+  "termination_reason": "refusal_accepted",
+  "error": null
+}

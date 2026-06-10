@@ -1,0 +1,1414 @@
+{
+  "schema_version": "1.0",
+  "scenario_id": "t6_en_native_055",
+  "tier": 6,
+  "stage": "nlp_arm1",
+  "persona_profile": "negotiating",
+  "run_index": 2,
+  "run_id": "20260531_163412__nlp_arm1__a00c977__representative",
+  "timestamp_start": "2026-05-31T19:12:01.141627Z",
+  "timestamp_end": "2026-05-31T19:12:26.655165Z",
+  "git_commit": "a00c977a6ec14bc68d1b7e38c1047ea7efeaa317",
+  "git_dirty": true,
+  "change_note": "Arm 1 representative — spaCy + dateparser wired into annotate node",
+  "config": {
+    "llm_provider": "gemini",
+    "llm_model": "gemini-2.5-flash",
+    "llm_temperature": 0.7,
+    "llm_max_tokens": null,
+    "judge_model": null,
+    "seeds": {
+      "profile_seed": 42
+    },
+    "max_turns": 12,
+    "latency_model": {
+      "base_overhead_ms": 400.0,
+      "per_day_cost_ms": 500.0,
+      "jitter_sigma_ms": 50.0
+    },
+    "simulate_latency": true,
+    "runner_version": "step3/1.0",
+    "extras": {
+      "profile_name": "representative",
+      "nlp_datetime_enabled": true,
+      "nlp_entity_enabled": true,
+      "datetime_arm": "dateparser",
+      "entity_arm": "spacy",
+      "nlp_llm_backend": null
+    }
+  },
+  "scenario_set_version": null,
+  "availability_override": {
+    "slots_by_offset": {
+      "today+2": [
+        "10:00-11:00",
+        "14:00-15:00"
+      ],
+      "today+3": [
+        "15:00-16:00"
+      ],
+      "today+4": [
+        "16:00-17:00",
+        "14:00-15:00"
+      ],
+      "today+5": [
+        "16:00-17:00",
+        "10:00-11:00",
+        "11:00-12:00"
+      ]
+    },
+    "notes": "Tier 6 — moderate scattered availability for deadline/negative/open-ended phrasings"
+  },
+  "frozen_phrasing": "Whenever is fine, just for me.",
+  "expected_datetime_window": {
+    "start_offset": "today+1T09:00",
+    "end_offset": "today+1T10:00"
+  },
+  "turns": [
+    {
+      "turn_index": 1,
+      "timestamp": "2026-05-31T19:12:02.112089Z",
+      "user_message": "Hello, my name is Alex Smith. I'd like to book a phone meeting to discuss investment options. I'm looking for an appointment around 9 AM tomorrow, whenever is fine, just for me.",
+      "agent_response": "I couldn't find any available slots for an investment phone meeting tomorrow, June 1st, between 8 AM and 12 PM.\n\nWould you like me to check for other times tomorrow, or perhaps another day?",
+      "llm_calls": [
+        {
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "prompt_message_count": 1,
+          "response_type": "function_call",
+          "function_name": "get_appointment_topics",
+          "function_args": {},
+          "text_preview": null,
+          "latency_ms": 1816.2455999990925,
+          "input_tokens": 1457,
+          "output_tokens": 29,
+          "temperature": 0.7,
+          "raw_response_excerpt": null
+        },
+        {
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "prompt_message_count": 3,
+          "response_type": "function_call",
+          "function_name": "get_appointment_contact_medium",
+          "function_args": {
+            "topic_id": "investing"
+          },
+          "text_preview": null,
+          "latency_ms": 881.3098999962676,
+          "input_tokens": 1554,
+          "output_tokens": 42,
+          "temperature": 0.7,
+          "raw_response_excerpt": null
+        },
+        {
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "prompt_message_count": 5,
+          "response_type": "function_call",
+          "function_name": "check_availability",
+          "function_args": {
+            "contact_medium_id": "phone",
+            "topic_id": "investing",
+            "end_datetime": "2026-06-01T12:00:00+02:00",
+            "start_datetime": "2026-06-01T08:00:00+02:00"
+          },
+          "text_preview": null,
+          "latency_ms": 2070.216000021901,
+          "input_tokens": 1676,
+          "output_tokens": 125,
+          "temperature": 0.7,
+          "raw_response_excerpt": null
+        },
+        {
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "prompt_message_count": 7,
+          "response_type": "text",
+          "function_name": null,
+          "function_args": null,
+          "text_preview": "I couldn't find any available slots for an investment phone meeting tomorrow, June 1st, between 8 AM and 12 PM.\n\nWould you like me to check for other times tomorrow, or perhaps another day?",
+          "latency_ms": 1175.2355999778956,
+          "input_tokens": 1815,
+          "output_tokens": 47,
+          "temperature": 0.7,
+          "raw_response_excerpt": null
+        }
+      ],
+      "tool_calls": [
+        {
+          "tool_name": "get_appointment_topics",
+          "parameters": {},
+          "response": [
+            {
+              "topic_id": "investing",
+              "topic_name": "Investing"
+            },
+            {
+              "topic_id": "mortgage",
+              "topic_name": "Mortgage"
+            },
+            {
+              "topic_id": "pension",
+              "topic_name": "Pension"
+            }
+          ],
+          "simulated_latency_ms": 437.61675488623627,
+          "actual_latency_ms": 13.37140001123771,
+          "success": true,
+          "error_message": null
+        },
+        {
+          "tool_name": "get_appointment_contact_medium",
+          "parameters": {
+            "topic_id": "investing"
+          },
+          "response": [
+            {
+              "contact_medium_id": "branch",
+              "contact_medium_name": "Branch Meeting"
+            },
+            {
+              "contact_medium_id": "online",
+              "contact_medium_name": "Online Meeting"
+            },
+            {
+              "contact_medium_id": "phone",
+              "contact_medium_name": "Phone"
+            }
+          ],
+          "simulated_latency_ms": 391.82255841311496,
+          "actual_latency_ms": 19.390900008147582,
+          "success": true,
+          "error_message": null
+        },
+        {
+          "tool_name": "check_availability",
+          "parameters": {
+            "contact_medium_id": "phone",
+            "topic_id": "investing",
+            "end_datetime": "2026-06-01T12:00:00+02:00",
+            "start_datetime": "2026-06-01T08:00:00+02:00"
+          },
+          "response": [],
+          "simulated_latency_ms": 945.3251347029284,
+          "actual_latency_ms": 21.522399998502806,
+          "success": true,
+          "error_message": null
+        }
+      ],
+      "state_snapshot": {
+        "topic_id": null,
+        "topic_name": null,
+        "contact_medium_id": null,
+        "contact_medium_name": null,
+        "phase": "intent",
+        "turn_count": 1,
+        "pending_tool_call": null,
+        "tool_result": null,
+        "last_annotation": {
+          "raw_text": "Hello, my name is Alex Smith. I'd like to book a phone meeting to discuss investment options. I'm looking for an appointment around 9 AM tomorrow, whenever is fine, just for me.",
+          "intent": "schedule",
+          "confidence": 1.0,
+          "topic": "investing",
+          "contact_medium": "phone",
+          "datetime_ranges": [
+            {
+              "start_datetime": "2026-05-31T00:00:00+02:00",
+              "end_datetime": "2026-05-31T23:59:00+02:00",
+              "is_flexible": true,
+              "original_text": "an",
+              "specificity": "day_vague"
+            },
+            {
+              "start_datetime": "2026-05-09T00:00:00+02:00",
+              "end_datetime": "2026-05-09T23:59:00+02:00",
+              "is_flexible": true,
+              "original_text": "9 AM",
+              "specificity": "day_vague"
+            },
+            {
+              "start_datetime": "2026-06-03T00:00:00+02:00",
+              "end_datetime": "2026-06-03T23:59:00+02:00",
+              "is_flexible": true,
+              "original_text": "me",
+              "specificity": "day_vague"
+            }
+          ],
+          "entities_raw": {
+            "topic_matches": [
+              {
+                "label": "investing",
+                "start": 18,
+                "end": 19,
+                "text": "investment"
+              }
+            ],
+            "medium_matches": [
+              {
+                "label": "phone",
+                "start": 14,
+                "end": 15,
+                "text": "phone"
+              }
+            ],
+            "compound": true
+          }
+        }
+      },
+      "turn_duration_ms": 8052.851000014925
+    },
+    {
+      "turn_index": 2,
+      "timestamp": "2026-05-31T19:12:10.689013Z",
+      "user_message": "I'd prefer to stick to tomorrow if possible. Could you check for anything a little later in the morning, say between 10 AM and noon?",
+      "agent_response": "I'm sorry, Alex. I still couldn't find any available phone meeting slots for Investing tomorrow, June 1st, even between 10 AM and noon.\n\nWould you like me to check for availability on another day, or perhaps for a different time tomorrow, like the afternoon?",
+      "llm_calls": [
+        {
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "prompt_message_count": 9,
+          "response_type": "function_call",
+          "function_name": "check_availability",
+          "function_args": {
+            "start_datetime": "2026-06-01T10:00:00+02:00",
+            "end_datetime": "2026-06-01T12:00:00+02:00",
+            "topic_id": "investing",
+            "contact_medium_id": "phone"
+          },
+          "text_preview": null,
+          "latency_ms": 1931.5190999768674,
+          "input_tokens": 1798,
+          "output_tokens": 89,
+          "temperature": 0.7,
+          "raw_response_excerpt": null
+        },
+        {
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "prompt_message_count": 11,
+          "response_type": "text",
+          "function_name": null,
+          "function_args": null,
+          "text_preview": "I'm sorry, Alex. I still couldn't find any available phone meeting slots for Investing tomorrow, June 1st, even between 10 AM and noon.\n\nWould you like me to check for availability on another day, or ",
+          "latency_ms": 801.6325999924447,
+          "input_tokens": 1901,
+          "output_tokens": 61,
+          "temperature": 0.7,
+          "raw_response_excerpt": null
+        }
+      ],
+      "tool_calls": [
+        {
+          "tool_name": "check_availability",
+          "parameters": {
+            "start_datetime": "2026-06-01T10:00:00+02:00",
+            "end_datetime": "2026-06-01T12:00:00+02:00",
+            "topic_id": "investing",
+            "contact_medium_id": "phone"
+          },
+          "response": [],
+          "simulated_latency_ms": 912.827898871167,
+          "actual_latency_ms": 22.38830001442693,
+          "success": true,
+          "error_message": null
+        }
+      ],
+      "state_snapshot": {
+        "topic_id": null,
+        "topic_name": null,
+        "contact_medium_id": null,
+        "contact_medium_name": null,
+        "phase": "intent",
+        "turn_count": 2,
+        "pending_tool_call": null,
+        "tool_result": null,
+        "last_annotation": {
+          "raw_text": "I'd prefer to stick to tomorrow if possible. Could you check for anything a little later in the morning, say between 10 AM and noon?",
+          "intent": "schedule",
+          "confidence": 1.0,
+          "topic": null,
+          "contact_medium": null,
+          "datetime_ranges": [
+            {
+              "start_datetime": "2026-06-01T00:00:00+02:00",
+              "end_datetime": "2026-06-01T23:59:00+02:00",
+              "is_flexible": true,
+              "original_text": "tomorrow",
+              "specificity": "day_vague"
+            },
+            {
+              "start_datetime": "2026-05-10T00:00:00+02:00",
+              "end_datetime": "2026-05-10T23:59:00+02:00",
+              "is_flexible": true,
+              "original_text": "10 AM and noon",
+              "specificity": "day_vague"
+            }
+          ],
+          "entities_raw": {
+            "topic_matches": [],
+            "medium_matches": [],
+            "compound": true
+          }
+        }
+      },
+      "turn_duration_ms": 3846.9583000114653
+    },
+    {
+      "turn_index": 3,
+      "timestamp": "2026-05-31T19:12:15.067371Z",
+      "user_message": "Okay, that's a shame. How about Tuesday, June 2nd, then? Again, I'd ideally like something around 9 AM.",
+      "agent_response": "I'm sorry, Alex, but I couldn't find any available phone meeting slots for Investing on Tuesday, June 2nd, between 8 AM and 10 AM either.\n\nWould you like me to check a wider range of times on June 2nd, or perhaps look at another day?",
+      "llm_calls": [
+        {
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "prompt_message_count": 13,
+          "response_type": "function_call",
+          "function_name": "check_availability",
+          "function_args": {
+            "end_datetime": "2026-06-02T10:00:00+02:00",
+            "start_datetime": "2026-06-02T08:00:00+02:00",
+            "topic_id": "investing",
+            "contact_medium_id": "phone"
+          },
+          "text_preview": null,
+          "latency_ms": 1641.193999996176,
+          "input_tokens": 1999,
+          "output_tokens": 89,
+          "temperature": 0.7,
+          "raw_response_excerpt": null
+        },
+        {
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "prompt_message_count": 15,
+          "response_type": "text",
+          "function_name": null,
+          "function_args": null,
+          "text_preview": "I'm sorry, Alex, but I couldn't find any available phone meeting slots for Investing on Tuesday, June 2nd, between 8 AM and 10 AM either.\n\nWould you like me to check a wider range of times on June 2nd",
+          "latency_ms": 918.3268999913707,
+          "input_tokens": 2102,
+          "output_tokens": 64,
+          "temperature": 0.7,
+          "raw_response_excerpt": null
+        }
+      ],
+      "tool_calls": [
+        {
+          "tool_name": "check_availability",
+          "parameters": {
+            "end_datetime": "2026-06-02T10:00:00+02:00",
+            "start_datetime": "2026-06-02T08:00:00+02:00",
+            "topic_id": "investing",
+            "contact_medium_id": "phone"
+          },
+          "response": [],
+          "simulated_latency_ms": 918.2795528033066,
+          "actual_latency_ms": 18.378200009465218,
+          "success": true,
+          "error_message": null
+        }
+      ],
+      "state_snapshot": {
+        "topic_id": null,
+        "topic_name": null,
+        "contact_medium_id": null,
+        "contact_medium_name": null,
+        "phase": "intent",
+        "turn_count": 3,
+        "pending_tool_call": null,
+        "tool_result": null,
+        "last_annotation": {
+          "raw_text": "Okay, that's a shame. How about Tuesday, June 2nd, then? Again, I'd ideally like something around 9 AM.",
+          "intent": "schedule",
+          "confidence": 1.0,
+          "topic": null,
+          "contact_medium": null,
+          "datetime_ranges": [
+            {
+              "start_datetime": "2026-06-02T00:00:00+02:00",
+              "end_datetime": "2026-06-02T23:59:00+02:00",
+              "is_flexible": false,
+              "original_text": "about Tuesday, June 2nd",
+              "specificity": "day_specific"
+            },
+            {
+              "start_datetime": "2026-05-09T00:00:00+02:00",
+              "end_datetime": "2026-05-09T23:59:00+02:00",
+              "is_flexible": true,
+              "original_text": "9 AM",
+              "specificity": "day_vague"
+            }
+          ],
+          "entities_raw": {
+            "topic_matches": [],
+            "medium_matches": [],
+            "compound": true
+          }
+        }
+      },
+      "turn_duration_ms": 3682.2244999930263
+    },
+    {
+      "turn_index": 4,
+      "timestamp": "2026-05-31T19:12:19.229691Z",
+      "user_message": "Could you check a wider range of times for Tuesday, June 2nd, please? I'm flexible throughout the morning.",
+      "agent_response": "Great news, Alex! I found an available slot for an Investing phone meeting on Tuesday, June 2nd, from 10:00 AM to 11:00 AM.\n\nWould you like me to go ahead and book this appointment for you?",
+      "llm_calls": [
+        {
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "prompt_message_count": 17,
+          "response_type": "function_call",
+          "function_name": "check_availability",
+          "function_args": {
+            "start_datetime": "2026-06-02T08:00:00+02:00",
+            "contact_medium_id": "phone",
+            "topic_id": "investing",
+            "end_datetime": "2026-06-02T13:00:00+02:00"
+          },
+          "text_preview": null,
+          "latency_ms": 1235.881700005848,
+          "input_tokens": 2092,
+          "output_tokens": 89,
+          "temperature": 0.7,
+          "raw_response_excerpt": null
+        },
+        {
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "prompt_message_count": 19,
+          "response_type": "text",
+          "function_name": null,
+          "function_args": null,
+          "text_preview": "Great news, Alex! I found an available slot for an Investing phone meeting on Tuesday, June 2nd, from 10:00 AM to 11:00 AM.\n\nWould you like me to go ahead and book this appointment for you?",
+          "latency_ms": 687.5943000195548,
+          "input_tokens": 2254,
+          "output_tokens": 55,
+          "temperature": 0.7,
+          "raw_response_excerpt": null
+        }
+      ],
+      "tool_calls": [
+        {
+          "tool_name": "check_availability",
+          "parameters": {
+            "start_datetime": "2026-06-02T08:00:00+02:00",
+            "contact_medium_id": "phone",
+            "topic_id": "investing",
+            "end_datetime": "2026-06-02T13:00:00+02:00"
+          },
+          "response": {
+            "datetime_start": "2026-06-02T10:00:00+02:00",
+            "datetime_end": "2026-06-02T11:00:00+02:00"
+          },
+          "simulated_latency_ms": 832.254616918572,
+          "actual_latency_ms": 18.890900013502687,
+          "success": true,
+          "error_message": null
+        }
+      ],
+      "state_snapshot": {
+        "topic_id": null,
+        "topic_name": null,
+        "contact_medium_id": null,
+        "contact_medium_name": null,
+        "phase": "intent",
+        "turn_count": 4,
+        "pending_tool_call": null,
+        "tool_result": null,
+        "last_annotation": {
+          "raw_text": "Could you check a wider range of times for Tuesday, June 2nd, please? I'm flexible throughout the morning.",
+          "intent": "schedule",
+          "confidence": 1.0,
+          "topic": null,
+          "contact_medium": null,
+          "datetime_ranges": [
+            {
+              "start_datetime": "2026-06-02T00:00:00+02:00",
+              "end_datetime": "2026-06-02T23:59:00+02:00",
+              "is_flexible": false,
+              "original_text": "Tuesday, June 2nd",
+              "specificity": "day_specific"
+            }
+          ],
+          "entities_raw": {
+            "topic_matches": [],
+            "medium_matches": []
+          }
+        }
+      },
+      "turn_duration_ms": 2929.149999981746
+    },
+    {
+      "turn_index": 5,
+      "timestamp": "2026-05-31T19:12:22.684731Z",
+      "user_message": "Yes, please book that for me. That works perfectly.",
+      "agent_response": "Excellent! Your phone meeting to discuss Investing options has been successfully booked for Tuesday, June 2nd, from 10:00 AM to 11:00 AM. Your booking ID is BK-CAFE12.\n\nIs there anything else I can assist you with today, Alex?",
+      "llm_calls": [
+        {
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "prompt_message_count": 21,
+          "response_type": "function_call",
+          "function_name": "book_appointment",
+          "function_args": {
+            "topic_id": "investing",
+            "datetime_end": "2026-06-02T11:00:00+02:00",
+            "contact_medium_id": "phone",
+            "datetime_start": "2026-06-02T10:00:00+02:00"
+          },
+          "text_preview": null,
+          "latency_ms": 1691.4028000028338,
+          "input_tokens": 2318,
+          "output_tokens": 89,
+          "temperature": 0.7,
+          "raw_response_excerpt": null
+        },
+        {
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "prompt_message_count": 23,
+          "response_type": "text",
+          "function_name": null,
+          "function_args": null,
+          "text_preview": "Excellent! Your phone meeting to discuss Investing options has been successfully booked for Tuesday, June 2nd, from 10:00 AM to 11:00 AM. Your booking ID is BK-CAFE12.\n\nIs there anything else I can as",
+          "latency_ms": 1241.31350000971,
+          "input_tokens": 2520,
+          "output_tokens": 63,
+          "temperature": 0.7,
+          "raw_response_excerpt": null
+        }
+      ],
+      "tool_calls": [
+        {
+          "tool_name": "book_appointment",
+          "parameters": {
+            "topic_id": "investing",
+            "datetime_end": "2026-06-02T11:00:00+02:00",
+            "contact_medium_id": "phone",
+            "datetime_start": "2026-06-02T10:00:00+02:00"
+          },
+          "response": {
+            "status": "success",
+            "booking_id": "BK-CAFE12",
+            "details": {
+              "topic_name": "Investing",
+              "contact_medium_name": "Phone",
+              "datetime_start": "2026-06-02T10:00:00+02:00",
+              "datetime_end": "2026-06-02T11:00:00+02:00"
+            }
+          },
+          "simulated_latency_ms": 372.3785733231849,
+          "actual_latency_ms": 6.965700013097376,
+          "success": true,
+          "error_message": null
+        }
+      ],
+      "state_snapshot": {
+        "topic_id": null,
+        "topic_name": null,
+        "contact_medium_id": null,
+        "contact_medium_name": null,
+        "phase": "intent",
+        "turn_count": 5,
+        "pending_tool_call": null,
+        "tool_result": null,
+        "last_annotation": {
+          "raw_text": "Yes, please book that for me. That works perfectly.",
+          "intent": "schedule",
+          "confidence": 1.0,
+          "topic": null,
+          "contact_medium": null,
+          "datetime_ranges": [
+            {
+              "start_datetime": "2026-06-03T00:00:00+02:00",
+              "end_datetime": "2026-06-03T23:59:00+02:00",
+              "is_flexible": true,
+              "original_text": "me",
+              "specificity": "day_vague"
+            }
+          ],
+          "entities_raw": {
+            "topic_matches": [],
+            "medium_matches": []
+          }
+        }
+      },
+      "turn_duration_ms": 3969.2369000113104
+    }
+  ],
+  "final_messages": [
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "Hello, my name is Alex Smith. I'd like to book a phone meeting to discuss investment options. I'm looking for an appointment around 9 AM tomorrow, whenever is fine, just for me.",
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "user"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "Hello Alex! I can help you book a phone meeting to discuss investment options.\n\n",
+          "thought": null,
+          "thought_signature": "b'\\n\\xf5\\x08\\x01\\x0c9\\xd6\\xc7\\x966\\x85L\\xa8\\x1d)\\x9f\\xc6\\xc0\\x18&\\x01\\x8c\\xc9\\xcb(>2&E\\x83\\xff B\\n:\\x11\\xce\\xa9>Rj\\x04O\\xce\\xed\\xe7\\xd0)\\x97@\\x8fV\\xc5Z\\xec\\xa4\\xad\\x11M\\xbf\\xa6\\xa8\\xe7v\\xd6^w_\\x8c\\x08\\xa5wl\\x83\\x08O\\xf8\\x9c\\t\\x0e\\xec2\\xe9\\xc1\\xb7\\xf6\\x1b\\xd2\\xb8\\xa1\\xd8h\\x02p w\\n\\xa6\\xf9\\xcb\\xe8jnRP\\xae\\x1d\\x11\\xda\\xa8\\xf0\\xd02\\x11r\\xa6\\x05\\xfcu2r\\x050\\xe3n\\xc8\\x0b\\xfa\\x1a~\\xbd\\xeeo\\xe0o\\x9c\\xab\\xf0\\x127\\x8bC^\\xaa5\\xf7\\x14\\xa7\\xb1\\xaeZ6\\x8b\\xc5M\\x9a\\xe1\\xc7X\\x837\\xc2N\\x0b\\xe5\\xef\\xf2U\\x10\\xb8\\xe9\\x06\\x10\\x1et\\x03\\xcbJ\\xd3m\\xbd\\xde8\\x0c\\x06\\x87\\xad\\x02\\'\\x8c4\"=o\\xabV\\xeb\\xa7\\x89X;Q\\x0ftl\\x19!i\\x80\\xb4\\x85z\\xcc\\xea\\x0c\\x83\\xf9yt\\x86\\xefT\\x823\\x9b\\x82Z/\\x03Dr\\xa15%u\\x9e\\x82j}\\x1e_E1\\xdeU\\xffCZ\\xd3\\xc7\\xdb\\xa8\\xb2:\\xcf*\\xbe\\x19DL\\xa9o_\\xfa@\\x06\\xd2M\\x98}\\xba\\xda\\xae\\x0e\\x04b\\x9c\\x81\\x97\\xa3\\x96\\xa7_#]V\\xb8\\x84\\xd6+\\xe3\\x88\\x8a\\xbfY\\x08\\xce\\\\\\x96\\xb7\\xfd\\x84@\\xfb\\xa8\\xe6\\x13\\xe1E\\r\\x9dZ\\xe9\\x8f\\xd4\\x90\\x15$\\xbaI\\\\W\\x84\\xcf\\xa6\\xe1?\\x9e\\x06I\\x95\\t\\xde\\xdeX\\xe4\\xear\\x14\\x12)\\xfd!\\'J\\xff\\xd0\\x1a\\x90\\xc1PA\\xcf\\x0c\\x94\\x9d\\xf5\\xeb\\xac\\x1b\\xa4MV\\xf1\\xb5*\\xa5\\xe1\\xcb\\xb5\\x88%\\xb3N\\x81\\x10\\x8f\\x11lL\\xe0\\xa4@\\x9b`d\\x7f\\xe0C ~\\x0f\\xb3\\xbdR\\xcc,\\x17\\\\=I\\xb5\\xd1\\xac\\xf7\\\\\\xaa\\x9e\\xa5j\\xf3\\x1f\\xac gC\\xfc\\xb73\"\\xf1\\xce\\x8e,,%l\\xe0\\xc6rr?\\xcc\\xa5\\x87P\\xa5\\x06\\xc2j\\xb6\\xfd3#\\xd8n\\xe2\\xb7!Q\\xf8d~\\x84\\xf9\\x88\\xcf\\x9b\\xc8\\xca\\x14\\xe0>\\xc7\"L\\xf2\\xab\\x16\\x86\\x80A7\\x89\\x98\\xc41$;\\xda\\x9e^\\xf2Dw\\x0c\\x10\\xce\\x99z\\xe0CHi\\x0e,3~\\xb0 \"\\xde\\x90k\\xc9\\xe7\\x19\\xf4\\xbf\\xeb\\xe3\\x14\\xfaT\\xb79\\xe4F\\xb4TK\\xd1\\xfb\\x87rq\\xcb\\x84\\xf5p\\r$\\x897\\xac\\xc4{\\r\\xee\\'4\\xc2\\x16\\x83H\\xc2\\xfbG;\\x95V\\x1a\\nF\\x8b\\xdbA\\xf8i6\\xec\\xc7\\x93\\x8d\\x96\\x93\\x87\\xf5Md\\xa5\\xf5\\x9a\\x88\\xd6!,S\\x06,\\xa1\\xfcm\\xa6J\\x8e\\x98;\\x98\\x1c\\xa1H\\xa9\\xa9w\\nWxf\\x7f\\xfe\\xe8\\x10\\x81\\x04s\\xe1\\x92\\xb4\\r\\x9e\\xcd\\x16(\\xd4`mb\\x90e$8\\x9a+.\\x9e\\x96\\xbcR\\x14\\xc7\\xc3^Z\\xe3Z\\x04S\\xd3J\"\\xdd\\x8fn\\x15Z\\xce\\x12y\\x8f\\xf4\\xdd\"Q2\\xc7\\x17\\xd7\\x13.\\x9cX9c)\\x9d\\x1f\\x8d8\\x11\\xcd\\xc7/\\x13\\xba\\xecc\\xc0\\xbc\\x0c\\x8f\\x18\\x9d\\x14\\x10\\xe3%\\x85\\x97\\xcc\\x97\\xf9L\\xa3{\\xb8{\\x9e\\x12d\\x91\\xe2\\x04\\x0c\\x11\\xb9\\xf6:6dy?\\n\\xc2\\x04\\xec\\x96S\\xceT^Ac\\xf3\\x03\\x15\\x05\\xce\\xd4\\x17W\\x90Rm\\x0c\\x1f^\\x1a\\x0b\\x98\\x80\\xed\\xbe\\xd8$\\xdd\\x05\\xd3\\x08\\x07\\x00=\\xc63\\xce\\x9aa\\x806\\xae\\x009\\xeb\\xcdv\\x01\\x9dm\\xae7\\xaa\\xac\\x16EY\\x8c\\xfd\\x95X\\xd2\\x1f\\x982\\x90\\xf3\\xae=\\x96\\x80\\x03\\x82\\xa3\\'\\xb7\"\\xe8\\rk\\xc3v\\xffK!\\xfbO013\\xd4}e\\xe4\\x18Y\\x18\\x94\\x0bK\\x89$\\xde\\x08\\xb7lhi\\xc2!T\\x8c;\\xac\\xfe\\x1f\\x836y)\\x05;\\xd3\\tw\\xe3\\xbf\\xdbh& \\xa2-\\x14\\x93a\\x105,Q@\\x9eJ\\x7f\\x0e4\\xee\\x8e\\xb6\\xc96\\x14&\\xaeb\\xf8\\xb7\\x03YO\\x1a\\x0cv\\xd7\\xef\\xad9\\xff\\xe4\\xe6\\xfa3\\x82Oa\\x8a\\xed\\x1e\\xe0\\xd4\\x8f\\xf1\\xc0\\xa7u\\xcb\\xd8\\x1e\\xd4\\xf9G\\xe3\\xa8Q{\\xb8i\\xdb\\xa2\\xa6\\xab\\x83\\xee\\x11\\xd5VzV\\xb5\\xf8\\x12\\x9e\\x11\\xe7Vb\\x04\\xf5\\x8b\\xe7\\xc1\\xd2\\xab\\x16[\\x8a\\xb0\\xc4N\\xb1,\\xed\\x16\\x9f\\xfb?}L|\\x0bq\\xd6hP\\xb9k\\x1c\\xd91\\xec\\x8ce\\xca\\x86l^;\\xe1\\x01T\\x98\\xb4y\\\\\\xe9D!\\x7f\\xbd\\n\\xd3b\\xb3\\xa9=V\\xd2\\xa4=\\x08\\xe6\\xa0\\xa5\\x84\\xe8\\xb7\\xf7&\\x88ok\\xd7\\xbf\\xcc\\xcaU\\x13\\xf0\\xceC-,\\xbaD\\xb7\\x87\\x1fQ\\xe2\\x8b\\n7V$\\xa9\\xbb*K\\xb1s\\xf1\\xf7\\xa5\\x84\\xf5\\xee\\x0f\\x02\\x8f\\xefT\\xcd\\xe0\\x12\\xbe\\x9f\\xb9\\xf1\\xe2\\xccZ\\xdd\\xf9\\x95\\x0efg%\\xdfp\\xb4. \\x8c\\xf6\\xcd\\x14\\xef\\xc1\\xe7\\x1a)\"\\x1fuY\\xa9\\x17OP\\x80V|&\\xc5`\\x93\\x02\\xbf\\xafJ\\x14\\xb85\\xa8H5\\xdbB\\xber\\xe7\\x8e\\x917\\xbcB\\xf2\\x04\\x15\\x00\\xaf\\xd2w\\xcd\\xd1\\xbe\\x02\\x87\\x86%\\x1a\\xc8\\x0b\\xdd\\x8d\"\\x0fUQ~\\x05\\xbb\\xb2\\xd0\\xe3'",
+          "video_metadata": null
+        },
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": {
+            "id": null,
+            "args": {},
+            "name": "get_appointment_topics",
+            "partial_args": null,
+            "will_continue": null
+          },
+          "function_response": null,
+          "inline_data": null,
+          "text": null,
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "model"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": {
+            "will_continue": null,
+            "scheduling": null,
+            "parts": null,
+            "id": null,
+            "name": "get_appointment_topics",
+            "response": {
+              "result": [
+                {
+                  "topic_id": "investing",
+                  "topic_name": "Investing"
+                },
+                {
+                  "topic_id": "mortgage",
+                  "topic_name": "Mortgage"
+                },
+                {
+                  "topic_id": "pension",
+                  "topic_name": "Pension"
+                }
+              ]
+            }
+          },
+          "inline_data": null,
+          "text": null,
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "user"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "Great, 'Investing' is a valid topic. Now let's check the contact medium.\n\n",
+          "thought": null,
+          "thought_signature": "b\"\\n\\x9e\\x01\\x01\\x0c9\\xd6\\xc7\\x96\\xce\\t\\xb5H\\xb6\\x05\\xf6\\x91+m\\x12\\xe6\\xa5\\xa1\\xac5\\xc6:+\\xf6\\xac1'\\xafM\\xbe\\x99\\xf1\\x86\\x13\\x15iA-qF\\xff\\x1d:oDX\\x0fUE\\xe7\\xa7\\x97N\\xce8\\x1eic\\xf6I\\xd1\\xab\\x84\\x1a%{\\xb4\\\\G\\x97\\xda\\xbc\\xb4}Q\\x03\\x98\\xfav\\x1c\\x8e;\\x9cb\\xa6\\xe1\\xed\\xc4\\xc6)\\xfd\\x87F\\xb9\\xae\\xdcx\\xb2\\x0c\\xf5\\x84\\xd2M\\x97S\\xf6@0v\\x16\\xc0\\x03:'\\xaf\\x9d\\xb2\\xcd\\xce\\xc2\\xd7\\xaa\\x87G\\x0f\\xb8J9f\\x80.\\x9e\\x00\\xc3\\xc5\\x8d3\\xcfw5\\xf3\\xd4\\xad\\x10-A\\xc7\\xd7\\xaa\\xd2M\\\\\\x8dat\\x1c\"",
+          "video_metadata": null
+        },
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": {
+            "id": null,
+            "args": {
+              "topic_id": "investing"
+            },
+            "name": "get_appointment_contact_medium",
+            "partial_args": null,
+            "will_continue": null
+          },
+          "function_response": null,
+          "inline_data": null,
+          "text": null,
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "model"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": {
+            "will_continue": null,
+            "scheduling": null,
+            "parts": null,
+            "id": null,
+            "name": "get_appointment_contact_medium",
+            "response": {
+              "result": [
+                {
+                  "contact_medium_id": "branch",
+                  "contact_medium_name": "Branch Meeting"
+                },
+                {
+                  "contact_medium_id": "online",
+                  "contact_medium_name": "Online Meeting"
+                },
+                {
+                  "contact_medium_id": "phone",
+                  "contact_medium_name": "Phone"
+                }
+              ]
+            }
+          },
+          "inline_data": null,
+          "text": null,
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "user"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "Okay, phone meetings are available for Investing.\n\nLet's find an appointment for you around 9 AM tomorrow, June 1st, 2026.\n\n",
+          "thought": null,
+          "thought_signature": "b\"\\n\\xf0\\x02\\x01\\x0c9\\xd6\\xc7\\xa5{\\x9a\\x84H\\x19\\xff\\x02L\\xae\\x1c\\xc0h\\xc1\\xcb1\\xb5\\xc6\\xe0\\xfe\\xf7\\xbc{\\x8d:\\xb5@Q\\x0f\\x9a\\x8d\\xd84\\xe8\\x82\\xa1q\\xce\\xe9\\x9d\\xf3\\xe5\\xd6\\x1b\\xa9\\xe2V&\\xa6\\x92\\xa6e\\x86\\xd3\\xc7\\x05D\\xce\\x8a\\x83>g\\xf8\\xacr#\\xb5\\x9c\\xe5\\xbf\\x16Q\\xa4\\xb4\\xb32\\xe3l>\\xa2\\xa2\\xefIx\\x89\\xa79\\xf8\\x1aK\\x1b\\x05\\x98\\xef{\\x9d%\\x99\\xf3\\x13\\xdc\\xa4\\xca~s\\xdcq\\xcd\\xb2\\x84Nsd\\x0b\\xc2c\\x9e\\xb8\\x8dp\\x82B\\x95L's\\xfa\\xa7~0.q\\t\\xa0R\\x91\\x83\\xf5\\xde9c\\xec\\xfe\\x96\\xbf\\x80O\\x9f\\xfd\\xfb_B=#6i\\\\\\x8a\\x91\\x13k\\xbc\\xb7\\x8ev\\xc9\\x0e.\\xbb\\x83\\xc57\\xdcHd\\xb0\\xe3\\x1c!\\xa5\\x92\\x8cf\\xf6'd\\xd8\\x02\\xf9\\x90\\xcd\\x07\\x13\\x01\\x9bwM\\x93\\xc0\\x8b(\\xae\\x11\\xdf\\x0b\\xfaZ\\xec\\x045\\xfck\\xf8B\\xb7y\\xd2\\xe0\\x1d\\x04\\xf9'x\\xab\\xd0\\nP\\xf9\\xa8\\x81g\\\\\\n\\x8d;\\x14+\\xdd\\xcd;P\\xd8G\\xc2\\x17\\x05\\x04?L~\\x9f\\x87m\\x15\\x1e\\xa4\\x81\\x18t\\x0b\\xe5\\xf1{$\\xa9\\xfd\\xc6\\xcc\\xb0\\x95(\\xd26\\x98n1~\\x9dm+\\xc10Z\\xa4\\xa6m\\x83\\xd5\\xdc\\x8c\\xc3\\xb5]4\\xcaq6\\xfa;\\xe3\\x8e\\xcc\\xaf\\xdd\\x05\\xdd\\x88g)q\\x0e\\x85%\\xcf\\x18\\x9b\\xe4\\x18\\x1a\\xbc\\x81\\x10 \\x8dI\\x07\\x8c\\xe7\\xcd\\xcd.]\\x1a\\xf15o\\xb65T\\xc8qOD{\\xd4`\\xd1\\xb0{v\\xea\\xee\\xc0\\xcb\\xcf\\xbc+\\xc6\\xce\\xe11\\xbe-\"",
+          "video_metadata": null
+        },
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": {
+            "id": null,
+            "args": {
+              "contact_medium_id": "phone",
+              "topic_id": "investing",
+              "end_datetime": "2026-06-01T12:00:00+02:00",
+              "start_datetime": "2026-06-01T08:00:00+02:00"
+            },
+            "name": "check_availability",
+            "partial_args": null,
+            "will_continue": null
+          },
+          "function_response": null,
+          "inline_data": null,
+          "text": null,
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "model"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": {
+            "will_continue": null,
+            "scheduling": null,
+            "parts": null,
+            "id": null,
+            "name": "check_availability",
+            "response": {
+              "result": []
+            }
+          },
+          "inline_data": null,
+          "text": null,
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "user"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "I couldn't find any available slots for an investment phone meeting tomorrow, June 1st, between 8 AM and 12 PM.\n\nWould you like me to check for other times tomorrow, or perhaps another day?",
+          "thought": null,
+          "thought_signature": "b'\\n\\x98\\x03\\x01\\x0c9\\xd6\\xc7\\xdad9(\\xe7\\xa6h\\xdcD\\xc6\\x03\\x95\\x81-w9\\x07\\x98\\xeb\\xe7@D\\xf7d\\xb9\\x82k\\xc0U\\xcc^\\x8a\\xa9\\xb4\\xdfW\\xcaNhV\\xe7l\\xd1\\xcb\\xd6\\xf0u\\xf1\\xe4\\xf4\\xd4\\xa90c\\xafh\\xd6\\x95q1\\xa7\\x1d\\x17\\x19$XQw}\\x03Y\\x83\\x9bz\\xb9O\\xce6\\xf1|+\\x0f4L\\r3\\x86\\xf6f\\x1dJ^/\\xeb\\'9\\x1e\\xcf\\x93\\xcc\\x18\\xe8!5\\xf4\\xb0\\xdb\\xf6\\xaeQ$H>\\xca@9l\\xb3>\\x9f\\xf9\\x93l})\\xf7\\xd5;C%\\xed7\\x8e\\x8d\\xd1\\xa1\\x8coS\\x98}\\xf7\\xabjm\\xb3\\x82\\x89#\\x123X\\x81\\xfa\\xd6]\\x94Y\\xab\\xe3\\x80x\\xe8\\x08\\x9am\\x83\\x15\\xa2\\xc1+\\xf3\\x8e\\x94\\xfd\\x87\\xb4\\xdcvn\\xbb\\xc01(,k]\\xf3\\xaa\\xccX\\x04\\x97l\\x05\\xcb?#WQ_T\\xf0\\x18\\xee\\xdb\\xc9\\xca\\xf5Z\\xa3a\\xb4\\xef\\xce\\xca\\xe2\\xa5\\x8fd\\x86\\xf4\\xfd\\xa9G\\xd8>\\xfd\\xadw\\x03\\x99\\xccO\\xf5\\xb5\\x80c\\xa1\"R8\\x8bk\\x9az\\xb4\\xa0\\x11\\x1c\\x9d\\x98\\xaa\\x92\\x7f\\x03\\x03RQ\\xb9f0\\x1f\\x1c3\\x7f3\\xcd;\\x95qu\\x04*\\x97\\n\\x8c\\xb7jf\\x86\\x0e\\x86+\\xf2\\x82\\xab\\xc7\\xd1C*\\x0c\\xf2b\\xca\\x1b:\\x9e\\x82\\xc6\\xa7\\x15\\x15\\x8c\\xc1\\x89\\xa0\\xb9\\xdf\\x83DENb\\r\\xf0\\x13%\\xd6|:\\xb9n\\x126\\x0e\\x0c*7\\xa3\\xef\\x950\\x92\\x13H\\xd6\\xfc\\x94t\\xcbk\\x8b\\xc7~6\\xd7\\xda\\x9a\"t\\xdb\\xac\\x93\\xfc\\xe6\\xec\\xbc\\x96\\xfd\\xf9\\x19\\x0c\\x83\\xbb\\xd5\\xaa\\x98\\xa1d\\xc9\\x9e\\x11\\xf9,\\x02\\xd4\\xa5@\\xe6z\\xaa\\xf5!\\xdf\\x912\\xba\\xc0\\\\\\x81\\x8f\\xc1\\xca\\xdb\\xc4\\x96\\x99Q\\x9a\\x93\\xc9\\x97'",
+          "video_metadata": null
+        }
+      ],
+      "role": "model"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "I'd prefer to stick to tomorrow if possible. Could you check for anything a little later in the morning, say between 10 AM and noon?",
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "user"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": {
+            "id": null,
+            "args": {
+              "start_datetime": "2026-06-01T10:00:00+02:00",
+              "end_datetime": "2026-06-01T12:00:00+02:00",
+              "topic_id": "investing",
+              "contact_medium_id": "phone"
+            },
+            "name": "check_availability",
+            "partial_args": null,
+            "will_continue": null
+          },
+          "function_response": null,
+          "inline_data": null,
+          "text": null,
+          "thought": null,
+          "thought_signature": "b'\\n\\x8b\\x05\\x01\\x0c9\\xd6\\xc7\\xdf\\xb2\\xdc\\x83\\x10\\xc6\\n\\x11\\xc7\\xbb\\x10\\xd1!\\xdc\\xa2%u\\x14\\xb2 /\\xa2\\x93e:\\xfcC\\xe3\\x00\\x92r\\xc2\\xc6\\xa1\\xa3\\x03\\xcd\\xebss,\\nr\\xf4\\x8d\\xa3\\xbc\\xf4\\x10\\xcf\\xa2\\xa5\\xbfcj,\\xcbE\\xe1k&\\xa8\\xb31\\xdfn`R\\xceZ\\x16\\xe5kdZ\\x98Z\\xc2(Sh\\x89\\xc7\\x81ha\\xb5\\xbd\\xe3(}\\xb8t!\\xedI\\x0e\\x06\\x8f\\xb5bO\\xdb\\xfbFyU\\xf5\\xf4\\xf5\\x1c\\xd7Q?\\xe6\\x0e\\xa6\\xaa\\xda\\x9d\\x05\\x90\\x8f\\xf2\\x10\\x8b\\xdf\\xfa\\x89\\xb1\\xdf\\xb7\\xd3#\\xcc\\x81\\xe9\\xbcN\\xb8\\xec\\xf0\\xb1[?\\xcd\\xcb\\xe0\"Av\\xcb\\xc1\\xa9\\x83\\xa7UZKv/4\\xfb\\xe8\\x00\\xdb\\xc4\\xd0\\n\\tVx4ZP\\xd7z\\xb8\\x88\\xfe\\x13\\x94\\xc9\\xf2\\xba\\xcf3\\xcc\\x82\\xff\\xdc\\xdd$\\xbc\\xe5\\x00\\x8d\\xdch\\xa8\\x9a%\\x87\\xa1-\\xdeN\\x84.m\\xa8\\x86_a\\rdd\\x90\\xc5\\x94\\x87\\x18\\x0fez\\xecH0\\xc2A%\\xb8.Of\\x0f\\xdd\\xc3\\x87\\x8e\\xe2\\x94\\xbd\\x90\\x06S\\x8c\\x8d\\x8b\\x08G\"=\\xde\\x92\\xb6\\xab\\xde\\xc7\\x80\\x1f\\xc3H\\xc5\\x9e`\\x03\\xa0\\xdeB\\xd7\\xf1{\\xa1\\xf3\\x14\\xdc\\xaaM\\xdc\\x1d\\x16\\xf9e\\xfc\\xf3\\xedn\\xb5h\\x8c6\\x802\\xec\\xd5\\xcebPlO\\xf5x\\xdc\\xd2\\xe6\\xf6\\xd9\\xfbf\\xa6\\'\\xcc$B][@\\xc34k\\xd9\\xd5\\xdb\\x14\\x11|\\x08\\x1e)\\xd8\\x8f\\x95\\x01:}\\xbf\\xdf3\\x8c%\\x8e\\xaf\\xfc\\x86\\xb4\\xfd\\x14\\xad\\xbcG\\xbd_\\x00\\x9e\\x1f\\'Ei\\xbaq`\\xb1\\xcd\\xbb\\x86\\xd6\\x05\\x93\\xef8\\xb4c\\xed\\xf2u\\x1c\\xf6\\xbe\\x96\\xb6\\xd4\\x03\\xb8\\xc9\\xf2\\xfbpO\\xd3\\xf0H\\x1aK?\\x97\\x9cOI\\xe8\\xe9\\xb0\\x1c\\xeeDo\\x9c\\x8d\\xd5\\x8d\\x10m\\xd13\\xe21\\xab:\"1\\x95\\xd85\\xaf\\x07\\x13\\xd1\\xe7\\xfa\\xe1\\xde{\\xad\\xd5\\xa6\\x14\\x1f\\xd8fm\\xa2\\xc7,e6\\x17\\xad\\x9a?\\xf2\\x8a{\\xaf\\xf0R2\\x0fn\\x899s\\xbb\\xd9\\xad\\xef\\xdbJ\\xb1K\\x86\\x1fS\\x8bt\\xb8\\x18\\x1e\\xb0\\xb1L\\xba\\xa7\\xe739\\xc5\\x83\\x98\\xa0\\x18\\n\\'\\xd7\\xb5\\xf6C*<\\x92\\xc6!\\xee\\x9ap\\xfbQbm\\xdc\\x1a\\xc6\\xe7\\xd83\\xb6\\xff}\\x1dz\\xa0\\x96\\x0c{\\xaai\\x82\\x01o\\xdd\\xf1_\\x84\\rh6)\\xc6\\x82\\xd7X\\xa3\\x7f9\\x1c\\xf6m\\x1e\\xf2)\\x9b\\x12\\xf7<5\\x015\\xfe\\xe4\\xef\\xaab\\xacs\\xb5\\xd4\\xe3\\xe8\\xe0,X\\x92+\\xcd\\xa3P\\xe2m\\xf5M\\x81\\xe8]\\xdfD\\xcf\\xe8x\\x0e\\xa6\\x8c\\xa5\\x96\\xea\\x15\\x9f\\x8c\\xf1\\x96\\x8a\\xf4\\xe5\\xc1\\xc9V\\xda\\xe2\\xb6\\xb6g\\xc0\\x8b\\x18\\xf9\\xce!\\xe7_\\x83~\\x1fX&\\x199\\x11\\x86\\xc2\\x9f\\xcd\\x98\\x97]\\xb8\\xdaEmo>=\\xa9\\xf6\\xca\\x91CsE'",
+          "video_metadata": null
+        }
+      ],
+      "role": "model"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": {
+            "will_continue": null,
+            "scheduling": null,
+            "parts": null,
+            "id": null,
+            "name": "check_availability",
+            "response": {
+              "result": []
+            }
+          },
+          "inline_data": null,
+          "text": null,
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "user"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "I'm sorry, Alex. I still couldn't find any available phone meeting slots for Investing tomorrow, June 1st, even between 10 AM and noon.\n\nWould you like me to check for availability on another day, or perhaps for a different time tomorrow, like the afternoon?",
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "model"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "Okay, that's a shame. How about Tuesday, June 2nd, then? Again, I'd ideally like something around 9 AM.",
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "user"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": {
+            "id": null,
+            "args": {
+              "end_datetime": "2026-06-02T10:00:00+02:00",
+              "start_datetime": "2026-06-02T08:00:00+02:00",
+              "topic_id": "investing",
+              "contact_medium_id": "phone"
+            },
+            "name": "check_availability",
+            "partial_args": null,
+            "will_continue": null
+          },
+          "function_response": null,
+          "inline_data": null,
+          "text": null,
+          "thought": null,
+          "thought_signature": "b'\\n\\x97\\x04\\x01\\x0c9\\xd6\\xc7\\x15\\xa9\\x9b\\x0c2jd\\tpFi\\x15\\x84 k\\xef|\\xbd\\x9d\\xce\\x06\\\\Z\\x80\\x94\\xe6\\x05v3?\\x04F1\\xc7\\t<\\x08\\x80\\xf2\\xc9\\xad\\x98\\x17\\xd9\\x86]\\xfe\\xad\\x15oz\\x1c\\xcd\\x98\\xc2\\xb2\\x1civ\\xc2x\\x009JMwZXg \\xe1\\xbcd\\xe7\\xda\\x16I\\x1f\\x87@\\x82\\x83~\\xf8\\xb9N\\xdd\\x17\\xa10S\\x1f9\\x9f\\xee\\xe2\\xbd\\x06\\xde\\x96(\\xfd\\xdb\\x9a\\xa8\\x01\\x15\\xf9\\x80\\x19r\\x1bPL\\xf8\\x0f\\xb0\\x11=aG-\\xf7\\x8eo\\x1e\\x14K\\x11zB\\xc3a\\xa1\\xc6\\xd4\\xcf5\\xe5Ox\\xfdL7*\\xcb\\x1cT)\\xb8\\xc8\\xf9\\xaei\\x90\\xe8\\x03wMXts\\xb518\\xa7S\\xfe\\xf8\\xa59>\\x9d\\xe2\\xab\\xac\\x10\\x0c6qm!\\t4\\xd8\\xc7\\xcb\\xce\\x04\\xa6T\\xd3\\xd8F\\xd71w\\x8eR\\x08\\xebj\\xac\\xded\\n_\\x84\\xd9>\\xcd\\x18W\\xc9\\xd7o\\xac\\xa9^\\xe7*\\xd0\\x999\\xef\\xdbSl\\xe0\\x85\\xfa\\x8e\\xbat(\\x9a~\\xf3\\xda\\x88F:%\\x7f/\\xc2\\xd7\\xd4(3\\x87l \\xc5-\\x17Y\\x08\\xb8\\xc6\\xfe\\xf4a\\x12\\x01\\x84\\n=\\x06\\x10\\xf5WY\\xc9\\x1c\\xfd\\x17\\xa4\\xe1\\x88~\\xfc\\x16\\xa5\\xee\\x9f\\xd3\\xeb\\x87\\xf7\\xb3\\x00\\x94\\xc4j*Q\\xf7\\x17\\x8f\\x8c+5\\xd4\\xb2\\xe1\\xd6\\x19\\x14\\xb9\\xb4\\xc2\\xa5\\xb4\\xce\\x9b}G\\xcd\\xf4\\xd1\\x96`\\x8e5z\\x0b,\\xd7pV\\x17\\xab\\x1b5\\x01T\\xcdLJR\\xaaM\\xef\\x10\\x8d\\xca\\xdc\\x9b\\x11\\xb4-\\xdf\\xb3\\x8c\\x01\\x11o]\\xa7\\xd0G$g\\xf3\"\\xb2\\x05\\xc0\\xf2\\xa8u9\\xc9\\x89{\\xe0\\xc2\\x89\\xee\\xa7z\\xfe\\x85\\x9a\\xff\\xf4Z\\xaa\\x81*2\\xc3\\xc3I\\x94p\\xc4e\\x83\\x02\\xb5\\xc4\\x866J\\xec\\xe5\\xea\\x11a\\x9d\\x01jbIm\\x9b\"\\xddo]\\x9b\\xb12/\\x91\\xa7A0\\xf4\\xdftG\\xd1\\xfde\\xd5|~7\\xb9\\x96\\x95M\\xaa\\xcd\\xa8\\x17\\xf4\\x99\\x80\\xc2\\xffBJ\\xd0\\xb5g\\x183:\\xf3<\\xd9\\xed\\x80\\xb9\\x189\\xaf\\xac\\xaa\\xb4% \\n*\\xbc\\x07\\xb9|\\xb6k\\x07\\x06\\xc0 \\xc9\\xec;\\xa4\\x92\\xa9k\\xd0fd\\xd8\\xfd\\xa0\\xa1qy\\xcd*\\x14e\\xcb\\xbd\\xec\\x14\\nNR\\xa5\\xe4\\x00\\xef\\xed\\x85\\xabX\\x96\\x93\\xd7\\xdc\\xd3j\\x91'",
+          "video_metadata": null
+        }
+      ],
+      "role": "model"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": {
+            "will_continue": null,
+            "scheduling": null,
+            "parts": null,
+            "id": null,
+            "name": "check_availability",
+            "response": {
+              "result": []
+            }
+          },
+          "inline_data": null,
+          "text": null,
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "user"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "I'm sorry, Alex, but I couldn't find any available phone meeting slots for Investing on Tuesday, June 2nd, between 8 AM and 10 AM either.\n\nWould you like me to check a wider range of times on June 2nd, or perhaps look at another day?",
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "model"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "Could you check a wider range of times for Tuesday, June 2nd, please? I'm flexible throughout the morning.",
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "user"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": {
+            "id": null,
+            "args": {
+              "start_datetime": "2026-06-02T08:00:00+02:00",
+              "contact_medium_id": "phone",
+              "topic_id": "investing",
+              "end_datetime": "2026-06-02T13:00:00+02:00"
+            },
+            "name": "check_availability",
+            "partial_args": null,
+            "will_continue": null
+          },
+          "function_response": null,
+          "inline_data": null,
+          "text": null,
+          "thought": null,
+          "thought_signature": "b'\\n\\xa8\\x03\\x01\\x0c9\\xd6\\xc7s\\xcc\\xb0}\\x03\\xb0M5\\x16\\x7f\\xdf\\xe6Sop[\\xa0\"\\x9b\\xa0\\xee\\xc0A\\xcee\\x19\\xbf\\x15\\xf2,\\x8d\\xc2yZe\\xd2\\xe1\\xf2\\xf5\\xc0\\xab<?\\xe3\\'\\x8f\\x1dj\\xabO\\xccV\\xbd\\xdfSg@\\xc8\\xe4)\\xd1F\\xa0\\x07n>d:`\\xea\\x0f-3\\xc1Y\\x8c#\\x8f$\\xb9\\xe8\\x04>\\xeb\\x8a\\xfd7\\xf4\\xcdQ\\xdcs\\xa6>\\x05\\xd38`0\\x16\\xb9S\\xbc\\xae\\x8c}\\'(\\xeaK\\x10\\xbatM\\x818\\xbe\\xecs\\xdd\\xd2?\\xc6\\x9f3q^\\x99\\xeb\\xc2B\\xb1\\x1e\\xca.\\xecm\\xd6\\xe9}\\xa9A\\xba\\x97\\xdc\\x0bn\\n\\x84\\x13\\x194\\xe9\\xf1U!M\\x9am\\xb1\\xdf\\xa9\\xf8\\x16~V\\x0b\\x08\\xfd%9\\x91\\xd5s\\xc6\\x17\\xec\\x9da\\x19\\xf7U\\x19t\\tY\\xb2\\xfe\\xb75\\x07\\xa9*Xq3\\x88\\x83\\x9d\\xf9MVp\\x11\\x12\\xd2J\\xb8\\x0eH\\x15\\xff\\x92\\xd0~\\xf6\\t\\xf2zv\\xa4,\\xce\\x0b/\\x00\\x9e[\\xe2>\\xf2\\xe67\\xda\"\\xccd\\x1a\\x01\\xd3O\\xa1\\x02\\xaemI\\x8e\\xaf\\x85P\\xb6}\\x94\\xef\\nB1\\xaas\\xf3t\\xed\\xc0\\x99\\xa3\\x15\\xab\\xcc\\xa4\\xad\\xb4j\\xf3\\xe9\\xc9\\xa7\\xed\\x1a\\xb7\\x1f\\x08N\\xde\\xaf\\x9bY8J\\x84\\xbeTj&\\xf8\\xa02M\\\\S\\xd0\\xd2\\xcem\\xf0\\xe2R\\xe1\\x11\\xa8^\\x9b\\x03o\\xa0T \\xf5$[|5\\x0e\\xc6v\\xf3%\\xeb\\x83u\\x1c\\x1fF>\\xaa\\x13\\xe5\\x0b\\x15=\\xcd7h\\xd4\\xe7z\\x1at\\xed\\x05@\\xa4\\x1b\\xf8\\xccb+D\\xb6^\\xd67\\xf6\\xe1\\x97\\xa7\\xd9\\xf5=\\xcaR\\xb8Ez\\x9c\\x1a\\xcd\\x93\\x98\\x06\\xdf\\xe1\\x89\\xef\\xe6\\xce\\x9d\\x80\\x06p=\\\\\\xb9\\xb1\\xb6\\x10\\x95y\\xaf\\xdeW\\x8b\\xd2\\xb1o\\x839\\x15N\\xb8\\xf4\\xe7\\xf5;xZg\\xab\\x9a\\xbe'",
+          "video_metadata": null
+        }
+      ],
+      "role": "model"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": {
+            "will_continue": null,
+            "scheduling": null,
+            "parts": null,
+            "id": null,
+            "name": "check_availability",
+            "response": {
+              "datetime_start": "2026-06-02T10:00:00+02:00",
+              "datetime_end": "2026-06-02T11:00:00+02:00"
+            }
+          },
+          "inline_data": null,
+          "text": null,
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "user"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "Great news, Alex! I found an available slot for an Investing phone meeting on Tuesday, June 2nd, from 10:00 AM to 11:00 AM.\n\nWould you like me to go ahead and book this appointment for you?",
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "model"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "Yes, please book that for me. That works perfectly.",
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "user"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": {
+            "id": null,
+            "args": {
+              "topic_id": "investing",
+              "datetime_end": "2026-06-02T11:00:00+02:00",
+              "contact_medium_id": "phone",
+              "datetime_start": "2026-06-02T10:00:00+02:00"
+            },
+            "name": "book_appointment",
+            "partial_args": null,
+            "will_continue": null
+          },
+          "function_response": null,
+          "inline_data": null,
+          "text": null,
+          "thought": null,
+          "thought_signature": "b'\\n\\xab\\x03\\x01\\x0c9\\xd6\\xc7\\x95\\xa1\\xd7\\x7ft\\x88U \\x9e\\t\\xef\\xc0L;\\x14tniot\\xcdZQ.\\xca.\\xbc\\xecl\\xff]\\xeb7M\\xdf\\xd2\\x00\\x06\\x19\\xdb\\xf2t/2~)\\x98gT\\xf4I\\x02\\xd5\\xe6\\x84UmQ\\x19?\\x87\\xaf\\xb3yB\\x17\\x88\\xd7h\\xe5*\\x03\\xb7e\\xf2\\x13\\xd4\\xc9\\xe4(\\xd2n\\xe9\\xf3\\xc4\\xbb\\x8a\\x98\\xda\\x10\\xad\\x02\\x84\\x9eo\\x15=\\x1cn&{]\\xff\\xb9m\\xb1@o\\xa3\\x1e\\xca?\\x97\\x1d\\x8b)\\x04\\xf4\\xb8i-i\\xa4\\x8et{\\x89\\x84\\x7f}\\xcb\\x9e8\\xf6p\\x9e\\xcfv\\xed\\xb2\\x00\\xd5\\xcf\\xd9\\xeb9\\xff\\x12+15>\\xd8\\xb6\\xac\\xd5M\\x82\\xa6\\xbf\\x08\\x9aG\\x05PWBB\\xd3\\rh>\\xb9\\xdf>\\xe8E\\xeb{vz9\\xad\\x06=\\x9d\\xa4t\\x8c\\x95D\\xb7\\\\\\xdct\\xb0\\xb0\\xfc-\\xdf\\xf9\\xddK\\xc6\\x0b\\xf6g)B\\x1e\\x98j9\\xd0\\xd0\\x8e\\xef\\xa52\\x8d\\xd1a\\x17\\x0f@\\x86\\x18\\xc3D\\x9e\\x8e\\xe454\\x08\\xcb\\xf9&t\\xbc\\x93\\x10W\\x89\\xad\\xbd(Y.\\xe0\\xcb\\xd2\\xf1\\xado\\xb6\\x87\\xec\\x0eI\\xedb$4\\x88\\x82%\\x01!x\\xff\\x1am\\'\\xfd\\x06~\\x1d\\x17\\x947\\xbd\\x86-\\n\\xd5\\x01\\x80\\xbe\\x94\\xa2\\x196\\xc5+\\xea\\xb5VL\\xb3R\\x80]\\x80]^WFK\\xa6\\xc2\\x10\\xd6\\'\"\\xd8\\x8dLs\\xc4U\\x12c.5\\x9e\\xa9\\x93\\xed\\x14\\xa7\\xd1\\x8e\\xb8\\x08\\xd3\\xc1)h/\\xf1\\xf9-d\\xbe\\x86\\xf2\\x90\\x0e\\x96:\\x0c\\x0fQ \\x01\\xeb\\xb0/X\\xa6\\xf6\\xde\\xbf\\xd9&\\xc2&\\xcd\\x97\\x9e\\x13\\x84\\x03\\xf0\\xa9\\\\\\xab\\xbe\\xb4\\xf9\\x83\\x97\\xd4\\xd2r\\x90\\xe1%|K\\xcaxG\\xf3\\x15\\xd6\\x06.\\xd8\\x1fO\\x0e\\xa2\\x19\\xfd\\x15\\xeb\\x0e\\x7f}%\\xf9\\xfc\\x02\\xa9T\\xc5\\x88\\x19?M'",
+          "video_metadata": null
+        }
+      ],
+      "role": "model"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": {
+            "will_continue": null,
+            "scheduling": null,
+            "parts": null,
+            "id": null,
+            "name": "book_appointment",
+            "response": {
+              "status": "success",
+              "booking_id": "BK-CAFE12",
+              "details": {
+                "topic_name": "Investing",
+                "contact_medium_name": "Phone",
+                "datetime_start": "2026-06-02T10:00:00+02:00",
+                "datetime_end": "2026-06-02T11:00:00+02:00"
+              }
+            }
+          },
+          "inline_data": null,
+          "text": null,
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "user"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "Excellent! Your phone meeting to discuss Investing options has been successfully booked for Tuesday, June 2nd, from 10:00 AM to 11:00 AM. Your booking ID is BK-CAFE12.\n\nIs there anything else I can assist you with today, Alex?",
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "model"
+    }
+  ],
+  "derived": {
+    "total_turn_count": 5,
+    "total_mcp_calls": 7,
+    "availability_calls": 4,
+    "first_check_availability_params": {
+      "contact_medium_id": "phone",
+      "topic_id": "investing",
+      "end_datetime": "2026-06-01T12:00:00+02:00",
+      "start_datetime": "2026-06-01T08:00:00+02:00"
+    },
+    "booked": true,
+    "total_simulated_latency_ms": 4810.50508991851,
+    "total_actual_latency_ms": 120.90780006838031,
+    "parse_accuracy_score": 0.5,
+    "unsupported_facts_count": 0,
+    "faithful": true,
+    "slots_presented_per_turn": [
+      0,
+      0,
+      0,
+      2,
+      2
+    ],
+    "efficiency_ratio": 2.0,
+    "optimal_availability_calls": 2,
+    "dead_end_turn_count": 3
+  },
+  "grounding_facts": [
+    {
+      "fact_type": "medium",
+      "asserted_value": "phone",
+      "asserted_in_turn": 1,
+      "supported": true,
+      "source_tool_call_ref": null,
+      "notes": "case-insensitive substring match against get_appointment_contact_medium response"
+    },
+    {
+      "fact_type": "topic",
+      "asserted_value": "investing",
+      "asserted_in_turn": 2,
+      "supported": true,
+      "source_tool_call_ref": null,
+      "notes": "case-insensitive substring match against get_appointment_topics response"
+    },
+    {
+      "fact_type": "medium",
+      "asserted_value": "phone",
+      "asserted_in_turn": 2,
+      "supported": true,
+      "source_tool_call_ref": null,
+      "notes": "case-insensitive substring match against get_appointment_contact_medium response"
+    },
+    {
+      "fact_type": "topic",
+      "asserted_value": "investing",
+      "asserted_in_turn": 3,
+      "supported": true,
+      "source_tool_call_ref": null,
+      "notes": "case-insensitive substring match against get_appointment_topics response"
+    },
+    {
+      "fact_type": "medium",
+      "asserted_value": "phone",
+      "asserted_in_turn": 3,
+      "supported": true,
+      "source_tool_call_ref": null,
+      "notes": "case-insensitive substring match against get_appointment_contact_medium response"
+    },
+    {
+      "fact_type": "topic",
+      "asserted_value": "investing",
+      "asserted_in_turn": 4,
+      "supported": true,
+      "source_tool_call_ref": null,
+      "notes": "case-insensitive substring match against get_appointment_topics response"
+    },
+    {
+      "fact_type": "medium",
+      "asserted_value": "phone",
+      "asserted_in_turn": 4,
+      "supported": true,
+      "source_tool_call_ref": null,
+      "notes": "case-insensitive substring match against get_appointment_contact_medium response"
+    },
+    {
+      "fact_type": "topic",
+      "asserted_value": "investing",
+      "asserted_in_turn": 5,
+      "supported": true,
+      "source_tool_call_ref": null,
+      "notes": "case-insensitive substring match against get_appointment_topics response"
+    },
+    {
+      "fact_type": "medium",
+      "asserted_value": "phone",
+      "asserted_in_turn": 5,
+      "supported": true,
+      "source_tool_call_ref": null,
+      "notes": "case-insensitive substring match against get_appointment_contact_medium response"
+    },
+    {
+      "fact_type": "booking",
+      "asserted_value": "BK-CAFE12",
+      "asserted_in_turn": 5,
+      "supported": true,
+      "source_tool_call_ref": null,
+      "notes": "booking_id from book_appointment success response"
+    }
+  ],
+  "langsmith_trace_id": null,
+  "langsmith_trace_url": null,
+  "judge_scores": [
+    {
+      "rep_index": 1,
+      "judge_model": "gemini-2.5-flash",
+      "judge_temperature": 0.3,
+      "temporal_understanding": 4,
+      "negotiation_effectiveness": 4,
+      "conversational_efficiency": 4,
+      "customer_experience": 4,
+      "recovery_quality": null,
+      "justifications": {
+        "temporal_understanding": "The agent correctly interpreted the user's initial request for \"around 9 AM tomorrow\" as 8 AM to 12 PM, and subsequent requests for \"a little later in the morning, say between 10 AM and noon\" and \"around 9 AM\" on a different day were also accurately translated into appropriate time windows.",
+        "negotiation_effectiveness": "The agent effectively handled unavailability by offering to check other times tomorrow or another day, and then when the user specified a wider range, the agent successfully found an available slot.",
+        "conversational_efficiency": "The conversation was efficient, with the agent quickly processing user requests and only asking for necessary clarifications when no slots were found.",
+        "customer_experience": "The customer experience was positive, with the agent maintaining a polite and helpful tone throughout the interaction, leading to a successful booking.",
+        "recovery_quality": ""
+      },
+      "overall_notes": null
+    }
+  ],
+  "termination_reason": "booked",
+  "error": null
+}

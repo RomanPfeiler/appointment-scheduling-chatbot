@@ -1,0 +1,29 @@
+# Deployed (Hugging Face Space) requirements — the lean Gemini-only stack.
+# The HF Docker image installs ONLY this file. Local-only / Arm 2 / corpus-mining
+# dependencies (anthropic, datasets, llama-cpp-python, pyyaml) live in
+# requirements-local.txt.
+#
+# Everything here is on the module-load import graph of `import app` (the Space
+# builds the LangGraph at import, which transitively imports the NLP Arm-1
+# components) — so it must be installed for the app to boot. The ad-hoc recorder
+# (evaluation/, pyyaml) is disabled on HF, so it is NOT on the deployed boot path.
+#
+# Versions are PINNED to the known-good local env (2026-06-10) so a Space
+# rebuild close to the deadline cannot pull a breaking release. To upgrade:
+# bump locally, run the test suite + a manual chat, then update the pins.
+chainlit==2.10.0
+google-genai==1.67.0
+python-dotenv==1.2.2
+mcp[cli]==1.26.0
+langgraph==1.1.2
+langchain-core==1.2.20
+langsmith==0.7.20
+dateparser==1.4.0     # NLP Arm 1 datetime — boot path via annotate -> nlp.factory
+spacy==3.8.14         # NLP Arm 1 entity — boot path via nlp.factory
+pydantic==2.12.5
+huggingface_hub==1.7.1  # small/pure-Python; lazy GGUF pull only. Kept to avoid boot-import risk.
+# en_core_web_sm — optional spaCy model, installed via post-install step:
+#   python -m spacy download en_core_web_sm
+# Falls back to a blank English pipeline if not installed (Arm 1 uses
+# attr="LOWER" matching which does not require the trained model). Not required
+# on the hosted demo: NLP defaults OFF and the local arm is suppressed there.

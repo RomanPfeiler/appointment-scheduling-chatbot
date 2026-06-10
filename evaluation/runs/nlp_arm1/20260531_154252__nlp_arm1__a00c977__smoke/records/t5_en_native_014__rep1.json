@@ -1,0 +1,2758 @@
+{
+  "schema_version": "1.0",
+  "scenario_id": "t5_en_native_014",
+  "tier": 5,
+  "stage": "nlp_arm1",
+  "persona_profile": "adversarial",
+  "run_index": 1,
+  "run_id": "20260531_154252__nlp_arm1__a00c977__smoke",
+  "timestamp_start": "2026-05-31T15:48:14.262823Z",
+  "timestamp_end": "2026-05-31T15:49:22.839291Z",
+  "git_commit": "a00c977a6ec14bc68d1b7e38c1047ea7efeaa317",
+  "git_dirty": true,
+  "change_note": "spaCy + dateparser wired into annotate node",
+  "config": {
+    "llm_provider": "gemini",
+    "llm_model": "gemini-2.5-flash",
+    "llm_temperature": 0.7,
+    "llm_max_tokens": null,
+    "judge_model": null,
+    "seeds": {
+      "profile_seed": 17
+    },
+    "max_turns": 12,
+    "latency_model": {
+      "base_overhead_ms": 400.0,
+      "per_day_cost_ms": 500.0,
+      "jitter_sigma_ms": 50.0
+    },
+    "simulate_latency": true,
+    "runner_version": "step3/1.0",
+    "extras": {
+      "profile_name": "smoke",
+      "nlp_datetime_enabled": true,
+      "nlp_entity_enabled": true,
+      "datetime_arm": "dateparser",
+      "entity_arm": "spacy",
+      "nlp_llm_backend": null
+    }
+  },
+  "scenario_set_version": null,
+  "availability_override": {
+    "slots_by_offset": {
+      "today+3": [],
+      "today+5": [
+        "09:00-10:00",
+        "16:00-17:00"
+      ],
+      "today+6": [
+        "11:00-12:00",
+        "15:00-16:00"
+      ]
+    },
+    "notes": "Tier 5 — primary day busy; alternatives later for negotiation"
+  },
+  "frozen_phrasing": "I'm kind of curious about what's on my calendar for next Thursday.",
+  "expected_datetime_window": {
+    "start_offset": "today+3T09:00",
+    "end_offset": "today+3T10:00"
+  },
+  "turns": [
+    {
+      "turn_index": 1,
+      "timestamp": "2026-05-31T15:48:15.157862Z",
+      "user_message": "Hi, my name is Alex Smith. I'd like to book an in-branch meeting about a mortgage. I'm kind of curious about what's on my calendar for next Thursday.",
+      "agent_response": "I'm sorry, Alex. It looks like there are no in-branch mortgage appointments available for next Thursday, June 4th. Would you like to check for availability on a different day, perhaps the day before or after?",
+      "llm_calls": [
+        {
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "prompt_message_count": 1,
+          "response_type": "function_call",
+          "function_name": "get_current_datetime",
+          "function_args": {},
+          "text_preview": null,
+          "latency_ms": 1181.8932000023779,
+          "input_tokens": 1270,
+          "output_tokens": 12,
+          "temperature": 0.7,
+          "raw_response_excerpt": null
+        },
+        {
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "prompt_message_count": 3,
+          "response_type": "function_call",
+          "function_name": "get_appointment_topics",
+          "function_args": {},
+          "text_preview": null,
+          "latency_ms": 840.5153999920003,
+          "input_tokens": 1360,
+          "output_tokens": 12,
+          "temperature": 0.7,
+          "raw_response_excerpt": null
+        },
+        {
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "prompt_message_count": 5,
+          "response_type": "function_call",
+          "function_name": "get_appointment_contact_medium",
+          "function_args": {
+            "topic_id": "mortgage"
+          },
+          "text_preview": null,
+          "latency_ms": 720.3661999956239,
+          "input_tokens": 1440,
+          "output_tokens": 22,
+          "temperature": 0.7,
+          "raw_response_excerpt": null
+        },
+        {
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "prompt_message_count": 7,
+          "response_type": "function_call",
+          "function_name": "check_availability",
+          "function_args": {
+            "topic_id": "mortgage",
+            "start_datetime": "2026-06-04T00:00:00+02:00",
+            "contact_medium_id": "branch",
+            "end_datetime": "2026-06-04T23:59:59+02:00"
+          },
+          "text_preview": null,
+          "latency_ms": 1321.8715999973938,
+          "input_tokens": 1522,
+          "output_tokens": 89,
+          "temperature": 0.7,
+          "raw_response_excerpt": null
+        },
+        {
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "prompt_message_count": 9,
+          "response_type": "text",
+          "function_name": null,
+          "function_args": null,
+          "text_preview": "I'm sorry, Alex. It looks like there are no in-branch mortgage appointments available for next Thursday, June 4th. Would you like to check for availability on a different day, perhaps the day before o",
+          "latency_ms": 936.1954999912996,
+          "input_tokens": 1625,
+          "output_tokens": 47,
+          "temperature": 0.7,
+          "raw_response_excerpt": null
+        }
+      ],
+      "tool_calls": [
+        {
+          "tool_name": "get_current_datetime",
+          "parameters": {},
+          "response": {
+            "datetime": "2026-05-31T17:48:17.586916+02:00",
+            "date": "2026-05-31",
+            "weekday": "Sunday",
+            "week_number": 22
+          },
+          "simulated_latency_ms": 388.5389355532698,
+          "actual_latency_ms": 9.043500002007931,
+          "success": true,
+          "error_message": null
+        },
+        {
+          "tool_name": "get_appointment_topics",
+          "parameters": {},
+          "response": [
+            {
+              "topic_id": "investing",
+              "topic_name": "Investing"
+            },
+            {
+              "topic_id": "mortgage",
+              "topic_name": "Mortgage"
+            },
+            {
+              "topic_id": "pension",
+              "topic_name": "Pension"
+            }
+          ],
+          "simulated_latency_ms": 405.0881919111209,
+          "actual_latency_ms": 18.784299987601116,
+          "success": true,
+          "error_message": null
+        },
+        {
+          "tool_name": "get_appointment_contact_medium",
+          "parameters": {
+            "topic_id": "mortgage"
+          },
+          "response": [
+            {
+              "contact_medium_id": "branch",
+              "contact_medium_name": "Branch Meeting"
+            },
+            {
+              "contact_medium_id": "online",
+              "contact_medium_name": "Online Meeting"
+            }
+          ],
+          "simulated_latency_ms": 437.72683188187807,
+          "actual_latency_ms": 24.361500021768734,
+          "success": true,
+          "error_message": null
+        },
+        {
+          "tool_name": "check_availability",
+          "parameters": {
+            "topic_id": "mortgage",
+            "start_datetime": "2026-06-04T00:00:00+02:00",
+            "contact_medium_id": "branch",
+            "end_datetime": "2026-06-04T23:59:59+02:00"
+          },
+          "response": [],
+          "simulated_latency_ms": 945.0960426084224,
+          "actual_latency_ms": 25.964000000385568,
+          "success": true,
+          "error_message": null
+        }
+      ],
+      "state_snapshot": {
+        "topic_id": null,
+        "topic_name": null,
+        "contact_medium_id": null,
+        "contact_medium_name": null,
+        "phase": "intent",
+        "turn_count": 1,
+        "pending_tool_call": null,
+        "tool_result": null,
+        "last_annotation": {
+          "raw_text": "Hi, my name is Alex Smith. I'd like to book an in-branch meeting about a mortgage. I'm kind of curious about what's on my calendar for next Thursday.",
+          "intent": "schedule",
+          "confidence": 1.0,
+          "topic": "mortgage",
+          "contact_medium": "branch",
+          "datetime_ranges": [
+            {
+              "start_datetime": "2026-06-04T00:00:00+02:00",
+              "end_datetime": "2026-06-04T23:59:00+02:00",
+              "is_flexible": true,
+              "original_text": "Thursday",
+              "specificity": "day_vague"
+            }
+          ],
+          "entities_raw": {
+            "topic_matches": [
+              {
+                "label": "mortgage",
+                "start": 20,
+                "end": 21,
+                "text": "mortgage"
+              }
+            ],
+            "medium_matches": [
+              {
+                "label": "branch",
+                "start": 16,
+                "end": 17,
+                "text": "branch"
+              }
+            ]
+          }
+        }
+      },
+      "turn_duration_ms": 8209.78110001306
+    },
+    {
+      "turn_index": 2,
+      "timestamp": "2026-05-31T15:48:24.103819Z",
+      "user_message": "That's not ideal. I specifically asked for next Thursday. What about the following Monday then, June 8th? And it needs to be first thing in the morning, around 9 AM.",
+      "agent_response": "I'm sorry, Alex. There are no in-branch mortgage appointments available around 9 AM on Monday, June 8th either. Would you like to check other times on June 8th, or a different day?",
+      "llm_calls": [
+        {
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "prompt_message_count": 11,
+          "response_type": "function_call",
+          "function_name": "check_availability",
+          "function_args": {
+            "topic_id": "mortgage",
+            "contact_medium_id": "branch",
+            "start_datetime": "2026-06-08T09:00:00+02:00",
+            "end_datetime": "2026-06-08T09:59:59+02:00"
+          },
+          "text_preview": null,
+          "latency_ms": 2111.254299990833,
+          "input_tokens": 1967,
+          "output_tokens": 89,
+          "temperature": 0.7,
+          "raw_response_excerpt": null
+        },
+        {
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "prompt_message_count": 13,
+          "response_type": "text",
+          "function_name": null,
+          "function_args": null,
+          "text_preview": "I'm sorry, Alex. There are no in-branch mortgage appointments available around 9 AM on Monday, June 8th either. Would you like to check other times on June 8th, or a different day?",
+          "latency_ms": 1954.0135999850463,
+          "input_tokens": 2070,
+          "output_tokens": 47,
+          "temperature": 0.7,
+          "raw_response_excerpt": null
+        }
+      ],
+      "tool_calls": [
+        {
+          "tool_name": "check_availability",
+          "parameters": {
+            "topic_id": "mortgage",
+            "contact_medium_id": "branch",
+            "start_datetime": "2026-06-08T09:00:00+02:00",
+            "end_datetime": "2026-06-08T09:59:59+02:00"
+          },
+          "response": [],
+          "simulated_latency_ms": 903.4919343281363,
+          "actual_latency_ms": 33.64680000231601,
+          "success": true,
+          "error_message": null
+        }
+      ],
+      "state_snapshot": {
+        "topic_id": null,
+        "topic_name": null,
+        "contact_medium_id": null,
+        "contact_medium_name": null,
+        "phase": "intent",
+        "turn_count": 2,
+        "pending_tool_call": null,
+        "tool_result": null,
+        "last_annotation": {
+          "raw_text": "That's not ideal. I specifically asked for next Thursday. What about the following Monday then, June 8th? And it needs to be first thing in the morning, around 9 AM.",
+          "intent": "schedule",
+          "confidence": 1.0,
+          "topic": null,
+          "contact_medium": null,
+          "datetime_ranges": [
+            {
+              "start_datetime": "2026-06-04T00:00:00+02:00",
+              "end_datetime": "2026-06-04T23:59:00+02:00",
+              "is_flexible": true,
+              "original_text": "Thursday",
+              "specificity": "day_vague"
+            },
+            {
+              "start_datetime": "2026-06-01T00:00:00+02:00",
+              "end_datetime": "2026-06-01T23:59:00+02:00",
+              "is_flexible": true,
+              "original_text": "Monday",
+              "specificity": "day_vague"
+            },
+            {
+              "start_datetime": "2026-06-08T00:00:00+02:00",
+              "end_datetime": "2026-06-08T23:59:00+02:00",
+              "is_flexible": false,
+              "original_text": "June 8th",
+              "specificity": "day_specific"
+            },
+            {
+              "start_datetime": "2026-05-09T00:00:00+02:00",
+              "end_datetime": "2026-05-09T23:59:00+02:00",
+              "is_flexible": true,
+              "original_text": "9 AM",
+              "specificity": "day_vague"
+            }
+          ],
+          "entities_raw": {
+            "topic_matches": [],
+            "medium_matches": [],
+            "compound": true
+          }
+        }
+      },
+      "turn_duration_ms": 5307.431099994574
+    },
+    {
+      "turn_index": 3,
+      "timestamp": "2026-05-31T15:48:30.097957Z",
+      "user_message": "No, other times on Monday won't work. This is proving quite difficult. How about Tuesday, June 9th, then? Still needs to be around 9 AM.",
+      "agent_response": "I'm sorry, Alex, but I'm still unable to find any in-branch mortgage appointments around 9 AM on Tuesday, June 9th. It seems there are no slots available at that time either.\n\nWould you like to try a different time on Tuesday, June 9th, or perhaps explore availability on another day?",
+      "llm_calls": [
+        {
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "prompt_message_count": 15,
+          "response_type": "function_call",
+          "function_name": "check_availability",
+          "function_args": {
+            "contact_medium_id": "branch",
+            "end_datetime": "2026-06-09T09:59:59+02:00",
+            "topic_id": "mortgage",
+            "start_datetime": "2026-06-09T09:00:00+02:00"
+          },
+          "text_preview": null,
+          "latency_ms": 1480.2075999905355,
+          "input_tokens": 2077,
+          "output_tokens": 89,
+          "temperature": 0.7,
+          "raw_response_excerpt": null
+        },
+        {
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "prompt_message_count": 17,
+          "response_type": "text",
+          "function_name": null,
+          "function_args": null,
+          "text_preview": "I'm sorry, Alex, but I'm still unable to find any in-branch mortgage appointments around 9 AM on Tuesday, June 9th. It seems there are no slots available at that time either.\n\nWould you like to try a ",
+          "latency_ms": 1072.8541999997105,
+          "input_tokens": 2180,
+          "output_tokens": 70,
+          "temperature": 0.7,
+          "raw_response_excerpt": null
+        }
+      ],
+      "tool_calls": [
+        {
+          "tool_name": "check_availability",
+          "parameters": {
+            "contact_medium_id": "branch",
+            "end_datetime": "2026-06-09T09:59:59+02:00",
+            "topic_id": "mortgage",
+            "start_datetime": "2026-06-09T09:00:00+02:00"
+          },
+          "response": [],
+          "simulated_latency_ms": 954.9368394454962,
+          "actual_latency_ms": 21.64449999690987,
+          "success": true,
+          "error_message": null
+        }
+      ],
+      "state_snapshot": {
+        "topic_id": null,
+        "topic_name": null,
+        "contact_medium_id": null,
+        "contact_medium_name": null,
+        "phase": "intent",
+        "turn_count": 3,
+        "pending_tool_call": null,
+        "tool_result": null,
+        "last_annotation": {
+          "raw_text": "No, other times on Monday won't work. This is proving quite difficult. How about Tuesday, June 9th, then? Still needs to be around 9 AM.",
+          "intent": "schedule",
+          "confidence": 1.0,
+          "topic": null,
+          "contact_medium": null,
+          "datetime_ranges": [
+            {
+              "start_datetime": "2026-06-01T00:00:00+02:00",
+              "end_datetime": "2026-06-01T23:59:00+02:00",
+              "is_flexible": true,
+              "original_text": "on Monday",
+              "specificity": "day_vague"
+            },
+            {
+              "start_datetime": "2026-06-09T00:00:00+02:00",
+              "end_datetime": "2026-06-09T23:59:00+02:00",
+              "is_flexible": false,
+              "original_text": "about Tuesday, June 9th",
+              "specificity": "day_specific"
+            },
+            {
+              "start_datetime": "2026-05-09T00:00:00+02:00",
+              "end_datetime": "2026-05-09T23:59:00+02:00",
+              "is_flexible": true,
+              "original_text": "9 AM",
+              "specificity": "day_vague"
+            }
+          ],
+          "entities_raw": {
+            "topic_matches": [],
+            "medium_matches": [],
+            "compound": true
+          }
+        }
+      },
+      "turn_duration_ms": 3784.5023999980185
+    },
+    {
+      "turn_index": 4,
+      "timestamp": "2026-05-31T15:48:34.914227Z",
+      "user_message": "This is getting ridiculous. You're telling me there's *nothing* around 9 AM for a mortgage appointment in the first half of June? Fine, what about Friday, June 12th? But it absolutely has to be before 11 AM.",
+      "agent_response": "I apologize for the difficulty, Alex. I've checked for in-branch mortgage appointments on Friday, June 12th, before 11 AM, and unfortunately, there are no available slots during that time either.\n\nIt seems that early morning in-branch appointments for mortgages are heavily booked in the first half of June. Would you be open to checking for appointments later in the day on June 12th, or perhaps considering an online meeting which might have more flexibility?",
+      "llm_calls": [
+        {
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "prompt_message_count": 19,
+          "response_type": "function_call",
+          "function_name": "check_availability",
+          "function_args": {
+            "start_datetime": "2026-06-12T09:00:00+02:00",
+            "contact_medium_id": "branch",
+            "topic_id": "mortgage",
+            "end_datetime": "2026-06-12T10:59:59+02:00"
+          },
+          "text_preview": null,
+          "latency_ms": 1428.019899991341,
+          "input_tokens": 2316,
+          "output_tokens": 89,
+          "temperature": 0.7,
+          "raw_response_excerpt": null
+        },
+        {
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "prompt_message_count": 21,
+          "response_type": "text",
+          "function_name": null,
+          "function_args": null,
+          "text_preview": "I apologize for the difficulty, Alex. I've checked for in-branch mortgage appointments on Friday, June 12th, before 11 AM, and unfortunately, there are no available slots during that time either.\n\nIt ",
+          "latency_ms": 828.3139000122901,
+          "input_tokens": 2419,
+          "output_tokens": 99,
+          "temperature": 0.7,
+          "raw_response_excerpt": null
+        }
+      ],
+      "tool_calls": [
+        {
+          "tool_name": "check_availability",
+          "parameters": {
+            "start_datetime": "2026-06-12T09:00:00+02:00",
+            "contact_medium_id": "branch",
+            "topic_id": "mortgage",
+            "end_datetime": "2026-06-12T10:59:59+02:00"
+          },
+          "response": [],
+          "simulated_latency_ms": 816.9093685822661,
+          "actual_latency_ms": 21.123499987879768,
+          "success": true,
+          "error_message": null
+        }
+      ],
+      "state_snapshot": {
+        "topic_id": null,
+        "topic_name": null,
+        "contact_medium_id": null,
+        "contact_medium_name": null,
+        "phase": "intent",
+        "turn_count": 4,
+        "pending_tool_call": null,
+        "tool_result": null,
+        "last_annotation": {
+          "raw_text": "This is getting ridiculous. You're telling me there's *nothing* around 9 AM for a mortgage appointment in the first half of June? Fine, what about Friday, June 12th? But it absolutely has to be before 11 AM.",
+          "intent": "schedule",
+          "confidence": 1.0,
+          "topic": "mortgage",
+          "contact_medium": null,
+          "datetime_ranges": [
+            {
+              "start_datetime": "2026-05-09T00:00:00+02:00",
+              "end_datetime": "2026-05-09T23:59:00+02:00",
+              "is_flexible": true,
+              "original_text": "9 AM",
+              "specificity": "day_vague"
+            },
+            {
+              "start_datetime": "2026-06-30T00:00:00+02:00",
+              "end_datetime": "2026-06-30T23:59:00+02:00",
+              "is_flexible": false,
+              "original_text": "of June",
+              "specificity": "day_specific"
+            },
+            {
+              "start_datetime": "2026-06-12T00:00:00+02:00",
+              "end_datetime": "2026-06-12T23:59:00+02:00",
+              "is_flexible": false,
+              "original_text": "about Friday, June 12th",
+              "specificity": "day_specific"
+            }
+          ],
+          "entities_raw": {
+            "topic_matches": [
+              {
+                "label": "mortgage",
+                "start": 19,
+                "end": 20,
+                "text": "mortgage"
+              }
+            ],
+            "medium_matches": [],
+            "compound": true
+          }
+        }
+      },
+      "turn_duration_ms": 3400.20890001324
+    },
+    {
+      "turn_index": 5,
+      "timestamp": "2026-05-31T15:48:38.969686Z",
+      "user_message": "An online meeting is not an option. This needs to be in-branch. And I'm not free later in the day on the 12th. Let's try the week after. How about Monday, June 15th, at 10 AM?",
+      "agent_response": "I'm very sorry, Alex, but it looks like there are no in-branch mortgage appointments available on Monday, June 15th, at 10 AM either.\n\nI understand this is frustrating. Would you like to check for any other times on June 15th, or perhaps another day in the week of June 15th?",
+      "llm_calls": [
+        {
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "prompt_message_count": 23,
+          "response_type": "function_call",
+          "function_name": "check_availability",
+          "function_args": {
+            "topic_id": "mortgage",
+            "contact_medium_id": "branch",
+            "end_datetime": "2026-06-15T10:59:59+02:00",
+            "start_datetime": "2026-06-15T10:00:00+02:00"
+          },
+          "text_preview": null,
+          "latency_ms": 1584.5994999981485,
+          "input_tokens": 2398,
+          "output_tokens": 89,
+          "temperature": 0.7,
+          "raw_response_excerpt": null
+        },
+        {
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "prompt_message_count": 25,
+          "response_type": "text",
+          "function_name": null,
+          "function_args": null,
+          "text_preview": "I'm very sorry, Alex, but it looks like there are no in-branch mortgage appointments available on Monday, June 15th, at 10 AM either.\n\nI understand this is frustrating. Would you like to check for any",
+          "latency_ms": 739.375300006941,
+          "input_tokens": 2501,
+          "output_tokens": 74,
+          "temperature": 0.7,
+          "raw_response_excerpt": null
+        }
+      ],
+      "tool_calls": [
+        {
+          "tool_name": "check_availability",
+          "parameters": {
+            "topic_id": "mortgage",
+            "contact_medium_id": "branch",
+            "end_datetime": "2026-06-15T10:59:59+02:00",
+            "start_datetime": "2026-06-15T10:00:00+02:00"
+          },
+          "response": [],
+          "simulated_latency_ms": 904.2587936418522,
+          "actual_latency_ms": 19.48019998962991,
+          "success": true,
+          "error_message": null
+        }
+      ],
+      "state_snapshot": {
+        "topic_id": null,
+        "topic_name": null,
+        "contact_medium_id": null,
+        "contact_medium_name": null,
+        "phase": "intent",
+        "turn_count": 5,
+        "pending_tool_call": null,
+        "tool_result": null,
+        "last_annotation": {
+          "raw_text": "An online meeting is not an option. This needs to be in-branch. And I'm not free later in the day on the 12th. Let's try the week after. How about Monday, June 15th, at 10 AM?",
+          "intent": "schedule",
+          "confidence": 1.0,
+          "topic": null,
+          "contact_medium": "online",
+          "datetime_ranges": [
+            {
+              "start_datetime": "2110-06-15T01:00:00+02:00",
+              "end_datetime": "2110-06-15T02:00:00+02:00",
+              "is_flexible": false,
+              "original_text": "about Monday, June 15th, at 10 AM",
+              "specificity": "exact_time"
+            }
+          ],
+          "entities_raw": {
+            "topic_matches": [],
+            "medium_matches": [
+              {
+                "label": "online",
+                "start": 1,
+                "end": 2,
+                "text": "online"
+              },
+              {
+                "label": "branch",
+                "start": 14,
+                "end": 15,
+                "text": "branch"
+              }
+            ]
+          }
+        }
+      },
+      "turn_duration_ms": 3528.729600016959
+    },
+    {
+      "turn_index": 6,
+      "timestamp": "2026-05-31T15:48:43.145455Z",
+      "user_message": "This is truly unhelpful. Let's scrap all those dates. I need to be seen sooner than that. How about next week, Wednesday, June 3rd? Any time before noon.",
+      "agent_response": "I apologize, Alex. I've checked for in-branch mortgage appointments on Wednesday, June 3rd, before noon, and unfortunately, there are no available slots then either.\n\nIt seems that early morning in-branch appointments for mortgages are fully booked for the dates we've checked so far. Would you be open to considering an appointment in the afternoon on June 3rd, or perhaps on a different day next week?",
+      "llm_calls": [
+        {
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "prompt_message_count": 27,
+          "response_type": "function_call",
+          "function_name": "check_availability",
+          "function_args": {
+            "topic_id": "mortgage",
+            "contact_medium_id": "branch",
+            "start_datetime": "2026-06-03T09:00:00+02:00",
+            "end_datetime": "2026-06-03T11:59:59+02:00"
+          },
+          "text_preview": null,
+          "latency_ms": 1670.751499972539,
+          "input_tokens": 2780,
+          "output_tokens": 89,
+          "temperature": 0.7,
+          "raw_response_excerpt": null
+        },
+        {
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "prompt_message_count": 29,
+          "response_type": "text",
+          "function_name": null,
+          "function_args": null,
+          "text_preview": "I apologize, Alex. I've checked for in-branch mortgage appointments on Wednesday, June 3rd, before noon, and unfortunately, there are no available slots then either.\n\nIt seems that early morning in-br",
+          "latency_ms": 1126.9432000117376,
+          "input_tokens": 2883,
+          "output_tokens": 88,
+          "temperature": 0.7,
+          "raw_response_excerpt": null
+        }
+      ],
+      "tool_calls": [
+        {
+          "tool_name": "check_availability",
+          "parameters": {
+            "topic_id": "mortgage",
+            "contact_medium_id": "branch",
+            "start_datetime": "2026-06-03T09:00:00+02:00",
+            "end_datetime": "2026-06-03T11:59:59+02:00"
+          },
+          "response": [],
+          "simulated_latency_ms": 894.9287252831559,
+          "actual_latency_ms": 20.09330000146292,
+          "success": true,
+          "error_message": null
+        }
+      ],
+      "state_snapshot": {
+        "topic_id": null,
+        "topic_name": null,
+        "contact_medium_id": null,
+        "contact_medium_name": null,
+        "phase": "intent",
+        "turn_count": 6,
+        "pending_tool_call": null,
+        "tool_result": null,
+        "last_annotation": {
+          "raw_text": "This is truly unhelpful. Let's scrap all those dates. I need to be seen sooner than that. How about next week, Wednesday, June 3rd? Any time before noon.",
+          "intent": "schedule",
+          "confidence": 1.0,
+          "topic": null,
+          "contact_medium": null,
+          "datetime_ranges": [
+            {
+              "start_datetime": "2026-06-03T00:00:00+02:00",
+              "end_datetime": "2026-06-03T23:59:00+02:00",
+              "is_flexible": true,
+              "original_text": "Wednesday",
+              "specificity": "day_vague"
+            },
+            {
+              "start_datetime": "2026-06-30T00:00:00+02:00",
+              "end_datetime": "2026-06-30T23:59:00+02:00",
+              "is_flexible": false,
+              "original_text": "June",
+              "specificity": "day_specific"
+            },
+            {
+              "start_datetime": "2026-05-03T00:00:00+02:00",
+              "end_datetime": "2026-05-03T23:59:00+02:00",
+              "is_flexible": false,
+              "original_text": "3rd",
+              "specificity": "day_specific"
+            }
+          ],
+          "entities_raw": {
+            "topic_matches": [],
+            "medium_matches": [],
+            "compound": true
+          }
+        }
+      },
+      "turn_duration_ms": 3990.528099995572
+    },
+    {
+      "turn_index": 7,
+      "timestamp": "2026-05-31T15:48:47.880834Z",
+      "user_message": "No, afternoons next week are no good. This is a nightmare. Let's go back to the week of the 8th. What's available on Wednesday, June 10th, any time before 11 AM?",
+      "agent_response": "I'm really sorry, Alex. I've checked for in-branch mortgage appointments on Wednesday, June 10th, any time before 11 AM, and there are no slots available.\n\nI understand this is incredibly frustrating. Would you be willing to consider an appointment later in the day on June 10th, or perhaps on another day in the week of June 8th?",
+      "llm_calls": [
+        {
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "prompt_message_count": 31,
+          "response_type": "function_call",
+          "function_name": "check_availability",
+          "function_args": {
+            "contact_medium_id": "branch",
+            "end_datetime": "2026-06-10T10:59:59+02:00",
+            "start_datetime": "2026-06-10T09:00:00+02:00",
+            "topic_id": "mortgage"
+          },
+          "text_preview": null,
+          "latency_ms": 1755.005999992136,
+          "input_tokens": 2948,
+          "output_tokens": 89,
+          "temperature": 0.7,
+          "raw_response_excerpt": null
+        },
+        {
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "prompt_message_count": 33,
+          "response_type": "text",
+          "function_name": null,
+          "function_args": null,
+          "text_preview": "I'm really sorry, Alex. I've checked for in-branch mortgage appointments on Wednesday, June 10th, any time before 11 AM, and there are no slots available.\n\nI understand this is incredibly frustrating.",
+          "latency_ms": 1098.0283000099007,
+          "input_tokens": 3051,
+          "output_tokens": 83,
+          "temperature": 0.7,
+          "raw_response_excerpt": null
+        }
+      ],
+      "tool_calls": [
+        {
+          "tool_name": "check_availability",
+          "parameters": {
+            "contact_medium_id": "branch",
+            "end_datetime": "2026-06-10T10:59:59+02:00",
+            "start_datetime": "2026-06-10T09:00:00+02:00",
+            "topic_id": "mortgage"
+          },
+          "response": [],
+          "simulated_latency_ms": 812.7600256521941,
+          "actual_latency_ms": 23.036300000967458,
+          "success": true,
+          "error_message": null
+        }
+      ],
+      "state_snapshot": {
+        "topic_id": null,
+        "topic_name": null,
+        "contact_medium_id": null,
+        "contact_medium_name": null,
+        "phase": "intent",
+        "turn_count": 7,
+        "pending_tool_call": null,
+        "tool_result": null,
+        "last_annotation": {
+          "raw_text": "No, afternoons next week are no good. This is a nightmare. Let's go back to the week of the 8th. What's available on Wednesday, June 10th, any time before 11 AM?",
+          "intent": "schedule",
+          "confidence": 1.0,
+          "topic": null,
+          "contact_medium": null,
+          "datetime_ranges": [
+            {
+              "start_datetime": "2026-06-07T00:00:00+02:00",
+              "end_datetime": "2026-06-11T23:59:00+02:00",
+              "is_flexible": true,
+              "original_text": "next week",
+              "specificity": "multi_day_vague"
+            },
+            {
+              "start_datetime": "2026-06-10T00:00:00+02:00",
+              "end_datetime": "2026-06-10T23:59:00+02:00",
+              "is_flexible": false,
+              "original_text": "on Wednesday, June 10th",
+              "specificity": "day_specific"
+            }
+          ],
+          "entities_raw": {
+            "topic_matches": [],
+            "medium_matches": [],
+            "compound": true
+          }
+        }
+      },
+      "turn_duration_ms": 3979.011699993862
+    },
+    {
+      "turn_index": 8,
+      "timestamp": "2026-05-31T15:48:52.778678Z",
+      "user_message": "This is beyond frustrating. I cannot believe how difficult this is. My schedule is very tight.\n\nOkay, let's try one more time. What about Tuesday, June 16th? Any time at all before 1 PM. Just give me *something*.",
+      "agent_response": "I am so sorry, Alex. I completely understand your frustration. I've checked for in-branch mortgage appointments on Tuesday, June 16th, any time before 1 PM, and it appears there are no slots available.\n\nI genuinely apologize for the difficulty in finding an appointment that suits your schedule. Would you be willing to consider an appointment later in the afternoon on June 16th, or perhaps explore availability in the following week?",
+      "llm_calls": [
+        {
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "prompt_message_count": 35,
+          "response_type": "function_call",
+          "function_name": "check_availability",
+          "function_args": {
+            "contact_medium_id": "branch",
+            "end_datetime": "2026-06-16T12:59:59+02:00",
+            "topic_id": "mortgage",
+            "start_datetime": "2026-06-16T09:00:00+02:00"
+          },
+          "text_preview": null,
+          "latency_ms": 1929.8767000145745,
+          "input_tokens": 3088,
+          "output_tokens": 89,
+          "temperature": 0.7,
+          "raw_response_excerpt": null
+        },
+        {
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "prompt_message_count": 37,
+          "response_type": "text",
+          "function_name": null,
+          "function_args": null,
+          "text_preview": "I am so sorry, Alex. I completely understand your frustration. I've checked for in-branch mortgage appointments on Tuesday, June 16th, any time before 1 PM, and it appears there are no slots available",
+          "latency_ms": 1136.6468999767676,
+          "input_tokens": 3191,
+          "output_tokens": 92,
+          "temperature": 0.7,
+          "raw_response_excerpt": null
+        }
+      ],
+      "tool_calls": [
+        {
+          "tool_name": "check_availability",
+          "parameters": {
+            "contact_medium_id": "branch",
+            "end_datetime": "2026-06-16T12:59:59+02:00",
+            "topic_id": "mortgage",
+            "start_datetime": "2026-06-16T09:00:00+02:00"
+          },
+          "response": [],
+          "simulated_latency_ms": 927.2283340355664,
+          "actual_latency_ms": 27.29550001095049,
+          "success": true,
+          "error_message": null
+        }
+      ],
+      "state_snapshot": {
+        "topic_id": null,
+        "topic_name": null,
+        "contact_medium_id": null,
+        "contact_medium_name": null,
+        "phase": "intent",
+        "turn_count": 8,
+        "pending_tool_call": null,
+        "tool_result": null,
+        "last_annotation": {
+          "raw_text": "This is beyond frustrating. I cannot believe how difficult this is. My schedule is very tight.\n\nOkay, let's try one more time. What about Tuesday, June 16th? Any time at all before 1 PM. Just give me *something*.",
+          "intent": "schedule",
+          "confidence": 1.0,
+          "topic": null,
+          "contact_medium": null,
+          "datetime_ranges": [
+            {
+              "start_datetime": "2026-06-16T00:00:00+02:00",
+              "end_datetime": "2026-06-16T23:59:00+02:00",
+              "is_flexible": false,
+              "original_text": "about Tuesday, June 16th",
+              "specificity": "day_specific"
+            }
+          ],
+          "entities_raw": {
+            "topic_matches": [],
+            "medium_matches": []
+          }
+        }
+      },
+      "turn_duration_ms": 4327.473199984524
+    },
+    {
+      "turn_index": 9,
+      "timestamp": "2026-05-31T15:48:58.201289Z",
+      "user_message": "This is unacceptable. I've been trying to book an appointment for ages. My availability is extremely limited.\n\nAlright, what about **Wednesday, June 17th, at 10:30 AM**? Please tell me there's something then.",
+      "agent_response": "I am incredibly sorry, Alex. I've checked for Wednesday, June 17th, at 10:30 AM for an in-branch mortgage appointment, and unfortunately, there are no available slots at that specific time either.\n\nI truly understand your frustration with this process. It seems that in-branch mortgage appointments are very difficult to secure for the times you've requested.\n\nWould you be open to checking for any availability at all on June 17th, even if it's not exactly 10:30 AM, or perhaps considering a different day later in June?",
+      "llm_calls": [
+        {
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "prompt_message_count": 39,
+          "response_type": "function_call",
+          "function_name": "check_availability",
+          "function_args": {
+            "end_datetime": "2026-06-17T11:30:00+02:00",
+            "start_datetime": "2026-06-17T10:30:00+02:00",
+            "topic_id": "mortgage",
+            "contact_medium_id": "branch"
+          },
+          "text_preview": null,
+          "latency_ms": 1950.618000002578,
+          "input_tokens": 3343,
+          "output_tokens": 89,
+          "temperature": 0.7,
+          "raw_response_excerpt": null
+        },
+        {
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "prompt_message_count": 41,
+          "response_type": "text",
+          "function_name": null,
+          "function_args": null,
+          "text_preview": "I am incredibly sorry, Alex. I've checked for Wednesday, June 17th, at 10:30 AM for an in-branch mortgage appointment, and unfortunately, there are no available slots at that specific time either.\n\nI ",
+          "latency_ms": 1310.021199984476,
+          "input_tokens": 3446,
+          "output_tokens": 125,
+          "temperature": 0.7,
+          "raw_response_excerpt": null
+        }
+      ],
+      "tool_calls": [
+        {
+          "tool_name": "check_availability",
+          "parameters": {
+            "end_datetime": "2026-06-17T11:30:00+02:00",
+            "start_datetime": "2026-06-17T10:30:00+02:00",
+            "topic_id": "mortgage",
+            "contact_medium_id": "branch"
+          },
+          "response": [],
+          "simulated_latency_ms": 954.6993209791601,
+          "actual_latency_ms": 23.048099974403158,
+          "success": true,
+          "error_message": null
+        }
+      ],
+      "state_snapshot": {
+        "topic_id": null,
+        "topic_name": null,
+        "contact_medium_id": null,
+        "contact_medium_name": null,
+        "phase": "intent",
+        "turn_count": 9,
+        "pending_tool_call": null,
+        "tool_result": null,
+        "last_annotation": {
+          "raw_text": "This is unacceptable. I've been trying to book an appointment for ages. My availability is extremely limited.\n\nAlright, what about **Wednesday, June 17th, at 10:30 AM**? Please tell me there's something then.",
+          "intent": "schedule",
+          "confidence": 1.0,
+          "topic": null,
+          "contact_medium": null,
+          "datetime_ranges": [
+            {
+              "start_datetime": "2026-06-17T10:30:00+02:00",
+              "end_datetime": "2026-06-17T11:30:00+02:00",
+              "is_flexible": false,
+              "original_text": "June 17th, at 10:30",
+              "specificity": "exact_time"
+            }
+          ],
+          "entities_raw": {
+            "topic_matches": [],
+            "medium_matches": []
+          }
+        }
+      },
+      "turn_duration_ms": 4542.342500004452
+    },
+    {
+      "turn_index": 10,
+      "timestamp": "2026-05-31T15:49:03.649658Z",
+      "user_message": "This is absolutely ridiculous. I've given you so many options. My schedule is not flexible enough for this constant back and forth.\n\nFine, how about **Thursday, June 18th, at 9:15 AM**? If that's not available, I don't know what to tell you.",
+      "agent_response": "I am so incredibly sorry, Alex. I have checked for an in-branch mortgage appointment on Thursday, June 18th, at 9:15 AM, and unfortunately, there are no available slots at that time either.\n\nI truly understand your immense frustration, and I sincerely apologize for the difficulty you're experiencing in booking an appointment. It appears that in-branch mortgage appointments are fully booked for all the specific times and dates you've requested.\n\nGiven the extreme difficulty in finding a specific time, would you be willing to allow me to search for *any* available in-branch mortgage appointments on Thursday, June 18th, or perhaps broaden our search to a wider range of dates and times in the last week of June?",
+      "llm_calls": [
+        {
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "prompt_message_count": 43,
+          "response_type": "function_call",
+          "function_name": "check_availability",
+          "function_args": {
+            "start_datetime": "2026-06-18T09:15:00+02:00",
+            "end_datetime": "2026-06-18T10:15:00+02:00",
+            "contact_medium_id": "branch",
+            "topic_id": "mortgage"
+          },
+          "text_preview": null,
+          "latency_ms": 1778.1235000002198,
+          "input_tokens": 3639,
+          "output_tokens": 89,
+          "temperature": 0.7,
+          "raw_response_excerpt": null
+        },
+        {
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "prompt_message_count": 45,
+          "response_type": "text",
+          "function_name": null,
+          "function_args": null,
+          "text_preview": "I am so incredibly sorry, Alex. I have checked for an in-branch mortgage appointment on Thursday, June 18th, at 9:15 AM, and unfortunately, there are no available slots at that time either.\n\nI truly u",
+          "latency_ms": 1491.359800013015,
+          "input_tokens": 3742,
+          "output_tokens": 154,
+          "temperature": 0.7,
+          "raw_response_excerpt": null
+        }
+      ],
+      "tool_calls": [
+        {
+          "tool_name": "check_availability",
+          "parameters": {
+            "start_datetime": "2026-06-18T09:15:00+02:00",
+            "end_datetime": "2026-06-18T10:15:00+02:00",
+            "contact_medium_id": "branch",
+            "topic_id": "mortgage"
+          },
+          "response": [],
+          "simulated_latency_ms": 960.9122373506865,
+          "actual_latency_ms": 24.398100009420887,
+          "success": true,
+          "error_message": null
+        }
+      ],
+      "state_snapshot": {
+        "topic_id": null,
+        "topic_name": null,
+        "contact_medium_id": null,
+        "contact_medium_name": null,
+        "phase": "intent",
+        "turn_count": 10,
+        "pending_tool_call": null,
+        "tool_result": null,
+        "last_annotation": {
+          "raw_text": "This is absolutely ridiculous. I've given you so many options. My schedule is not flexible enough for this constant back and forth.\n\nFine, how about **Thursday, June 18th, at 9:15 AM**? If that's not available, I don't know what to tell you.",
+          "intent": "schedule",
+          "confidence": 1.0,
+          "topic": null,
+          "contact_medium": null,
+          "datetime_ranges": [
+            {
+              "start_datetime": "2026-06-18T09:15:00+02:00",
+              "end_datetime": "2026-06-18T10:15:00+02:00",
+              "is_flexible": false,
+              "original_text": "June 18th, at 9:15",
+              "specificity": "exact_time"
+            }
+          ],
+          "entities_raw": {
+            "topic_matches": [],
+            "medium_matches": []
+          }
+        }
+      },
+      "turn_duration_ms": 4603.996599995298
+    },
+    {
+      "turn_index": 11,
+      "timestamp": "2026-05-31T15:49:09.161670Z",
+      "user_message": "This is beyond a joke. This is the worst appointment booking experience I've ever had.\n\nOkay, I'm giving you one last chance. **Tuesday, June 23rd, at 10 AM.** If that's not available, I'm taking my business elsewhere.",
+      "agent_response": "Alex, I am truly, deeply sorry. I have checked for an in-branch mortgage appointment on Tuesday, June 23rd, at 10 AM, and unfortunately, there are no available slots at that time either.\n\nI understand that this is incredibly frustrating and that this experience has been unacceptable. I sincerely apologize for the difficulty and inconvenience you've faced.\n\nIt appears that specific early morning in-branch mortgage appointments are fully booked for all the dates and times we've tried. I regret that I haven't been able to find a suitable slot for you.",
+      "llm_calls": [
+        {
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "prompt_message_count": 47,
+          "response_type": "function_call",
+          "function_name": "check_availability",
+          "function_args": {
+            "start_datetime": "2026-06-23T10:00:00+02:00",
+            "end_datetime": "2026-06-23T11:00:00+02:00",
+            "topic_id": "mortgage",
+            "contact_medium_id": "branch"
+          },
+          "text_preview": null,
+          "latency_ms": 2355.3205000062007,
+          "input_tokens": 3958,
+          "output_tokens": 89,
+          "temperature": 0.7,
+          "raw_response_excerpt": null
+        },
+        {
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "prompt_message_count": 49,
+          "response_type": "text",
+          "function_name": null,
+          "function_args": null,
+          "text_preview": "Alex, I am truly, deeply sorry. I have checked for an in-branch mortgage appointment on Tuesday, June 23rd, at 10 AM, and unfortunately, there are no available slots at that time either.\n\nI understand",
+          "latency_ms": 2595.606200018665,
+          "input_tokens": 4061,
+          "output_tokens": 119,
+          "temperature": 0.7,
+          "raw_response_excerpt": null
+        }
+      ],
+      "tool_calls": [
+        {
+          "tool_name": "check_availability",
+          "parameters": {
+            "start_datetime": "2026-06-23T10:00:00+02:00",
+            "end_datetime": "2026-06-23T11:00:00+02:00",
+            "topic_id": "mortgage",
+            "contact_medium_id": "branch"
+          },
+          "response": [],
+          "simulated_latency_ms": 951.4504347218784,
+          "actual_latency_ms": 22.355499997502193,
+          "success": true,
+          "error_message": null
+        }
+      ],
+      "state_snapshot": {
+        "topic_id": null,
+        "topic_name": null,
+        "contact_medium_id": null,
+        "contact_medium_name": null,
+        "phase": "intent",
+        "turn_count": 11,
+        "pending_tool_call": null,
+        "tool_result": null,
+        "last_annotation": {
+          "raw_text": "This is beyond a joke. This is the worst appointment booking experience I've ever had.\n\nOkay, I'm giving you one last chance. **Tuesday, June 23rd, at 10 AM.** If that's not available, I'm taking my business elsewhere.",
+          "intent": "schedule",
+          "confidence": 1.0,
+          "topic": null,
+          "contact_medium": null,
+          "datetime_ranges": [
+            {
+              "start_datetime": "2110-06-23T01:00:00+02:00",
+              "end_datetime": "2110-06-23T02:00:00+02:00",
+              "is_flexible": false,
+              "original_text": "June 23rd, at 10 AM",
+              "specificity": "exact_time"
+            }
+          ],
+          "entities_raw": {
+            "topic_matches": [],
+            "medium_matches": []
+          }
+        }
+      },
+      "turn_duration_ms": 6205.75250001275
+    },
+    {
+      "turn_index": 12,
+      "timestamp": "2026-05-31T15:49:16.295876Z",
+      "user_message": "This is unbelievable. I am absolutely furious. I have wasted so much time with this.\n\nFine, forget the early morning. What about **Wednesday, June 24th, at 2:00 PM**? I'm almost out of options here.",
+      "agent_response": "Alex, I am truly and deeply sorry. I have checked for an in-branch mortgage appointment on Wednesday, June 24th, at 2:00 PM, and I'm afraid there are no available slots at that time either.\n\nI completely understand your frustration and anger. This has been an incredibly difficult and unhelpful experience, and I sincerely apologize for the time you've wasted and the inconvenience this has caused.\n\nIt seems that specific time slots for in-branch mortgage appointments are extremely limited. Would you be willing to let me check for *any* available in-branch mortgage appointment on Wednesday, June 24th, at any time of day? I want to do everything I can to find you a slot.",
+      "llm_calls": [
+        {
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "prompt_message_count": 51,
+          "response_type": "function_call",
+          "function_name": "check_availability",
+          "function_args": {
+            "end_datetime": "2026-06-24T15:00:00+02:00",
+            "contact_medium_id": "branch",
+            "topic_id": "mortgage",
+            "start_datetime": "2026-06-24T14:00:00+02:00"
+          },
+          "text_preview": null,
+          "latency_ms": 2132.60850001825,
+          "input_tokens": 4238,
+          "output_tokens": 89,
+          "temperature": 0.7,
+          "raw_response_excerpt": null
+        },
+        {
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "prompt_message_count": 53,
+          "response_type": "text",
+          "function_name": null,
+          "function_args": null,
+          "text_preview": "Alex, I am truly and deeply sorry. I have checked for an in-branch mortgage appointment on Wednesday, June 24th, at 2:00 PM, and I'm afraid there are no available slots at that time either.\n\nI complet",
+          "latency_ms": 2364.6088000095915,
+          "input_tokens": 4341,
+          "output_tokens": 152,
+          "temperature": 0.7,
+          "raw_response_excerpt": null
+        }
+      ],
+      "tool_calls": [
+        {
+          "tool_name": "check_availability",
+          "parameters": {
+            "end_datetime": "2026-06-24T15:00:00+02:00",
+            "contact_medium_id": "branch",
+            "topic_id": "mortgage",
+            "start_datetime": "2026-06-24T14:00:00+02:00"
+          },
+          "response": [],
+          "simulated_latency_ms": 969.2026124321318,
+          "actual_latency_ms": 20.48330000252463,
+          "success": true,
+          "error_message": null
+        }
+      ],
+      "state_snapshot": {
+        "topic_id": null,
+        "topic_name": null,
+        "contact_medium_id": null,
+        "contact_medium_name": null,
+        "phase": "intent",
+        "turn_count": 12,
+        "pending_tool_call": null,
+        "tool_result": null,
+        "last_annotation": {
+          "raw_text": "This is unbelievable. I am absolutely furious. I have wasted so much time with this.\n\nFine, forget the early morning. What about **Wednesday, June 24th, at 2:00 PM**? I'm almost out of options here.",
+          "intent": "schedule",
+          "confidence": 1.0,
+          "topic": null,
+          "contact_medium": null,
+          "datetime_ranges": [
+            {
+              "start_datetime": "2026-06-24T02:00:00+02:00",
+              "end_datetime": "2026-06-24T03:00:00+02:00",
+              "is_flexible": false,
+              "original_text": "June 24th, at 2:00",
+              "specificity": "exact_time"
+            }
+          ],
+          "entities_raw": {
+            "topic_matches": [],
+            "medium_matches": []
+          }
+        }
+      },
+      "turn_duration_ms": 5791.928199992981
+    }
+  ],
+  "final_messages": [
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "Hi, my name is Alex Smith. I'd like to book an in-branch meeting about a mortgage. I'm kind of curious about what's on my calendar for next Thursday.",
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "user"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": {
+            "id": null,
+            "args": {},
+            "name": "get_current_datetime",
+            "partial_args": null,
+            "will_continue": null
+          },
+          "function_response": null,
+          "inline_data": null,
+          "text": null,
+          "thought": null,
+          "thought_signature": "b'\\n\\x80\\x05\\x01\\x0c9\\xd6\\xc7- 6\\x1d\\xc9\\x9c\\xee\\xd5\\xda\\x0f\\xb0\\x91\\xc3`\\xd6)\\xe3G\\x9d\\xfb\\x01\\xa9kf\\xb3\\x13@\\x1f\\xe5\\xe1_\\x11Y&\\x85v\\x85\\x0c\\x92\\x19U\\x17\\x0b\\n\\x7f\\xdd\\xf2&\\xf1\\xd1\\x84\\xb2\\xc6\"\\xcbB\\x0bP\\xd1zNB\\xfe\\x87g\\xba\\t\\xc4\\x1c\\xfd}\\xcar(@\\xf7\\x07\\xad\\x90.\\xce\\x92\\x13\\x00i\\xae\\x83H\\xcc\\xd2\\x87\\xa9\\x08\\x7f\\x15\\x98\\xe0\\xe1\\x967y\\x01\\xc2\\xc4D\\xd7q\\xaa\\xee\\'=\\x88\\x0c\\x02\\xd0\\x11\\xc8W\\xb1\\xe7\\x15`\\x0ce\\xc7D\\xd3\\x9e\\xd8\\xad\\xafM\\xab\\xc6\\xf4\\x8eF\\xfc\\xb1/\\xbe\\xd1(\\xe0\\x0e+\\xe9\\xdf\\xc5.\\x0c\\xb3\\x86W\\xf1\\xea\\xe2j>\\xa0r=\\x85}\\xf0\\x10\\x9b\\x80_\\xa3\\xa6\\xb5\\xffs\\x84f\\x92<\\xeb\\xb0\\xddM\\xab\\n\\xc8\\xcb?\\x86\\xc6W\\xc2E.X\\x8e\\x0c\\xd8l\\x9c\\xdf,U\\x91\\xd0\\xe3\\x1d\\x1e\\xbd\\xe8\\xcf\\x9c\\\\\\xd0\\x83\\x1b\\x96e\\x9f18]m@\\xdb\\x9f\\xb8vI\\x18\\x16\\xc8\\x90\\n\\xd8=\\xb8a46.\\xb5\\xee\\xe9;D\\n\\t\\xdcsfH\\x1c\\x9d\\xf6\\xc8V\\x8fX\\xc9\\x90\\xc4|\\xd2\\xe4R\\x9f\\xe9\\x97(\\xfe\\x185\\x989\\x1fji\"h\\x18\\xfd\\x8e\\x06\\xeb.D\\xd2SO\\xeds\\xb3\\x93\\xc1T\\xf3\\xde\\xf2|\\x9d:H\\xfd\\xb8\\\\\\x895\\x80\\xec\\xa7\\xbf\\x07CRc\\x83\\xb0\\xb0\\x0b\\xe0\\x06\\xacA\\xf3^6\\x86P\\x9d\\x82\\xeb\\x9d\\xe13Z\\xe3\\xcdt7\\xa2[\\xca\\x90\\x8a\\xfc\\xcab;\\xe7K\\xfc^M\\x1d~\\xae\\n\\x0eTfp\\xb6prB?\\xf3\\xc80\\x8e\\x10\\x92\\xceq\\x0cp\\xe2\\xe9\\'\\x97\\x00\\x02\\xf4\\xf6\\x8d\\xa1\\xa1\\xcb\\xc0\\xcc\\xf5\\xcf)*\\xe3\\xdc-\\xa1\\xfcje\\x1e\\x0e\\xea\\xd3\\x8f\\xf8\\xba\\xb6\\n\\n\\x17u\\xbf& D\\x9f\\x10\\xec\\x0fN\\xc64\\xc7\\x00\\xbd\\x1e\\x1d\\xe8T\\x1e*\\x1cB\\x00\\xbb\\xdf\\x9e\\xe95\\xd4H\\tC)\\xfc\\xde\\x92Y<m\\xd6D\\xd9\\x06\\xcb\\x12\\x98\\x90\\xbe\\x88\\x91\\x1eA\\xc8QP\\x05\\x04@\\x13\\xda\\xc0\\x16-\\xa56~\\xbf\\x9d\\x95\\xc0Gv\\x92\\x97\\xff\\x07\\xec\\x84\\xf6\\xda\\x8d@\\xa6\\xb2\\xbd]Rp\\xa4\\xeb\\x84\\x94\\x0eKI\\xef\\xb3\\xb7&\\xd7G\\xf7\\xf2\\xa36\\x9b\\x99\\xb7\\xca\\xee\\xf1\\xa8\\x99\\xe9\\xe7\\x0e:\\x1c\\xcb\\x94\\x8c}\\x97Mj\\x9a\\x90\\xb4_\\x82\\xb4\\xb2\\x9c\\xf8H[\\x14~\\xc5\\xe1\\x84\\xd0\\xd2\\x14_Pj_(\\xe6\\x0f\\xdc\\xac\"\\xbe<\\xbe\\xaf\\x97\\x8d+\\x05\\xc7r\\xe0%?iJD\\\\\\x16\\xe1\\xf8x{_~i\\x96o\\xa1K\\xf7a\\x92\\xfd\\xdf\\x9a\\x11\\x1d7\\x06\\xf7\\xaa\\xfd\\xb9\\xe6\\x1c\\xd6\\x80\\x15\\x11Y^\\xfc\\x0e[\\xd7\\xe0\\x1b\\xf9+Xq\\xf2\\xd4\\x1f\\xa4\\x01\\xd38'",
+          "video_metadata": null
+        }
+      ],
+      "role": "model"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": {
+            "will_continue": null,
+            "scheduling": null,
+            "parts": null,
+            "id": null,
+            "name": "get_current_datetime",
+            "response": {
+              "datetime": "2026-05-31T17:48:17.586916+02:00",
+              "date": "2026-05-31",
+              "weekday": "Sunday",
+              "week_number": 22
+            }
+          },
+          "inline_data": null,
+          "text": null,
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "user"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": {
+            "id": null,
+            "args": {},
+            "name": "get_appointment_topics",
+            "partial_args": null,
+            "will_continue": null
+          },
+          "function_response": null,
+          "inline_data": null,
+          "text": null,
+          "thought": null,
+          "thought_signature": "b'\\n\\xc0\\x02\\x01\\x0c9\\xd6\\xc7\\xd8\\x8a\\xb9:\\x99\\x16\\xa7\\x08\\xdf\\xcfa\\xd8\\xa7\\x9c\\x8e\\xfe]\\x84v\\xd7\\x18\\xf8\\'\\xaf\\x84U|\\xaa\\xf0\\xd2\\xad\\x15\\xad\\x01\\\\-\\xa2C\\x97\\xe1\\xf9\\x88\\xfb=\\xd1\\xa7@f\\xd6y\\xa8\\xab\\xcat\\xb9\\xfc\\xe8Z\\x1c\\x99\\xb0\\xaeK:\\xac\\xcb\\xc9\\x8b:\\x05\\xf4D\\xc3F2\\xb5H\\x01 \\x0et\"\\xcf)\\x85\\x9a\\x9bI\\x04Kc\\xf2 \\x9e\\xb4j\\xc2#Y\\xb5\\x89}^\\x0c\\x87YiE&\\x8c\\xf6\\xff\\x152\\x8f\\xcdJy\\xb2p\\x84\\x97\\xe1\\x80\\xbads4\\x11X\\x1dg\\xfd\\x1d-Y\\x8efD\\x9cN\\x12d\\xdcwp\\xf6a\\xd7X\\xc9\\xe2\\x1ej\\xca\\xe6\\x8f\\xc1R\\xd2\\xe8\\x87\\xe4\\xf1H\\xef\\x9f\\xedre\\x1ef\\xbc\\x1f\\xffM\\x93\\x18\\xcf\\xd3R\\x81\\x83\\xc0\\xd3zD[\\xad4\\xa6\\x16\\r3\\xdc\\xaa\\x8d\\xbc\\x1a\\xb2\\x98W1\\xa0\\x92\\'\\x061I6\\x112\\x8b\\x18\\x1c\\xdaI\\xf8\\xef\\xb4\\n[w\\xeb\\x9e\\xeb\\xeb\\xa8 \\xfc\\x94e\\xdb)M,\\x0b`\\xdc\\x08\\xfew\\xeeT\\xa7\\xfd\\x0f*\\xb4\\xcd\\xe6\\x11\\x8f\\xfb\\xd5\\xbf\\xb7\\x95.\\x81\\x03@*\\xc3\\xa4\\x11k\\xf7\\xa5\\xf9\\x1f{\\xea\\xfd\\x92\\xed\\x13\\x83\\xd79\\xe36\\x9d\\x96\\xfd\\xe9 \\x95J\\x8a\\xa4\\x19\\xf9<\\xf9s\\x8a\\xcc\\xd3\\x8e\\xb1=8B\\xafV\\xa8h[\\xab}_\\x92\\x8e\\x97'",
+          "video_metadata": null
+        }
+      ],
+      "role": "model"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": {
+            "will_continue": null,
+            "scheduling": null,
+            "parts": null,
+            "id": null,
+            "name": "get_appointment_topics",
+            "response": {
+              "result": [
+                {
+                  "topic_id": "investing",
+                  "topic_name": "Investing"
+                },
+                {
+                  "topic_id": "mortgage",
+                  "topic_name": "Mortgage"
+                },
+                {
+                  "topic_id": "pension",
+                  "topic_name": "Pension"
+                }
+              ]
+            }
+          },
+          "inline_data": null,
+          "text": null,
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "user"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": {
+            "id": null,
+            "args": {
+              "topic_id": "mortgage"
+            },
+            "name": "get_appointment_contact_medium",
+            "partial_args": null,
+            "will_continue": null
+          },
+          "function_response": null,
+          "inline_data": null,
+          "text": null,
+          "thought": null,
+          "thought_signature": "b\"\\n\\xe1\\x01\\x01\\x0c9\\xd6\\xc7\\xd8\\xc5\\xce\\xaai\\xde\\xc6\\xc5\\xd3\\x85\\xdaA!\\x93\\xf3s\\x88\\xe6\\xf6\\xe9uy\\xac\\x8f\\x00\\x96\\xcf\\x15\\x0b\\x14>lX}\\xb4\\xd3ce\\xc2\\xea\\xb1;2&\\xcb\\xa5h\\x10\\x85\\xf7\\xb7\\xbc\\x9d\\xec\\xfeQ\\xdeo^\\xc3\\xe6\\xc6<\\nZy\\x13\\xcft\\x00\\xe6\\xad\\xcc\\xf1\\x12\\xc3\\x0fJ{\\x9f|DW\\x17\\xd1\\xf2\\xc3\\x020?e\\x98\\xef\\xdb\\x1c\\xf2g\\xb0\\xf5&\\x88\\xb5\\xe9\\x80\\xac\\xe8\\xad\\x83J\\xa8\\xf2\\xcc\\xe2^\\x9cGF1\\x99'uF\\xa2`8\\xe5\\xc2*\\x95\\x97\\xfaK)[\\xaeB@%T8BX3\\x8cb\\xfa\\xc2\\x0b1\\xa7\\x12\\xfc\\x803\\x14Y\\x1c\\x99\\xfa\\xd8=]\\x12\\xe1\\xde\\xdc\\x01\\x99\\xd6\\x9e\\x8e\\xc7\\xabp`\\xa1\\xc4\\\\\\x90\\xbf\\xc5\\x08\\xd2_\\xbf\\x99\\x0f_+\\xf7)Z\\xe5\\xfeid\\xdf3\\xb4\\xed\\xb6\\xe8\\x13\\xaf\\xf2eA\\xdd\\xc542\\xe6\\xca\\x863\\xechqH\\x0b\"",
+          "video_metadata": null
+        }
+      ],
+      "role": "model"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": {
+            "will_continue": null,
+            "scheduling": null,
+            "parts": null,
+            "id": null,
+            "name": "get_appointment_contact_medium",
+            "response": {
+              "result": [
+                {
+                  "contact_medium_id": "branch",
+                  "contact_medium_name": "Branch Meeting"
+                },
+                {
+                  "contact_medium_id": "online",
+                  "contact_medium_name": "Online Meeting"
+                }
+              ]
+            }
+          },
+          "inline_data": null,
+          "text": null,
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "user"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": {
+            "id": null,
+            "args": {
+              "topic_id": "mortgage",
+              "start_datetime": "2026-06-04T00:00:00+02:00",
+              "contact_medium_id": "branch",
+              "end_datetime": "2026-06-04T23:59:59+02:00"
+            },
+            "name": "check_availability",
+            "partial_args": null,
+            "will_continue": null
+          },
+          "function_response": null,
+          "inline_data": null,
+          "text": null,
+          "thought": null,
+          "thought_signature": "b\"\\n\\x90\\x02\\x01\\x0c9\\xd6\\xc7\\x9d>5\\xafT\\xd1\\xd9\\xd6\\xdcg\\x95\\x95\\x15&Q\\xef\\xbd\\xd2Zn\\xdbs.L*\\xf9o\\xc4\\xc4\\xaeq^vu\\xb5HF\\xe5\\xd1\\x10\\xd7\\xff6\\xf3r\\xba\\xc3\\xda7sJQ%M%\\x9bW\\x17\\xb7\\xb5#@\\xf4\\xf8\\x8a\\x8fX\\xee\\xcb\\xa4eX\\x9f\\x9e\\x86\\x8a\\xc0B\\x0b;\\xa69)\\x89\\x9aG\\xc3M\\xd4\\x1b\\xb4\\xa5\\x8au\\x1b\\x10\\xf0bG]\\x05D\\xd5\\xbdM\\x1a\\xf5s8\\xe3\\xf5\\xa6{s|,*\\x95\\xa2\\xf9\\xed\\x0b\\x16\\x9c\\x1a\\xf5}\\\\\\x8c\\x82A\\xef`n,\\xaa\\x13\\xd6\\xba\\xa1\\xe4\\t\\xb9S\\xf16\\xcei\\xe5\\x16\\x92\\xcc\\xf3\\xab\\x9b\\n4,\\xe2@S\\x80C\\x0ff\\xf1\\xa3\\xd9\\xbe\\xb5\\xcc\\xf1\\x82\\xb1\\xb9\\xf8!\\xa2fu3\\x0e ts\\xa3\\xe7\\xb1\\xc2\\xc2'\\xa5\\xca\\x94\\xc7QV!\\x8f\\xf3\\x1c\\x88;\\x06\\x8a\\xa6\\x8f\\x1c\\x1c\\x1c\\xa4\\x19pw\\xb8\\xdc\\xad\\x9f\\x0fL\\x7fz&\\xeb\\xc8\\xe3^\\xef\\x1c(,\\xf2\\xdc\\xaegz&\\xd5\\x97\\xa6\\x0c\\xe4\\xc8!\\x03I4\\xbc1\\xe4\\x8b>\\x98i\\xe5z\\x06\\x88\\xf6\\x082\\xb3\\xa8&L-+\"",
+          "video_metadata": null
+        }
+      ],
+      "role": "model"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": {
+            "will_continue": null,
+            "scheduling": null,
+            "parts": null,
+            "id": null,
+            "name": "check_availability",
+            "response": {
+              "result": []
+            }
+          },
+          "inline_data": null,
+          "text": null,
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "user"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "I'm sorry, Alex. It looks like there are no in-branch mortgage appointments available for next Thursday, June 4th. Would you like to check for availability on a different day, perhaps the day before or after?",
+          "thought": null,
+          "thought_signature": "b\"\\n\\xbf\\x01\\x01\\x0c9\\xd6\\xc7\\x81(\\xe2\\xac\\x0b\\xed\\x18`\\xed\\x14\\xf1\\xf4Q#F\\x96\\x1d1\\xa5(\\xb9$)\\x15\\xac\\x05\\xc0*\\x92\\xc6E\\x00\\xf0\\x01\\xceb]\\xe1\\xfa\\xd03\\xb4?\\xab\\xce\\x1c\\x05\\xe7A\\xb8\\x945\\x04\\x97i\\x0c;L\\xab\\xdaR\\xe0\\xa7\\x0e\\x98m\\xf7z\\xe5E\\xbaL\\xfb\\xd9\\xb6\\xdd?i\\x8b\\xd6\\xf0\\x19F=\\xa8W\\x94\\xea\\xb0\\xc23\\x11\\x19\\x9a\\xffC\\xa7\\xd1Uc\\x11\\xb2\\xfc\\xe3\\xcd\\xdb\\xf8\\xd8\\x1a\\xc3\\x19\\xba(\\x00\\xb1\\x90T\\xfa\\x888zD\\x03\\xba\\xc8m{\\xe1\\xa9\\r\\xdcQ{%d)\\xb9\\xd3\\x85P\\x9e\\xc8H,\\xde>\\x85!\\xb7\\xd4\\x88\\xe1\\x01Nh\\n\\xf2\\xf5XqB\\xb5'\\x12\\xc4a\\xe45\\xb8\\xfd\\xc1$\\x9e\\n\\xc3J\\x9d&[K\\x97^]\\x016\\xb5\"",
+          "video_metadata": null
+        }
+      ],
+      "role": "model"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "That's not ideal. I specifically asked for next Thursday. What about the following Monday then, June 8th? And it needs to be first thing in the morning, around 9 AM.",
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "user"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": {
+            "id": null,
+            "args": {
+              "topic_id": "mortgage",
+              "contact_medium_id": "branch",
+              "start_datetime": "2026-06-08T09:00:00+02:00",
+              "end_datetime": "2026-06-08T09:59:59+02:00"
+            },
+            "name": "check_availability",
+            "partial_args": null,
+            "will_continue": null
+          },
+          "function_response": null,
+          "inline_data": null,
+          "text": null,
+          "thought": null,
+          "thought_signature": "b'\\n\\xc3\\x05\\x01\\x0c9\\xd6\\xc7nY\\xf3{DVo<\\xe3l\\xe1o;V\\x89\\x9cF!n\\tm\\x10UA\\xc2u7\\xd2\\xe0\\xc1\\x97\\x14\\x9a\\xe4Z\\x97lO\\x90\\xfe\\xa7\\x06\\xe9\\xee5\\xddM\\xf7=\\x1d\\x00/7$\\xa6\\xd2\\x9c&\\x83\\xbaX\\x1b\\xb4\\x95-C\\xdc\\xafWQX\\x16e\\x8fa\\xbd\\x04\\xe5vK\\x9aNt\\x90A\\x86\\xaf\\xbdxQ\\x93`r\\xd4\\xc9>Y\\xa8\\xe0\\xabi\\xadw\\x81\\xb7UZ+n ]\\xb3\\x07Hj\\xe1[P\\xb1\\xf63\\xa2\\x83\\xe2\\xc6@O\\xff\\xb6\\xf5\\xb2\\xef\\xc5+\\xe6\\xea\\xc5x\\xd6\\xc4\\xf9I4\\x07\\xa3\\x9d\\x8b\\xd2\\x9bR3A\\x9f0\\x08\\xd2R\\xee\\xe8%\\xe4\\xf7!\\xafx\\x81\\x86\\xf6\\\\\\xb2h\\xdeg\\xaf.\\xcb\\xd2\\xf8\\xe8\\x0b\\x80\\xb2\\x05B\\xfe\\xf19& \\xdci>\\x1f\\xfba\\xef\\xc7\\x8e\\xd6K\\xe9\\xa61G\\x1d\\xa40\\x89\\xd4\\x11\\xe9\\x1e\\xdd/U\\xe9:\"\\xf2<E\\xe5`\\xca\\xd5\\x8eO\\xfe60\\x95`\\xdesnM\\xfd\\x94M\\x93\\x87\\x8c\\x0f\\x99\\x82\\xe7mXu\\x02\\xee*\\x05>\\xda\\xd0&\\x16\\x00\\xb6\\x00e\\x03\\xc6\\xf4%\\x10\\x0f,X(Qq\\xa3eIh\\x81\\xbd\\x94>\\xff\\xbd~Q\\x91g<\\xa8\\xa4\\x925\\xa4\\xff\\xba\\xc33\\xc6KmsH\\xdd\\x0b\\xc8O\\x02\\xd8d\\x06\\xd9\\x96 \\x1a\\x0f\\xd6\\xd2f\\xcf0yF\\xde\\x92\\xfd;\\x05\\xfe\\xbe\\xb5\\xb8\\xb0\\xda**\\x8d\\x97\\xf7/\\xec\\xb1\\xa4Jy\\x92Q\\x9d\\xdb\\x15\\xf9{\\xbd&\\x03\\x1f%\\xbc\\x8f\\xeaM\\n\\xae\\x80\\xec\\x15\\x9f\\x9cr\\xf8\\xf7\\x0c\\x12N:\\xec\\xe0-\\xea-\\x83a\\xaf^[\\t\\xe0os\\xc0\\x15\\x9eU) $Q1\\x9f\\xf6\\x84\\xc7o,w}\\r\\x19]\\xab\\xba\\xcc\\xf1-\\x06\\x16,s\\xef\\xff\\x1fbrX\\x9d\\xae\\x10\\x13\\xd4F\\xf08d{\\xeaNC\\xe3\\xf2\\xaa\\xdd\\xa1\\x85t\\xc2^\\xd3(\\x91\\xd4\\xb5i\\x9a{e\\xc8\\xa5\\xb5\\x05y3u\\xe1:9\\xdc\\xd4\\x7f=R*\\x05?\\xb7\\x9a\\x1b\\'\\x99$\\xd5\\xe6\\x01\\xd7\\xe8>]\\xd3\\x92\\xaeB\\x99\\x039\\xd1\\x7f\\x9e\\xe6\\x93 \\xd1);\\x10\\xe9&\\xef\\x8e\\x0f]\\x1e\\xf6\\xd1r,\\xd4\\x06\\x8a\\x88\\x9dB6\\xa4WH\\xfb#\\xf0\\xa3\\xbd\\xbf\\'\\xfa\\x062Q\\xeb\\x88O\\xc3\\xafQ\\xafL\\x8c\\x1e\\x9dB\\\\#\\xc0\\x88,\\xcer\\x97(\\xe5(y\\x8d]\\xf4\\xcc\\x9dF{n\\x10k\\xc9N\\xc8j\\x90F\\xec\\xcc\\xd6:\\x9e\\xd9Y\\xce0\\xc2\\x9bN\\x18\\xdd{\\xdd\\x96\\x08\\x9aK\\xc1\\x1b\\xf4\\xad\\xe8\\xbc\\xdc\\xe2\\xb3\\x007A\\xdf\\xab\\x16\\x05\\x87\\xfb\\x8a\\xcf\\xe5Vx%\\x9aq\\xff\\xa4p\\xb3}\\xc7\\xb3\\x92B\\x80\\xcd\"\\xa2\\xe1\\x88\\xfe\\x98b\\x8e\\x8cH\\xc6\\xcb{\\xd11G2p\\xe5\\x04\\xf6\\xe5\\xe9r\\xa3\\xd7\\x04;]uD\\xe1\\xec\\xf1A\\xf2\\x94\\xcb\\x9f9\\xde\\xbe\\xc0\\x1e0\\x88\\x7f\\xcd\\xde\\nN\"\\x8c\\xfb\\xdf\\x90\\xf9\\xda\\xa7Y\\x85N\\xca1\\xcc\\x10\\x1e\\xc3\\x15Ru'",
+          "video_metadata": null
+        }
+      ],
+      "role": "model"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": {
+            "will_continue": null,
+            "scheduling": null,
+            "parts": null,
+            "id": null,
+            "name": "check_availability",
+            "response": {
+              "result": []
+            }
+          },
+          "inline_data": null,
+          "text": null,
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "user"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "I'm sorry, Alex. There are no in-branch mortgage appointments available around 9 AM on Monday, June 8th either. Would you like to check other times on June 8th, or a different day?",
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "model"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "No, other times on Monday won't work. This is proving quite difficult. How about Tuesday, June 9th, then? Still needs to be around 9 AM.",
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "user"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": {
+            "id": null,
+            "args": {
+              "contact_medium_id": "branch",
+              "end_datetime": "2026-06-09T09:59:59+02:00",
+              "topic_id": "mortgage",
+              "start_datetime": "2026-06-09T09:00:00+02:00"
+            },
+            "name": "check_availability",
+            "partial_args": null,
+            "will_continue": null
+          },
+          "function_response": null,
+          "inline_data": null,
+          "text": null,
+          "thought": null,
+          "thought_signature": "b'\\n\\xf9\\x03\\x01\\x0c9\\xd6\\xc7\\xbc\\xc0\\xf2\\xa7*\\x18\\xf8\\x83 \\xdd\\xdd\\xa1#c\\x84\\xd4z\\xd8\\x8f\\x13\\xdf0\\xa6\\xc2\\x02cx@\\xf6\\xe1yY\\x92\\x8b,\\\\\\xdf\\x1f\\xd0\\x1c\\x91<\\xa0_\\xed\\x155\\xfc\\xc0:\\xdd&Y\\xea\\nUD\\x7f\\x97\\xa5\\xf7\\xd1\\xa7>\\xc1\\xb8\\xd7\\xa0G\\xcc+\\xa5#\\xb2]\\x94\\xad\\xd7\\x1b\\r\\xfc\\x7f\\xac\\x8f\\xf0\\x0c\\xc3\\xb8\\xdf\\xdd\\xb9\\x8fe\\x184\\x15\\xd7Gr\\xf3\\xdc\\xd3=\\xe6\\xff\\xaeC=\\x0c*\\xc7\\x12Kx\\x1d\\xb7$\\x87s\\x05\\x95#\\x8f!\\xb8\\x0b\\xe6\\xd1\\x81%\\x05t\\xf3\\xb1pj\\xc4\\xdfC(&\\xf8\\x9e\\xad\\x15OD\\x0ci\\xa3\\x93\\xe7k\\x82L\\xb8\\xab\\xcf; Q\\x19\\xefS\\x10tm\\x1ez6\\xd3O\\r*C\\x9c\\xa8\\xa2\\x05u[\\xd5H*\\xc4\\x83\\xe7\\x83\\xfa\\xac\\x14\\xac**|v\\xfa\\xe5m\\x8e\\x01_\\x833T\\x8e\\xb1\\x06L\\xd9\\xf3Q\\xb2de \\xaa\\xe4\\x1e\\xb4^$t\\xce_\\xa1\\xb2\\xdf\\xd7\\xe9\\x8a*\\xbf\\x15\\xed\\x1b3\\x84\\xc1E\\xd9P\\xe6\\xdbYh\\xeb\\x10\\xc8\\x81\\xfd\\x94\\xe4\\xdf8\\xa0thl\\xd8\\xe42\\xb6)\\xfc1\\x02pE<\\x1f\\xacK\\xb90\\xbf2\\xde\\xf4\\xf8\\xdf\\x01\\xb2Q\\x1dNR\\x9bj#\\x86\\xcc\\x02_Iw\\xcd\\xfa\\xca\\x16}&\\x90\\xac\\xbak\\xcf\\x13\\x9f\\x94(\\xb0\\xec\\xdeu\\xad,Q\\xcd\\xda\\xa5J\\x04,~\\xa2;\\x0b\\xba\\xd7_\\xe2\\x96\\xefb\\xf7\\xf5n\\xd6C\\xab.\\x8d~\\xe7\\xc6\\xb1\\xb5\\xb9[\\x0f.\\xd5d\\x1a\\xc3R ,\\xca5b\\x9bQI}\\xdd\\xe3\\x17\\x894\\t\\xa7s[Jf\\x97[D\\xf3\\xe9W`\\xe52\\xeci\\x0c\\xd4+T\\xe2J_\\xf7\\xb1\\xed\\xb7\\x13.e\\xb4\\xfd\\xf8\\x9bE\\x9e\\xda\\xc4\\xae \\x88fM\\x17=\\xca\\xea\\x8d7\\x06\\xf2j\\x86\\x02\\xb8\\xc9\\xf9\\xe2\\x86\\xec\\xc9\\xb6\\xfc\\xa0\\x8be\\xdc\\xcf\\x17i\\xa7\\xb7\\xda\\xf9\\xd6\\xbd\\xfb\\xe8\\xf6\\xae\\xe6\\xad\\x92\\x004\\xd7/\\r\\xf2\\xc7\\x17\\x96\\xc1\\xf3\\xe3\\x96U\\xda\\xab\\x95g0s\\xd8\\x8b:\\x01\\x83:\\xfd\\xe6\"S\\x81_l\\x00\\x11\\x8c\\xc7\\xe9\\xfe1b\\xa1\\xf6\\xafn'",
+          "video_metadata": null
+        }
+      ],
+      "role": "model"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": {
+            "will_continue": null,
+            "scheduling": null,
+            "parts": null,
+            "id": null,
+            "name": "check_availability",
+            "response": {
+              "result": []
+            }
+          },
+          "inline_data": null,
+          "text": null,
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "user"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "I'm sorry, Alex, but I'm still unable to find any in-branch mortgage appointments around 9 AM on Tuesday, June 9th. It seems there are no slots available at that time either.\n\nWould you like to try a different time on Tuesday, June 9th, or perhaps explore availability on another day?",
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "model"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "This is getting ridiculous. You're telling me there's *nothing* around 9 AM for a mortgage appointment in the first half of June? Fine, what about Friday, June 12th? But it absolutely has to be before 11 AM.",
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "user"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": {
+            "id": null,
+            "args": {
+              "start_datetime": "2026-06-12T09:00:00+02:00",
+              "contact_medium_id": "branch",
+              "topic_id": "mortgage",
+              "end_datetime": "2026-06-12T10:59:59+02:00"
+            },
+            "name": "check_availability",
+            "partial_args": null,
+            "will_continue": null
+          },
+          "function_response": null,
+          "inline_data": null,
+          "text": null,
+          "thought": null,
+          "thought_signature": "b\"\\n\\xbe\\x03\\x01\\x0c9\\xd6\\xc7\\x80\\xbb\\x01}\\x86\\x132SX$\\x16\\xf5\\xc81\\x00\\xa1\\x90\\xff\\x918\\xfdF\\xc1;=\\x93\\xdd\\x8c\\xc2\\x81*&vR\\x93\\xfe\\xd4>\\tKMb\\x16\\x1e?0\\xde\\xe9i\\xfeF\\x8dd\\xcf[\\xb2\\x81LoQ\\xbfv\\x90;\\x82c.\\xe8\\xcb\\x99\\xd0z\\x14\\x1b\\xe9\\xc5\\xc5\\x00_\\xaai\\xa0\\xfb|\\xd2\\xd2\\x87\\xc0\\x9b\\xb3o`F\\xef~\\x9esR\\x1d]\\x0b\\xbbS\\x95]\\x19\\x82\\x83\\x99\\x8f\\xf2P0\\x1b\\x18g+OC\\xa3\\x8b\\x98p\\x91\\x8b\\x93\\xe3K[L:\\x84\\x93\\xe8b5\\xe6\\r\\xa7\\x82\\xd4\\x17\\x80\\xf0~T\\xa6\\x98\\x9bUNYg4\\x0f\\xac\\x91\\xf8\\xe4\\x08\\x12\\xec0L:\\x0b\\x05\\x1cy\\xdd\\xf23n\\xbb\\x89\\xe2'4\\xc5\\xaf\\x0f_\\xa9?\\xb2\\xcd\\x00=\\xb7\\xed\\x92\\x82[&\\x18=\\x9cGB\\xfd\\x1da\\xf7\\x19u\\xd0\\xd8\\x96\\x08$\\x936N\\xa71\\x82\\xaf\\x9aDM\\xc8\\xd1-\\x1dp=\\xb3\\x91%\\x00%\\x92n\\x16;\\xf9x\\t\\x9f\\xc7\\x16m\\x83\\xa8\\xfaj*A,fB\\x87+\\xe3X\\x12;\\xdb\\x928\\xbd\\xac~\\x1e\\xbcARI\\xd0\\xf7\\xba\\xf8\\x83\\xbf\\xe318\\xb6\\x11j\\x06\\x1f\\xf8\\xba\\x11\\xf5-\\x8e\\xbdX\\xc3\\x13\\xbdM\\xc2N\\xa1n\\x94\\x97\\xfc_2\\\\\\xe0\\x8b\\x02\\xc67's\\xbe\\x15\\xbb\\xdd\\x12\\x9c\\xdc\\xd0\\xa6\\xd8*\\x88\\xa42c\\xccA\\xfa\\xb5\\x8e\\t\\xcf>u\\xb9\\xccf[.,\\xdc#~%\\xbf\\xda&\\xfd`\\xa9\\x18T\\xca\\x80]\\xe4\\xb8G\\xe3I*\\x07\\x16\\xc2\\xff\\x18\\x18\\xe1\\xc9\\x00\\xcdCt_i\\x10]q\\xf1\\x9f+\\xef}ew\\x03I%\\xd0\\x028D7O\\xd8\\xbe\\xa8\\t\\xad\\xc4\\xb3\\xc7J\\xcd\\x983\\x8f\\x92E\\xbc/\\n\\x00z\\xc7H%u;\\x91\\xe6\\x14\\xa5\\xf3\\x7f\\xe2\\x04b=\\x85\\x1a\\xe1\\xe7\\xa3\\xd0\\x1b\\x96\\xb4\\x83\\xe2\"",
+          "video_metadata": null
+        }
+      ],
+      "role": "model"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": {
+            "will_continue": null,
+            "scheduling": null,
+            "parts": null,
+            "id": null,
+            "name": "check_availability",
+            "response": {
+              "result": []
+            }
+          },
+          "inline_data": null,
+          "text": null,
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "user"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "I apologize for the difficulty, Alex. I've checked for in-branch mortgage appointments on Friday, June 12th, before 11 AM, and unfortunately, there are no available slots during that time either.\n\nIt seems that early morning in-branch appointments for mortgages are heavily booked in the first half of June. Would you be open to checking for appointments later in the day on June 12th, or perhaps considering an online meeting which might have more flexibility?",
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "model"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "An online meeting is not an option. This needs to be in-branch. And I'm not free later in the day on the 12th. Let's try the week after. How about Monday, June 15th, at 10 AM?",
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "user"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": {
+            "id": null,
+            "args": {
+              "topic_id": "mortgage",
+              "contact_medium_id": "branch",
+              "end_datetime": "2026-06-15T10:59:59+02:00",
+              "start_datetime": "2026-06-15T10:00:00+02:00"
+            },
+            "name": "check_availability",
+            "partial_args": null,
+            "will_continue": null
+          },
+          "function_response": null,
+          "inline_data": null,
+          "text": null,
+          "thought": null,
+          "thought_signature": "b'\\n\\x94\\x04\\x01\\x0c9\\xd6\\xc7P\\x10w\\xd2\\x14\\xd2u\\xb4H\\x8b\\xf6\\xc4`96\\xb7\\xa1.\\xf4\\xa4\\x10\\x1c\\xd3\\xe3\\x7f{\\x149\\xff\\xe5&w\\x1b\\xb6\\x14kxB9\\xd8\\x8b.\\r\\x95\\xa6\\xe0\\xb8\\x99\\x98Y\\xab\\x0c\\x8au\\x9d\\x7f?{\\xa1\\x8f}\\xec\\xcc\\xe9@Gh\\xaek\\xc6\\xfa\\xf5\\xcex\\xb8\\xf6\\xe8\\x94\\xbf\\xdfy}e!\\x9aM\\x9d\\x17\\xb5!\\x02\\xdb\\xc2\\xf3\\xda\\xca\\x7f\\x81\\xad\\xc8u\\xfdeZ\\xbb\\x84\\xa3o\\xec14\\xb2Ey\\xbd\\x18\\x14L.\\xdd+=k\\x1d\\x85\\xed\\xbf\\xc5v\\xe3\\x959\\xf5}\\xe5\\xae\\xf5\\x84\\xda\\x9dY\\xa68\\xc1X\\xc0rs\\x07\\\\\"8\\xbeg\\xcb\\xba\\xc64\\\\\\x12\\x02O\\xd8,\\xee\\x85\\x08\\x89d\\xad\\x07Z\\xc7\\xf0\\xb6O\\'\\x13\\xa8c\\\\\\xaa\\x80\\x1dW4YM8E\\xb4c\\xeb\\x9d\\x0b\\xe0\\xaa\\xc4F,\\xdd\\xda`K\\x9c\\n\\x12\\xa6+\\xa6O+1V\\xef:\\xbbji\\x11\\xca$\\xe3\\xc0\\x1e\\xb7\\x8a\\xdd\\xdb\\xfb\\ny\\xa2\\x9f\\x0c\\x1e\\xc1\\xd3\\x84\\xf6\\xc5G+\\xf2>\\x95\\xdb(\\xd5\\xae\\xdd\\xb3\\xad*\\xf3\\xbc\\xc4$yw|\\xaf\\xc6\\xb5\\xc0(\\x11wE!\\x13\\x91\\xeeU\\x17\\xc3\\x96\\x1c>I3\\xaa\\x96w9)\\xe3\\xbbP\\xc8qX\\xbd\\x83\\xc1;\\x8f\\xb3\\xc0^a\\x85\\xe0/\\xba\\xa4\\xdb\\x9cl\\xb9\\x94\\x9a\\xe2\\xcb\\xd9j\\x10b)\\xc2\\xeb\\x94/\\xab\\xddb\\xc1\\x16\\xf7\\xa0\\xf2\\xa7\\xebe,%\\xf3w\\x1e\\xd1\\xf3\\x8a\\xf6\\x1etH\\xe0\\xd6\\x88\\xfa\\x14Imrx\\xf59\\xb2\"\\x8c\\xb7\\xda\\xc4\\x7fo\\xc3A4.\\xea\\xc9\\xb7\\x9a\\\\{3\\xdd\\xf0\\xc7xT\\xe4\\xd1.\\xf8\\x12\\xb3U\\x80\\xf8V\\xe1\\x17*\\xb5\\xa0\\xce\\xc8\\x03\\x97\\r\\xe7\\xc4P\\x8c\\xc0\\xb3;\\x80\\xcf\\xc9\\xffS\\tCT\\xdf0\\xdf|\\x18\\xb3-\\xd7=\\xe7(\\x1bFT\\x93\\xaa\\xce\\x11\\xa3\\xcem\\x81n\\xcb\\x8b\\xc8\\x9f1>\\x11-G\\xc7\\x9a\\xf8\\xc0\\xfd\\xfb||I\\xc8\\xec\\xd2[\\xc3\\xbd\\xa8[\\xf7\\x00\\xe2W\\x88\\x97\\x0f\\x1b\\xe5HB1(\\xe6\\xe1\\'\\xf5\\xcfa\\xe3\\xaf\\xc9\\xe3\\xdb\\xaei\\xe4\\xeb\\x84\\xba\\x96a\\xae\\xcd\\xc2\\xdd\\xe7\\xe9\\x02q\\xe8t\\xac#\\xbec\\xebf\\x84\\xe8G\\r\\xfb\\xfe\\xbeM\\x8b\\x8d\\xe8=\\x02\\xa7'",
+          "video_metadata": null
+        }
+      ],
+      "role": "model"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": {
+            "will_continue": null,
+            "scheduling": null,
+            "parts": null,
+            "id": null,
+            "name": "check_availability",
+            "response": {
+              "result": []
+            }
+          },
+          "inline_data": null,
+          "text": null,
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "user"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "I'm very sorry, Alex, but it looks like there are no in-branch mortgage appointments available on Monday, June 15th, at 10 AM either.\n\nI understand this is frustrating. Would you like to check for any other times on June 15th, or perhaps another day in the week of June 15th?",
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "model"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "This is truly unhelpful. Let's scrap all those dates. I need to be seen sooner than that. How about next week, Wednesday, June 3rd? Any time before noon.",
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "user"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": {
+            "id": null,
+            "args": {
+              "topic_id": "mortgage",
+              "contact_medium_id": "branch",
+              "start_datetime": "2026-06-03T09:00:00+02:00",
+              "end_datetime": "2026-06-03T11:59:59+02:00"
+            },
+            "name": "check_availability",
+            "partial_args": null,
+            "will_continue": null
+          },
+          "function_response": null,
+          "inline_data": null,
+          "text": null,
+          "thought": null,
+          "thought_signature": "b'\\n\\xbf\\x03\\x01\\x0c9\\xd6\\xc7H\\x1d\\xb7\\xe9\\x88\\x15\\xe3\\xf6\\x1f\\xb2W\\x87\\x1b\\x9e\\xc0U\\x1d\\x14\\xbc0\\x03Jb|d\\xd7\\xfa\\x86\\xb6!\\x186w\\xa3\\xdc4\\xe11$\\xbdtM\\xa2jG\\rF\\x08\\x19IB:\\xf4\\xc9\\x18\\x83\\x1a\\xa7\\xef\\xc1f\\xf0\\xa0\\xd5^\\x82w\\xdd\\xe2\\xa2BE\\xd81\\xc4\\xde\\xcb\\xe4n\\xcb\\x03j\\xe7\\xa5\\xed$\\x86\\xb4\\x9d\\n\\x1dhp`\\xe3\\xb6\\x11^\\xf9\\xb4\\xdb\\xe9T\\x89\\x02AW\\x9b \\xfd\\xcc\\xd3^\\x05}t\\x95\\xb5\\xd9\\xc9\\xae\\x90\\xc9\\xbf\\x18o\\x1d\\xd6\\x98)\\n\\xd9l#\\xf9\\xdb\\x80\\xe8o\\xc41)\\xb6\\x8c\\xe9\\xe8\"\\xbb9c\\xe5\\xdf\\xc9Y\\x00\\xde\\x85f\\x1d\\xd0V\\x0c\\x9c\\xba\\x9f|\\x13\\x14d\\xb1\\x1f#\\x1b\\x90\\xc4D\\x1d@1dw\\xab\\xfc\\x11\\x8b\\xb4\\xf4B\\x7fg\\xea\\x95\\xc0\\xe4\\x10{\"2\\xbeH\\x19+i\\xe59\\\\\\xe9|_33\\xc4\\xbbJ\\xbc\\x1d3k~\\x1b|n\\x7f\\xd7\\xff!\\x86\\xe9*t\\xfaA\\x8d/2\\x9c1\\xa2\\xef\\xd5\\xf8LP/\\xf3\\x88\\x9e\\x81\\xe4;Q\\xe7\\xc9\\xf0\\'\\x94O\\xa50\\xe3\"\\x98,\\x88A):$\\xec\\x01)x\\xde\\x1b\\xac\\x07\\x05I\\xde>\\xe9\\x7fc\\xb5\\x85{\\x17\\x1et\\xc5@\\x8d\\x127\\x9b\\x86\\xaeq\\x19\\xf0`T\\x07Y)\\xef\\x0fR\\xcd\\xbe\\xe1\\xd7\\x80dw\\x9d\\xc4\\xe8\\xca\\x14\\xd1U)\\xa2A\\x8eWJPN\\x10\\x16\\x1ce\\xe4\\x93F\\xdb\\xf3\\xe4\\xce\\x86\\x8e\\xd7\\x0eE?\\xdd\\xd9h\\xc5\\xfce\\xd6}3\\xc0\\x9508\\xe0l\\xf9O\\xa1\\xae\\x05I\\x8c5H\\x94\\xa2\\x00BCx\\xe9\\xf1\\xdc\\xd1\\xb9\\xa7\\xd8g\\xdc8|\\xe53\\xac]\\xef\\x94\\x08\\xb2\\x91\\xac.\\x06\\xa2\\xa7\\xf1g\\x16\\'\\xc7\\xa1,\\xcb\\xba\\x19%\\x01\\xd9\\xe8\\x1c6,\\tz\\x12\\x10\\xea\\xd5\\xe5\\xe5\\xac\\x17\\xc1\\xb8\\xa8\\x01a\\x05{Y\\xfa\\xaf\\x98\\x87\\xf5'",
+          "video_metadata": null
+        }
+      ],
+      "role": "model"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": {
+            "will_continue": null,
+            "scheduling": null,
+            "parts": null,
+            "id": null,
+            "name": "check_availability",
+            "response": {
+              "result": []
+            }
+          },
+          "inline_data": null,
+          "text": null,
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "user"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "I apologize, Alex. I've checked for in-branch mortgage appointments on Wednesday, June 3rd, before noon, and unfortunately, there are no available slots then either.\n\nIt seems that early morning in-branch appointments for mortgages are fully booked for the dates we've checked so far. Would you be open to considering an appointment in the afternoon on June 3rd, or perhaps on a different day next week?",
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "model"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "No, afternoons next week are no good. This is a nightmare. Let's go back to the week of the 8th. What's available on Wednesday, June 10th, any time before 11 AM?",
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "user"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": {
+            "id": null,
+            "args": {
+              "contact_medium_id": "branch",
+              "end_datetime": "2026-06-10T10:59:59+02:00",
+              "start_datetime": "2026-06-10T09:00:00+02:00",
+              "topic_id": "mortgage"
+            },
+            "name": "check_availability",
+            "partial_args": null,
+            "will_continue": null
+          },
+          "function_response": null,
+          "inline_data": null,
+          "text": null,
+          "thought": null,
+          "thought_signature": "b'\\n\\xcd\\x03\\x01\\x0c9\\xd6\\xc7^\\xa6\\x0fq\\x835\\x91\\xb5\\xa78Q\\x84\\x1c\\x9a\\xf1\\xae\\xdc\\xa5e8\\x96\\xf2\\xa2\\xb2\\x8e\\x93\\xcc\\xdd\\x1dl58\\x19NX\\xefYD\\xa3\\xed\\xd3\\x15\\xc6\\x8e<6\\xcdeG]\"R=\\x0eT\\xacv/\\xecH\\xfb>j<&xt\\xc9\\xdb9\\xa1B\\xed\\xd7\\xf8<\\xa3\\xfc\\x8cfP\\xb5\\xd89\\xc2/\\xfe&?\\n?\\x8c\\xd5\\x85#\\xc0\\x1c\\x14?\\xde\\xc1\\x03\\xc9\\xcfY\\xd1\\x7fG\\xaf\\xdaHf\\x10n\\x9d$\\x8d\\xf4\\xe85\\xeb\\xef\\xb1\\xe1\\'\\xd9GM\\x1c\\n\\xbd4\\x80\\xa0\\xd6\\x01P\\x9c/GO\\x9fwT&\\xdeq\\'\\xf7\\xfd\\xa0\\xf12\\x19\\xae5\\x8c\\x7fR\\xe4z\\xbfb\\xcd\\xaae\\x81\\x82\\nk\\xb7M(>4\\x007T\\xa5\\xdd\\xad\\xbf\\x03\\xa5L\\x85o/\\xda\\x9a\\xb6\\x07!\\x17\\x8e\\xc19\\xd5\\xb3+O\\xc0\\x87\\x04\\xf1`\\xbc\\x88\\xb1\\xf90\\xe1\\xc8g\\xcc\\xcd\\xc0T4\\xcd\\xc4\\xe6\\x0casa\\x06\\xbbQ\\x98>\\x04\\xa7}&h\\xf3\\xe7\\x03v\\xa8\\x9e\\x8fT`kK\\xa4\\xff\\x19\\x92\\xeb7\\xab\\xab\\xd5\\\\)!\\xee-\\xb6\\x80\\xe8\\xefS\\xd6\\x89\\xdd\\xdb\\xe7e\\x9b$\\x04\\x0c\"\\x04D\\xc9O`\\x1b\\xf0\\x1d3B\\xe5Q&\\xc9\\xcff\\x1f\\x07\\xc9\\x9c\\x12\\xc4%\\x1f\\'\\x9a\\th\\xae\\xbb\\x85\\x1an;\\xaam\\x15*Ai\\xe4\\xdaN\\xc5\\x8bv\\xb4\\x13\\x18W\\x0e\\xce\\xeci\\xdc[L\\x926v&\\x17z9\\'\\xd6\\xfd\\xa3\\xba\\xbf\\r\\xde\\xba\\xa1\\x84\\xa5\\x87q\\x80\\xfe\\x1b\\x0b\\x9c\\xc2N\\x1f\\x94b\\xd6-\\xbb\\xe5\\xb5\\x86\\xf5\\x0c\\x0bT\\xecNbZ\\x93lD\\xd5r\\xb8\\x10\\r[B\\x85<R?\\x0c4}pl\\xe6\\x0f&Q\\xcb\\x9f\\xa7\\x03\\xff\\xa6\\xf1\\xdfQk\\x07<MeV\\x96u\\xc3\\x1d\\xe2pG\\x87a\\x88i\\x0b\\xb5\\xac#>Cx\\x101\\xa6$\\xad\\x08(\\xa1o\\xad\\xfb\\xb1\\x0bUiH\\xd3\\xa1\\x07\\xd2\\xd3'",
+          "video_metadata": null
+        }
+      ],
+      "role": "model"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": {
+            "will_continue": null,
+            "scheduling": null,
+            "parts": null,
+            "id": null,
+            "name": "check_availability",
+            "response": {
+              "result": []
+            }
+          },
+          "inline_data": null,
+          "text": null,
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "user"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "I'm really sorry, Alex. I've checked for in-branch mortgage appointments on Wednesday, June 10th, any time before 11 AM, and there are no slots available.\n\nI understand this is incredibly frustrating. Would you be willing to consider an appointment later in the day on June 10th, or perhaps on another day in the week of June 8th?",
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "model"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "This is beyond frustrating. I cannot believe how difficult this is. My schedule is very tight.\n\nOkay, let's try one more time. What about Tuesday, June 16th? Any time at all before 1 PM. Just give me *something*.",
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "user"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": {
+            "id": null,
+            "args": {
+              "contact_medium_id": "branch",
+              "end_datetime": "2026-06-16T12:59:59+02:00",
+              "topic_id": "mortgage",
+              "start_datetime": "2026-06-16T09:00:00+02:00"
+            },
+            "name": "check_availability",
+            "partial_args": null,
+            "will_continue": null
+          },
+          "function_response": null,
+          "inline_data": null,
+          "text": null,
+          "thought": null,
+          "thought_signature": "b'\\n\\xb4\\x03\\x01\\x0c9\\xd6\\xc7\\x83\"\\x18g\\x05Q\\xae\\x9f\\x11Y<\\x0c\\x13\\xcc\\x04\\x16\\x8e\\xcfb\\xd5w\\xd404P\\x91)\\x0f\\x96z\\x1f>\\xd05}\\x0c\\xed\\xd8\\xcdw6\\x0e\\x08\\x03\\x88#\\xfdz\\x7f\\xbb\\x9c\\xf5\\x88H\\xf5\\\\\\xd0\\xe1\\x80(\\x15&S\\xe90#%/L[\\x15\\x87\\xec\\xb4\\xbeVh\\x96\\xb1\\n\\x0e\\x94\\x10\\xfcV\\xc4\\x0f\\x80W\\xbfn\\xb5]?FD3C\\x06\\x14\\xd1\\xd5-]G\\x9dx\\x85\\xad\\xc5:\\x98Jz\\x18}\\xeeWP\\xdei\\xa3\\xb9\\xf1\\x9b\\x17\\r\\xa6\\xcf>\\x18\\x89\\x95NkR\\x13x\"s\\xa0\\x99R\\xe4\\xb7P\\t\\xb9\\xbc\\x9f\\xf6L\\xe8\\xbc\\xd6\\xec\\xd3$\\xe5[/\\xe9\\r\\xf3\\x0b`\\xe9e\\xf3\\xd3\\x01\\xe0%\\t\\xf3\\xb9\\xc6Yt\\xbex19\\x85\\xd5\\x83\\xf1\\x81i\\xff\\xf9\\x84\\x86\\xacgf\\xd7\\x86+5\\xf0\\x9d\\xb4+D\\xdb\\xbc&\\xaa\\xdcmBYYq\\xed=\\xc0\\xc62N`\"I\\x0c6\\x0f\\xc8\\x93\\xa1\\xcd/7\\xd6\\x83\\xae\\xae\\x9c\\xea\\xc0\\xf2\\xba\\x00\\x84\\xd7\\x80\\x90\\x18\\xd9i\\x10^l\\xbdk\\xd0\\x19\\xab\\xa8\\xa8\\xf6\\xc5\\xb9\\xdek*/\\x93\\x0cj\\xd5\\x05`G\\x19\\x9e\\x9c\\xf5\\xa4\\xfb\\xdb\\x87\\x00\\xef\\xe1\\xbf6\\xf6i\\xf8n@\\xfa\\xc5\\x97\\xb4\\xba\\x94B\\x86\\xb6\\x08\\xcb;hY,\\x12!\\xf39\\xe6\\xa0\\x84\\x8bw\\xa5{\\xa4Io\\x92\\x8b\\x19\\xca\\xd2~\\xb1\\x85\\xc4T\\x1fR\\xc2_\\xe8\\xf9>\\xb7\\x91:Q\\x90\\xde\\x0f\\xa8?^i9\\x82!\\xc5\\xc8f8B\\x1f)\\xf9H$\\xa0\\x08k\\xc0c\\xb6\\r\\xcf\\x9f\\xcb\\xfe \\xb4\\x18)\\'a\\xfa8\\x10\\xd2\\xfb\\xd8\\xbe\\xabyu\\x18~\\xf24\\x87\\x9d`\\xad\\x03\\xb8H\\xdb\\xfe\\x06\\x02X\\x0c\\xe5@N\\x12M\\x81\\x07\\x95\\xb2\\xdd\\xaf\\xadq9\\xbb;\\x0b%\\xb0\\xdck4\\xfe\\xb2\\x02'",
+          "video_metadata": null
+        }
+      ],
+      "role": "model"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": {
+            "will_continue": null,
+            "scheduling": null,
+            "parts": null,
+            "id": null,
+            "name": "check_availability",
+            "response": {
+              "result": []
+            }
+          },
+          "inline_data": null,
+          "text": null,
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "user"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "I am so sorry, Alex. I completely understand your frustration. I've checked for in-branch mortgage appointments on Tuesday, June 16th, any time before 1 PM, and it appears there are no slots available.\n\nI genuinely apologize for the difficulty in finding an appointment that suits your schedule. Would you be willing to consider an appointment later in the afternoon on June 16th, or perhaps explore availability in the following week?",
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "model"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "This is unacceptable. I've been trying to book an appointment for ages. My availability is extremely limited.\n\nAlright, what about **Wednesday, June 17th, at 10:30 AM**? Please tell me there's something then.",
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "user"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": {
+            "id": null,
+            "args": {
+              "end_datetime": "2026-06-17T11:30:00+02:00",
+              "start_datetime": "2026-06-17T10:30:00+02:00",
+              "topic_id": "mortgage",
+              "contact_medium_id": "branch"
+            },
+            "name": "check_availability",
+            "partial_args": null,
+            "will_continue": null
+          },
+          "function_response": null,
+          "inline_data": null,
+          "text": null,
+          "thought": null,
+          "thought_signature": "b'\\n\\x9c\\x04\\x01\\x0c9\\xd6\\xc7\\xe0\\xa5\\xe8\\xcfot\\x08\\xdcG\\xc6*@\\x9f3\\xf5\\x02\\xd0\\x1d\\x8c\\x15*e $\\xb3\\x82\\x948\\xf5\\x9a36k\\x91\\xa9Q\\xf5\\xbb\\x84\\xe4T\\x8aP\\xbf\\xa4\\x15\\x92\\x18\\x03\\xf3\\xda2\\xbf\\xd5\\x02\\xb9p\\xa1\\xffI3n\\x14\\xf4nJ+q\\x1b\\xf8\\xf0:!\\xd7\"\\x1e\\xf2\\x1fU\\xe5w\\xcc\\xb6M\\x99\\xe8\\xf0\\xefv\\nvf\\x0e\\x87cJ\\xde\\xaa\\xe5%\\xc2\\xbdB<$\\x10\\n\\xd7\\xca\\xe8\\x07\\xc3\\xb9\\xd7\\x85\\xeb\\xcd?|\\xdf\\xa1\\xafv7\\xe6:\\xe8\\x90\\x85DK\\x0bR\\x0c\\xfd\\xb80h\\xc4(\\xeb\\x9e\\xc4\\x05\\x86R\\x12B+\\xe7\\xe9\\x84\\xeb\\xf8\\xcf\\x9a\\xe1\\x01\\xd8\\x01\\xcd\\xe4\\xbf\\xbcF\\x81G\\xc0_\\x1d@D\\x9d*\\x95\\xf3\\xd7\\xd9\\xd5\\x12_\\x9aD}\\xcd\\xb9E\\xceh\\x17\\x9f\\xb9~\\xa9\\x82\\xc2\\xe2\\xba\\xca\\x9c\\x1a\\x8d\\x8e\\x92\\x80\\x9c\\xec\\x9f\\xe1I\\xf2\\xfa\\xe7\\x8f\\x05P\\x1a\\xfb\\x07\\x97\\xe8\\x17%O\\xfe\\x9b}\\x98\"\\x06\\x0b\\xb52\\r\\xa8\\xa6\\xe2\\xb2\\xa94\\xe5\\xebyK\\xec\\x07<\\n\\x19\\x02\\tr\\x8f\\x9f\\xad\\x07,\\x0c\\rr\\xd7\\xee\\x9f\\x92Q\\x8a*\\xdf\\x82eIe\\xc0\\x9d\\xf0\\xc6\\xac\\x06*\\x98\\xda\\xa6UJb5\\xc7\\xa1t8p7b\\x02w\\xd2\\xaf\\xe1\\xa8\\x957\\xb6\\xf9\\x7fzq\\xdc42\\xcc\\xafA\\x05\\t\\xaaM\\xc5\\x10}\\xce\\xee\\xfe\\x03\\xcd\\xb5\\x81\\xacQ\\xa3h\\xb9$\\n\\xf2o\\xaeF\\xf7\\xd5\\xb8\\xa6\\xeav\\xbd\\xfe=Aq\\x1e\\xc3\\x93\\xe5\\xfah/\\xc6vq@\\x87\\xf0\\xee\\xa8\\x95\\xa7\\xd6\\x1b4N\\x14\\x9a\\x15Po\\x05m\\xab5\\xfb\\xf2b\\x014X\\xd6-\\xdb\\x0b}\\xfb03\\xbdH\\x99\\xa3\\x13\\xfb\\x10-\\xdf\\xc7b\\xbd\\x08\\x826\\xf3)\\x13\\xfc\\x7f\\xaex\\xe3\\x08\\x86#7\\x04+\\xf1\\xe5\\xe1\\xadZ;XO\\xdf00\\xc0\\xf6\\x89\\x18\\xd0Dd\\xa1\\x9cYD\\xf4AL:\\x8e\\xe3\\x01\\x06\\x9c\\x0b+k|U\\xd8d\\x05|\\xd68;}E\\xa1;\\xd42\\xd4\\r\\xb6\\x97\\x9f\\xad\\xa8\\x13\\xb9\\xea6\\x8c\\x03\\xea9\\xf26\\xc6\\x81ZwF\\xe7K\\xcb$>\\x93\\xb4\\x18U\\x98+\\x104\\xc3\\xc2\\xfcWA\\xc4\\xfb$Ee\\x04<r\"X\\x99\\x8f\\x7fQ3\\x02e\\x906\\xd9\\xa2\\xd3\\x1dGd'",
+          "video_metadata": null
+        }
+      ],
+      "role": "model"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": {
+            "will_continue": null,
+            "scheduling": null,
+            "parts": null,
+            "id": null,
+            "name": "check_availability",
+            "response": {
+              "result": []
+            }
+          },
+          "inline_data": null,
+          "text": null,
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "user"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "I am incredibly sorry, Alex. I've checked for Wednesday, June 17th, at 10:30 AM for an in-branch mortgage appointment, and unfortunately, there are no available slots at that specific time either.\n\nI truly understand your frustration with this process. It seems that in-branch mortgage appointments are very difficult to secure for the times you've requested.\n\nWould you be open to checking for any availability at all on June 17th, even if it's not exactly 10:30 AM, or perhaps considering a different day later in June?",
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "model"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "This is absolutely ridiculous. I've given you so many options. My schedule is not flexible enough for this constant back and forth.\n\nFine, how about **Thursday, June 18th, at 9:15 AM**? If that's not available, I don't know what to tell you.",
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "user"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": {
+            "id": null,
+            "args": {
+              "start_datetime": "2026-06-18T09:15:00+02:00",
+              "end_datetime": "2026-06-18T10:15:00+02:00",
+              "contact_medium_id": "branch",
+              "topic_id": "mortgage"
+            },
+            "name": "check_availability",
+            "partial_args": null,
+            "will_continue": null
+          },
+          "function_response": null,
+          "inline_data": null,
+          "text": null,
+          "thought": null,
+          "thought_signature": "b'\\n\\x9d\\x04\\x01\\x0c9\\xd6\\xc7\\x0f\\xc3w\\xba\\x9e\\xfeR_Q\\x1e\\x05\\x1f\\xe7\\x98o\\x01#\\xc6\\xcf]\\x13\\xd2\\xca\\x9f\\xd8\\xdbq\\x0b\\x9d%\\xe9\\xb2\\xa1\\xe7\\xd0=\\x86o$\\x87_\\x0b\\x909\\xd8V\\xa2\\x19\\xec\\xf6X.;\\x15\\xb0Kl\\xa1\\xd9\\xef\\n%\\x1fN4\\xe0J\\x1aA\\xba\"(\\xaf\\x8b\\x99\\xbc\\x04\\x11\\xde\\x18\\x01\\xda\\xff\\xd0\\xa3K\\x05\\xc6\\xfbx#^\\x9a]\\x0f\\xafE\\x7f\\xa9-\\rh\\xd7\\xd0\\x84`)\\x85G#\\xce\\xae\\xa1\\x04}A\\xa9\\xd0\\x16\\xad]{m\\r\\xdbM-\\xd6\\xecQ>\\xcf(\\x80x\\x15L\\xbeu\\xee9w\\xc6\\x18\\x92\\xaf\\x91S\\xb9>\\x18@\\x97\\x8f\\x01\\xb41\\xa3\\xcdR\\x80\\xa8\\x9fz\\'\\xc4\\xe6\\xb5\\x00d\\x9c\\x0b\\xe8>\\x9d{a\\xb7E\\xf9\\xf8\\xa4\\x99\\xcf\\xa4T\\xf5\\xcd\\x8aS\\x8fYY\\t\\x98\\x8d\\x90\\xdc\\xcfh\\xc9X\\xab\\x86\\r\\xe9\\x12\\x1f\\x9f\\xf2}}A\\xa5\\xaf\\xaa\\xe3\\xf6^\\x9c\\x80\\x8b\\xff;\\xe0\\xff\\ng\\x07Ov\\xed\\xc1\\x88N\\xdaY\\xb9.=\\xaf\\xc8\\x05\\x9a\\xe9\\x8fN\\x18\\x16 \\xf4\\t\\xb8P\\xc8u\\x91\\xd7n\\xe23m\\x95ax\\xeev\\x99@\\x9d\\x8c\\x8e\\xad\\xbfs\\nz\\xb4\\xb83\\xc8\\xf6:\\xab \\x8eZ\\xafLnY\\xccK\\xd6f\\x82\\xda\\xda\\xceG\\xfc\\xeb\\x80\\xb8\"\\xbd\\xa6U\\x91w\\x92,xm\\x93\\x8fi\\xa4\\xab\\xba\\x83\\x9d\\xc3\\x8e@#Z7\\xd4Fyr\\xe9\\xd8]7l\\x84\\xb6nj\\x1a\\x9dV\\x11\\xc5\\x90\\xe5k\\x88\\x04\\xbf\\x10\\xda\\x07\\xfb\\x1c\\xabj^[;\\x8c\\xd4Sz\\xca<\\xdel5J\\xfe\\xba\\xeb\\x83\\x14\\x91c\\xea\\xfaf\\xc7\\x1aa\\x92\\r\\xf4o\\xb1by\\x7f\\xb4M\\xb8\\x9a \\\\9V\\xd5\\x9ft\\xae\\xe9t\\x95\\xa6\\xdd:3\\xfa\\xcd\\xab\\xfd\\xc7\\x19c\\xdc\\x85ahB\\x0fW\\xf6+\\x81\\x90>\\xa5\\xb7\\xa2\\xe6\\xc63\\xb6\\xa6[\\x1a\\xcc\\x1a_bT\\x9aA5\\xf7\\xb1KCz\\xd8\\x02\\xa9S\\xa9\\x94\\xed\\x8b^\\xaa\\xb3!O$+\\xf06\\xf7F\\x94\\xc4\\xa9?,\\xee\\xe7v\\xaf\\xe5\\xff\\xc6Z\\xb9?p\\xd9\\xaag\\x92c\"T\\xf7\\x10\\x1a\\x81R\\x85\\xec\\xd23\\xa6W\\xa3\\xf3\\xd7G\\xe3\\x953F\\xf58x\\x16jq\\x1e\\x8a\\x1f\\xd6\\xe9\\xf5\\xc0Q\\x87\\x99\\xb1\\xd2>\\xff\\xba'",
+          "video_metadata": null
+        }
+      ],
+      "role": "model"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": {
+            "will_continue": null,
+            "scheduling": null,
+            "parts": null,
+            "id": null,
+            "name": "check_availability",
+            "response": {
+              "result": []
+            }
+          },
+          "inline_data": null,
+          "text": null,
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "user"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "I am so incredibly sorry, Alex. I have checked for an in-branch mortgage appointment on Thursday, June 18th, at 9:15 AM, and unfortunately, there are no available slots at that time either.\n\nI truly understand your immense frustration, and I sincerely apologize for the difficulty you're experiencing in booking an appointment. It appears that in-branch mortgage appointments are fully booked for all the specific times and dates you've requested.\n\nGiven the extreme difficulty in finding a specific time, would you be willing to allow me to search for *any* available in-branch mortgage appointments on Thursday, June 18th, or perhaps broaden our search to a wider range of dates and times in the last week of June?",
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "model"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "This is beyond a joke. This is the worst appointment booking experience I've ever had.\n\nOkay, I'm giving you one last chance. **Tuesday, June 23rd, at 10 AM.** If that's not available, I'm taking my business elsewhere.",
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "user"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": {
+            "id": null,
+            "args": {
+              "start_datetime": "2026-06-23T10:00:00+02:00",
+              "end_datetime": "2026-06-23T11:00:00+02:00",
+              "topic_id": "mortgage",
+              "contact_medium_id": "branch"
+            },
+            "name": "check_availability",
+            "partial_args": null,
+            "will_continue": null
+          },
+          "function_response": null,
+          "inline_data": null,
+          "text": null,
+          "thought": null,
+          "thought_signature": "b'\\n\\xa7\\x04\\x01\\x0c9\\xd6\\xc7\\xc1(\\x91n\\xcc\\x10\\xf6)\\xedk\\\\_\\x98\\x03\\xce\\xa5tf\\xb3\\xcc\\x9b\\x08xg\\xaa\\x02T\\x918X\\x99\\x7f\\xc01t\\x96-\\xd37\\xa9Y\\t\\xe4!\\x82\\xda\"\\xb5\\x81?\\xc3\\xe5\\x07\\xdd\\x987\\xbd\\xa2\\xb5\\xcb\\x9c\"0\\xa7\\t\\xeaB\\x90\\xcb\\xe4\\xea\\xb4\\xf2\\x10\\xde\\xe7j!\\xa7\\xc0\\x0f\\xda\\xea(\\x02\\xd0\\x80\\x93\\xcd$~\\xdb\\x92\\xa3\\xf3\\x8e\\x00*y`\\x10\\xa5\\xb1}\\xc8\\x11\\xda\\xa2?\\xa5\\xd2xj\\xf1\\xbb\\xa6\\xb4\\xf7hKO\\x1eX\\x8f(\\xfef9#\\x92\\x8aU\\x82\\x9e\\xfd\\xed\\x9eFX\\xf3\\x99mJ\\xcd\\xdc\\x81\\xb7\\xd9W3\\xb2\\xces^\\x18\\xfb\\xb6\\xc5\\xf44\\xc3\\x93\\xcf\\xfd\\xa3\\xee\\xaa\\x9d\\x18\\xd06z_=\\xaf\\x00\\x1c\\xe2T\"\\xf5&\\x92);\\nJ8y\\xdcK!\\xac\\xe9\\xfeYa\\x80\\xd1R\\x14\\x9e\\xf8\\xe2\\xc0\\x84T|Q\\x1e\\x82\\xc5T\\xd7\\x01z\\xeb\\xcb\\x85\\xbc\\x96Z\\\\\\xdb~\\xccf\\xb8\\x014h\\x1e\\x8c\\x1fw\\xeb\\x96\\x06\\xd0|V-O\\x04ti-\\x98_\\xc20\\xa5\\xe4\\xef\\x9dV\\x1b\\xb8\\xae$\\xeb\\x15\\x7fQ[F&\\xa4\\xdd\\xa4\\\\\\x06S\\xcf\\x0e\\x04qy\\xd7o>j\\xa3ie.Z\\xeb1\\x86gf\\x88N\\xea\\x98\\xa2\\x16\\xc9\\xfe\\x0e\\x91,5\\xc2\\x93*\\xde\\x04\\x9a9s\\xae\\xc4U?\\xf0q\\x83r\\xdc\\xaf\\xcfPy\\xe0\\x0bm\\x19\\xcaxX\\xc1\\x96\\xd58d\\xbfm\\xe9\\xb5hX\\x9c\\x1a\\xdf\\x80\\x9e\\xf0\\xcd\\x0eGE\\x1c\\xb7-1\\x18\\xa4\\xc2\\xd6\\xf0\\xb0\\xee\\x9b\\xdd\\x04\\xe4\\x05\\xefp\\xd4\\x7f\\x10\\x8a\\xef9\\x9b{\\xf6\\x8e4\\xf8\\x1b\\x13|\\xbb\\x978A\\x05/?\\x1a\\x92\\xefu7Pg\\x00\\xcc\\xf3\\xcc\\x1e\\xa0\\xe6\\xba\\xf8\\xfb\\x14\\x13\\xb4R\\xfc\\x04\\xb7#\\xf1\\x05/dv\\x8d4\\xaaD\\x9b\\x06\\x07\\x7fL\\x83q\\xffT\\nU\\xf8\\x93%\\xf7Rf\\x93\\xedg\\xe7\\x1a\\xbe7{o\\xe6\\xc3\\xa4\\xdbh\\x1e\\x1e\\xa2\\x81\\xd8q\\xdc\\xf9\\xde\\x93;6\\xea\\x89\\x89\\xb7QX\\x8cY\\x81n\\x9e\\x05\\x0eH\\\\\\x9a`\\xcbi\\xd2i\\x08b\\x17(\\\\5d\\x9ft\\xf6Q\\xf6\\xe0\\x91<%\\xf3\\x84\\xf6\\\\\\xccBO\\xc9\\xa1\\xb4\\x98\\xbe \\x1f\\x0fR\\x1c\\xd5\\xfc8\\x05r\\xda\\xf1r\\xc9U\\xa2F,?t\\xf6\\xb6\\xc3\\x05X:\\x1f'",
+          "video_metadata": null
+        }
+      ],
+      "role": "model"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": {
+            "will_continue": null,
+            "scheduling": null,
+            "parts": null,
+            "id": null,
+            "name": "check_availability",
+            "response": {
+              "result": []
+            }
+          },
+          "inline_data": null,
+          "text": null,
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "user"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "Alex, I am truly, deeply sorry. I have checked for an in-branch mortgage appointment on Tuesday, June 23rd, at 10 AM, and unfortunately, there are no available slots at that time either.\n\nI understand that this is incredibly frustrating and that this experience has been unacceptable. I sincerely apologize for the difficulty and inconvenience you've faced.\n\nIt appears that specific early morning in-branch mortgage appointments are fully booked for all the dates and times we've tried. I regret that I haven't been able to find a suitable slot for you.",
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "model"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "This is unbelievable. I am absolutely furious. I have wasted so much time with this.\n\nFine, forget the early morning. What about **Wednesday, June 24th, at 2:00 PM**? I'm almost out of options here.",
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "user"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": {
+            "id": null,
+            "args": {
+              "end_datetime": "2026-06-24T15:00:00+02:00",
+              "contact_medium_id": "branch",
+              "topic_id": "mortgage",
+              "start_datetime": "2026-06-24T14:00:00+02:00"
+            },
+            "name": "check_availability",
+            "partial_args": null,
+            "will_continue": null
+          },
+          "function_response": null,
+          "inline_data": null,
+          "text": null,
+          "thought": null,
+          "thought_signature": "b'\\n\\xe1\\x04\\x01\\x0c9\\xd6\\xc7\\xd4\\xdd]Y[\\\\lz;\\x1am2cK\\xe5\\xe0\\xc1A\\xf2\\xda\\xde\\xa9\\x0e\\x1e\\xd5\\xbb\\x8dh7\\x9d]f(\\x12+\\xbcR\\xed6\\x03\\xea\\x92\"T]\\xb4\\x0b\\x9e=\\x7f\\x9f\\xd5UW\\x1cpQ_\"T\\x88\\xb3\\x15]\\xf5k\\xc1\\xbb\\xc8_q\\x92\\x96\\xdfZ\\xe3i\\x1d&V=1\\xafv\\xbe\\xa8\\xdb\\x8aa\\x02%\\xa4\\x9a\\xeby\\xd8F!H\\xda<\\x8e\\x12\\x1c\\xc5\\x9b6\\xa3{\\xd0\\x0e\\xd1\\xd1\\x03\\x18\\x1ahR\\xa2UZ7f.$\\xd09CJ\\x84\\xf5\\xd6\\xf3\\xa2\"\\n\\xa9\\xc1\\xde\\xf4\\xddZ5l\\xdd\\x82*\\xc7\\xbf!g3\\xedRC\\xcb9\\xec\\x9c\\xd0\\xcd\\xb6\\xb1n$\\xf2>\\x94H\\'\\xcd\\xe9\\xf4\\xc9e\\x06\\\\\\xabUKMg\\r\\xb5\\xfa\\xed\\x1aJL\\xa3\\x96\\xd5\\x87j\\xbd\\xcd(\\x83\\x1fj.\\xa22\\xd2\\t]\\x1e~\\xe8k\\xf9\\xafg\\x1e\\xa2~\\xa5v\\xb1\\x07w\\xf2d?\\x96\\xbe\\xe9,\\x95\\xd3\\x06\\xc6\\x05L\\xc9Kd\\xb8\\xf2]\\x11G\\xfdM\\xe6\\x99\\x8eL\\xd5>\\xf3I\\x19XSq|x\\x87\\x00cE\\xdf\\x10\\x8c\\xdd1\\x9c\\xdc\\x02\\x86\\xdb=\\x9e\\xca\\x89G_|!V\\x9a\\xa4x\\xdb|\\xc3|\\xf6\\xd3\\xb9r\\xc2\\xd2\\xae=\\xd2\\x1a\\xf7\\xb7\\xec\\x16\\'\\x8d\\x04\\xc8f\\x92\\xdalx&\\xf1n\\x894\\x13\\xf0\\xbe\\xa7h\\\\|\\xfd\\xfd\\xa2\\xed\\x17\\xc9\\x1b\\x19\\xe0\\xc7u-\\xbc[\\x84\\x8b}\\x1cUH\\xc4/B|}&\\xfe\"\\x0ek\\x12\\xbbx\\x0f`\\xd1\\x1d\\x95\\xa8\\xed\\x9d\\xf9\\x86\\x85\\xf2%LP\\x9d\\xe4\\xfb|c\\xa6\\x14\\x9d$\\x8bc\\x9d\\xf5Q\\x88\\x85\\xfcP\\x15\\xd5b\\x0b\\xc1\\xe70\\xd5\\xe7\\xd2\\xd5\\xdbJa\\xbbfF\\xa52\\xea\\x1a\\x02\\x88\\xa2E\\xa2/\\xb9M\\x11\\xf1x\\x84\\x1d`\\t\\xee\\x98\\xcd)*\\x08\\x18\\x8d\"\\xfce\\x8dtq47\\xe1\\xb2\\x80\\xc1\\x1c\\xe62\\xd0 ~\\xc5\\xc1\\x15\\x95#\\xc0\\xc5\\xe0 [\\x19qR\\x81\\x1c\\xa79?\\xfd8T\\xd3`+\\nX\\x97*U\\xad\\xf3}|O\\xfe\\x07\\x04\\x9c\\x93\\x96\\xa3\\xa0\\xe0\\x88\\xe5\\xac\\xb0\\xe3\\xfe\\x7f\\x15\\xe3E\\xc5F\\x8d\\x8c\\xab\\x06~\\xbc\\xcc1;T\\xa1\\xec\\xe3?\\x92\\x81\"\\x93\\xe4\\xb5\\xd2\\x97b\\x00Y\\xc9,F\\xcb\\xcf-\\xef\\x87\\xa1-\\x8b-/\\xc8\\xec\\xea\\xfa\\xa2\\x94#\\xdc\\xa8\\x05cD\\x1a\\xee\\'\\xea\\xc4\\x11w\\xdb\\x89\\xd9\\xd2\\x9d\\xcb\\x94s\\xb8\\xc3\\xd0\\x9e\\x83\\x84\\xe7\\xc5\\xea\\xf3\\x16\\x91\\xd6\\xf7\\x05O\\x9b\\x16&\\xf1l\\xcdz?\\xed\\x95\\x1c\\x17\\xf2F\\x9a\\xffZ'",
+          "video_metadata": null
+        }
+      ],
+      "role": "model"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": {
+            "will_continue": null,
+            "scheduling": null,
+            "parts": null,
+            "id": null,
+            "name": "check_availability",
+            "response": {
+              "result": []
+            }
+          },
+          "inline_data": null,
+          "text": null,
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "user"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "Alex, I am truly and deeply sorry. I have checked for an in-branch mortgage appointment on Wednesday, June 24th, at 2:00 PM, and I'm afraid there are no available slots at that time either.\n\nI completely understand your frustration and anger. This has been an incredibly difficult and unhelpful experience, and I sincerely apologize for the time you've wasted and the inconvenience this has caused.\n\nIt seems that specific time slots for in-branch mortgage appointments are extremely limited. Would you be willing to let me check for *any* available in-branch mortgage appointment on Wednesday, June 24th, at any time of day? I want to do everything I can to find you a slot.",
+          "thought": null,
+          "thought_signature": "b'\\n\\xf3\\x05\\x01\\x0c9\\xd6\\xc7\\x8f\\x89\\xca6\\xed]\\xb9)l8P\\x1e\\x05@\\xa4\\xc1\\x81\\xca\\x1c\\x13\\xd0\\\\Q\\xa8\\x0f\\xb8\\xd0\\xdf\\xd8\\')\\xba\\x83\\x8bn\\xad\\xf7\\xb3D\\xa4]\\x89\\x1b\\xe2~\\xa2\\xd4\\xf2\\xd2\\x94\\xba?\\xe3z\\xc7)NG\\xe6&\\x16\\xeb2\\xd8]\\n\\xa8\\xc6\\xf4\\xb8R\\x01E\\r\\x7f&L\\x99\\xf2+J(\\r\\x07\\xbdk\\xd5\\x17\\xa1\\x18\\'Y\\x83\\xdc\\xec\\x18~K\\xc4\\xfc\\r\\x89\\x1b\\xdb`)T_\\xa6\\xff\\xcd\\x1b\\xd2\\x99\\xef\\x00-\\xbf\\xd7\\xe5m\\x93*\\xa3\\x9e>\\x8a\\x1094\\x96~\\xe1\\xbc\\xcf\\x82\\xd6\\xd3\\xa5 \\xf5\\xcf\\xe4\\xe9S\\xaetV\\x98\\xa5l\\x04\\x81~\\x8bw1\\xddy\\x03\\xea\\x8d\\xb3\\xab\\xeehH8\\xbe A\\x90\\xb1[\\xdd67?\\xe1\\xcao\\n\\x02=xp\\xb0h\\xa6\\xebiO\\tU\\xedy\\xbe\\xea\\x94<AK\\x01;\\xf2\\'_\\xba5\\x1c\\x95\\r>\\xcb\\xde\\x82\\x97\\x91\\x88\\x8e3\\x80\\x91]8C\\xc2\\xdf\\xc8\\x08r\\xad\\xbcq\\'\\xfa\\x02\\xd8\\xaa\\xdc\\x1fr\\xa7iu\\x11\\xedV\\xc3c\\xa6\\xd5\\xb5\\xd9\\x12\\x03\\xd5\\x16\\x81\\\\\\x1c\\x98\\xe1W\\x93\\x1c\\xedYY[\\xd7J\\xdaJ\\x11\\xeaMk\\xe1t_\\xd0\\xd7\\x83fz\\xc4\\xa1q{Z\\xa6\\n\\xe6\\xd2\\x02m\\xffU\\x80O\\x1f$\\xb3\\xe2\\xc0K\\xdf\\x82\\xee}\\xbcE\\x00\\xc1\\xb6\\xe4\\xc1C\\xebMuP\\xb3E\\xd5\\x90\\x14\\xa7Q\\xb2\\x8e\\x97\\x10\\x1d\\x81\\xfc\\x93_\\x93\\t\\xb8\\xa0\\xc0}\\xa0 |\\xd1c\\xc6\\xca\\x0f@g\\xf6\\xfc\\xfdI\\x0e\\x9b\\xb3\\xe5\\xe7\\xaemi\\xe6g\\xdd\\xe5\\xedgc\\x92\\xb4\\x1e\\\\2\\x9ab\\xccf\\xabC\\xc9\\x1a\\xf7\\x1b\\x0b=\\x07\\x0b\\xdf|\\xef\\xd4\\xb4\\x99N\\xbd\\x8dZ\\xbd\\x1b\\x1d\\x90c\\x1c.\\x05\\xd8+\\xe3/\\x92Q6\\xf6i\\\\\\xd4\\xbaG\\xc5\\xd7\\'I\\xb7\\x1e\\x06\\xaai\\np\\xba\\xe8?\\xf0\\x80W\\xe8\\xf9\\xc77\\xe9\\x08u\\xc0\\xa8\\xd0sO\\xb2\\xb1\\xba\\xe8\\xba7\\xcf\\x19\\xbc\\xa1\\xa6n\\x1aE\\xdds\\x7fW\\r}\\xfe\\xac\\xce\\x14i\\x97[\\xe8\\x01d\\x96y\\xb2\\nJ\\xdd<\\xfa\\xe8MEvK\\x0e\\x9e!70xh\\x10\\x0e-bb6/I\\xa6Mc\\x0e\\x7f\\xd9J\\xc4\\x80gI3\\xf2\\x11%8\\xd2\\xb7\\x02z\\x9a\\xa0\\x1c\\xfa&\\x13\\x88\\xa6{\\x1d5\\xea\\xe5\\xc9\\x8c\\x01?g/ay\\xfb\\x89W\\xaf\\x97\\xc6H\\x00\\xb4\\x1d\\xeaw\\nnl\\xcaU\\xae\\xe8I\\x9c\\x14O\\xc3m\\xe2:\\xf8|\\x96|j\\xce@\\xea\\x08t6\\x8a\\x86\\xdd\\x94\\xe06\"\\x187\\xc0\\xae\\x1b\\x830\\xdb\\xd3\\xef\\xe5\\x19\\xddg\\xae\\x97\\x16\\xe5\\x8c\\xc6qG$(\\xdd\\xe9\\xef\\xa5\\x19\\xc8\\xeby\\x06\\x14\\xe7\\xc9\\x1f|\\x07ooN\\x97\\x86E2A\\x05\\xa7\\xe5\\x8e\\xf7~\\xd6\\x93\\xf39\\xa0\\x8c9\\xea\\\\w\\xfd\\x82\\x1e\\xbd\\xb5\\xaeO1\\x1f\\x1b0\\xdc!l\\xb0\\xf4&\\x14\\x9bo8U\\x16\\x15\\xe4\\'\\xe3\\xfd_\\xfa\\x92liG\\xbb~=\\xe9T\\x05!\\xd9Z?\\x1a{\\xd3\\x95>4`\\x1b\\x08\\xb5=\\x1b|N\\x04T\\xd8\\x9c\\xa7#u\\x88\\x1fN\\x87e\\xc9\\x80a\\x06\\xab\\xcaE8\\x90\\x8c\\xd2I8\\x9d\\xb6\\xd73\\x0cN\\x8e'",
+          "video_metadata": null
+        }
+      ],
+      "role": "model"
+    }
+  ],
+  "derived": {
+    "total_turn_count": 12,
+    "total_mcp_calls": 15,
+    "availability_calls": 12,
+    "first_check_availability_params": {
+      "topic_id": "mortgage",
+      "start_datetime": "2026-06-04T00:00:00+02:00",
+      "contact_medium_id": "branch",
+      "end_datetime": "2026-06-04T23:59:59+02:00"
+    },
+    "booked": false,
+    "total_simulated_latency_ms": 12227.228628407216,
+    "total_actual_latency_ms": 334.75839998573065,
+    "parse_accuracy_score": 0.0,
+    "unsupported_facts_count": 0,
+    "faithful": true,
+    "slots_presented_per_turn": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      1,
+      0,
+      1
+    ],
+    "efficiency_ratio": 4.0,
+    "optimal_availability_calls": 3,
+    "dead_end_turn_count": 9
+  },
+  "grounding_facts": [
+    {
+      "fact_type": "topic",
+      "asserted_value": "mortgage",
+      "asserted_in_turn": 1,
+      "supported": true,
+      "source_tool_call_ref": null,
+      "notes": "case-insensitive substring match against get_appointment_topics response"
+    },
+    {
+      "fact_type": "topic",
+      "asserted_value": "mortgage",
+      "asserted_in_turn": 2,
+      "supported": true,
+      "source_tool_call_ref": null,
+      "notes": "case-insensitive substring match against get_appointment_topics response"
+    },
+    {
+      "fact_type": "topic",
+      "asserted_value": "mortgage",
+      "asserted_in_turn": 3,
+      "supported": true,
+      "source_tool_call_ref": null,
+      "notes": "case-insensitive substring match against get_appointment_topics response"
+    },
+    {
+      "fact_type": "topic",
+      "asserted_value": "mortgage",
+      "asserted_in_turn": 4,
+      "supported": true,
+      "source_tool_call_ref": null,
+      "notes": "case-insensitive substring match against get_appointment_topics response"
+    },
+    {
+      "fact_type": "medium",
+      "asserted_value": "online meeting",
+      "asserted_in_turn": 4,
+      "supported": true,
+      "source_tool_call_ref": null,
+      "notes": "case-insensitive substring match against get_appointment_contact_medium response"
+    },
+    {
+      "fact_type": "topic",
+      "asserted_value": "mortgage",
+      "asserted_in_turn": 5,
+      "supported": true,
+      "source_tool_call_ref": null,
+      "notes": "case-insensitive substring match against get_appointment_topics response"
+    },
+    {
+      "fact_type": "topic",
+      "asserted_value": "mortgage",
+      "asserted_in_turn": 6,
+      "supported": true,
+      "source_tool_call_ref": null,
+      "notes": "case-insensitive substring match against get_appointment_topics response"
+    },
+    {
+      "fact_type": "topic",
+      "asserted_value": "mortgage",
+      "asserted_in_turn": 7,
+      "supported": true,
+      "source_tool_call_ref": null,
+      "notes": "case-insensitive substring match against get_appointment_topics response"
+    },
+    {
+      "fact_type": "topic",
+      "asserted_value": "mortgage",
+      "asserted_in_turn": 8,
+      "supported": true,
+      "source_tool_call_ref": null,
+      "notes": "case-insensitive substring match against get_appointment_topics response"
+    },
+    {
+      "fact_type": "topic",
+      "asserted_value": "mortgage",
+      "asserted_in_turn": 9,
+      "supported": true,
+      "source_tool_call_ref": null,
+      "notes": "case-insensitive substring match against get_appointment_topics response"
+    },
+    {
+      "fact_type": "topic",
+      "asserted_value": "mortgage",
+      "asserted_in_turn": 10,
+      "supported": true,
+      "source_tool_call_ref": null,
+      "notes": "case-insensitive substring match against get_appointment_topics response"
+    },
+    {
+      "fact_type": "topic",
+      "asserted_value": "mortgage",
+      "asserted_in_turn": 11,
+      "supported": true,
+      "source_tool_call_ref": null,
+      "notes": "case-insensitive substring match against get_appointment_topics response"
+    },
+    {
+      "fact_type": "topic",
+      "asserted_value": "mortgage",
+      "asserted_in_turn": 12,
+      "supported": true,
+      "source_tool_call_ref": null,
+      "notes": "case-insensitive substring match against get_appointment_topics response"
+    }
+  ],
+  "langsmith_trace_id": null,
+  "langsmith_trace_url": null,
+  "judge_scores": [],
+  "termination_reason": "max_turns",
+  "error": null
+}

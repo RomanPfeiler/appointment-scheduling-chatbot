@@ -1,0 +1,734 @@
+{
+  "schema_version": "1.0",
+  "scenario_id": "t2_en_de_038",
+  "tier": 2,
+  "stage": "nlp_arm3_expansion",
+  "persona_profile": "cooperative",
+  "run_index": 1,
+  "run_id": "20260608_214615__nlp_arm3_expansion__4eadd22__smoke",
+  "timestamp_start": "2026-06-08T21:46:47.643312Z",
+  "timestamp_end": "2026-06-08T21:47:03.642377Z",
+  "git_commit": "4eadd224731d6ca2e14bbdba907c056363f2f4ce",
+  "git_dirty": true,
+  "change_note": "SMOKE: Arm 3 NLP + window-expansion wiring check",
+  "config": {
+    "llm_provider": "gemini",
+    "llm_model": "gemini-2.5-flash",
+    "llm_temperature": 0.7,
+    "llm_max_tokens": null,
+    "judge_model": null,
+    "seeds": {
+      "profile_seed": 17
+    },
+    "max_turns": 12,
+    "latency_model": {
+      "base_overhead_ms": 400.0,
+      "per_day_cost_ms": 500.0,
+      "jitter_sigma_ms": 50.0
+    },
+    "simulate_latency": true,
+    "runner_version": "step3/1.0",
+    "extras": {
+      "profile_name": "smoke",
+      "nlp_datetime_enabled": true,
+      "nlp_entity_enabled": true,
+      "datetime_arm": "api_llm",
+      "entity_arm": "api_llm",
+      "nlp_llm_backend": "api",
+      "expansion_policy_enabled": true
+    }
+  },
+  "scenario_set_version": null,
+  "availability_override": {
+    "slots_by_offset": {
+      "today+7": [
+        "16:00-17:00",
+        "11:00-12:00"
+      ]
+    },
+    "notes": "Tier 2 — preferred slot busy; same-day alternatives exist"
+  },
+  "frozen_phrasing": "next Monday already at 8 in the morning",
+  "expected_datetime_window": {
+    "start_offset": "today+7T09:00",
+    "end_offset": "today+7T10:00"
+  },
+  "turns": [
+    {
+      "turn_index": 1,
+      "timestamp": "2026-06-08T21:46:48.375443Z",
+      "user_message": "My name is Alex Smith. I'd like to book an online meeting about a mortgage, ideally next Monday already at 8 in the morning.",
+      "agent_response": "Unfortunately, the 8 AM slot next Monday is not available. However, I found two other online slots for a mortgage consultation next Monday, June 8th:\n\n*   11:00 AM - 12:00 PM\n*   4:00 PM - 5:00 PM\n\nWould either of these times work for you?",
+      "llm_calls": [
+        {
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "prompt_message_count": 1,
+          "response_type": "function_call",
+          "function_name": "get_appointment_topics",
+          "function_args": {},
+          "text_preview": null,
+          "latency_ms": 926.8207000000075,
+          "input_tokens": 1266,
+          "output_tokens": 12,
+          "temperature": 0.7,
+          "raw_response_excerpt": null
+        },
+        {
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "prompt_message_count": 3,
+          "response_type": "function_call",
+          "function_name": "get_appointment_contact_medium",
+          "function_args": {
+            "topic_id": "mortgage"
+          },
+          "text_preview": null,
+          "latency_ms": 1666.6227000000617,
+          "input_tokens": 1346,
+          "output_tokens": 22,
+          "temperature": 0.7,
+          "raw_response_excerpt": null
+        },
+        {
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "prompt_message_count": 5,
+          "response_type": "function_call",
+          "function_name": "check_availability",
+          "function_args": {
+            "contact_medium_id": "online",
+            "end_datetime": "2026-06-08T09:00:00+02:00",
+            "start_datetime": "2026-06-08T08:00:00+02:00",
+            "topic_id": "mortgage"
+          },
+          "text_preview": null,
+          "latency_ms": 2280.433699999776,
+          "input_tokens": 1428,
+          "output_tokens": 89,
+          "temperature": 0.7,
+          "raw_response_excerpt": null
+        },
+        {
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "prompt_message_count": 7,
+          "response_type": "text",
+          "function_name": null,
+          "function_args": null,
+          "text_preview": "Unfortunately, the 8 AM slot next Monday is not available. However, I found two other online slots for a mortgage consultation next Monday, June 8th:\n\n*   11:00 AM - 12:00 PM\n*   4:00 PM - 5:00 PM\n\nWo",
+          "latency_ms": 1878.7520000000768,
+          "input_tokens": 1659,
+          "output_tokens": 75,
+          "temperature": 0.7,
+          "raw_response_excerpt": null
+        }
+      ],
+      "tool_calls": [
+        {
+          "tool_name": "get_appointment_topics",
+          "parameters": {},
+          "response": [
+            {
+              "topic_id": "investing",
+              "topic_name": "Investing"
+            },
+            {
+              "topic_id": "mortgage",
+              "topic_name": "Mortgage"
+            },
+            {
+              "topic_id": "pension",
+              "topic_name": "Pension"
+            }
+          ],
+          "simulated_latency_ms": 454.2903301426004,
+          "actual_latency_ms": 14.579700000012963,
+          "success": true,
+          "error_message": null
+        },
+        {
+          "tool_name": "get_appointment_contact_medium",
+          "parameters": {
+            "topic_id": "mortgage"
+          },
+          "response": [
+            {
+              "contact_medium_id": "branch",
+              "contact_medium_name": "Branch Meeting"
+            },
+            {
+              "contact_medium_id": "online",
+              "contact_medium_name": "Online Meeting"
+            }
+          ],
+          "simulated_latency_ms": 395.6725989077748,
+          "actual_latency_ms": 18.762499999866122,
+          "success": true,
+          "error_message": null
+        },
+        {
+          "tool_name": "check_availability",
+          "parameters": {
+            "contact_medium_id": "online",
+            "end_datetime": "2026-06-08T09:00:00+02:00",
+            "start_datetime": "2026-06-08T08:00:00+02:00",
+            "topic_id": "mortgage"
+          },
+          "response": [],
+          "simulated_latency_ms": 831.4331463395846,
+          "actual_latency_ms": 18.75979999977062,
+          "success": true,
+          "error_message": null
+        },
+        {
+          "tool_name": "check_availability",
+          "parameters": {
+            "topic_id": "mortgage",
+            "contact_medium_id": "online",
+            "start_datetime": "2026-06-08T08:00:00+02:00",
+            "end_datetime": "2026-06-08T17:00:00+02:00"
+          },
+          "response": [
+            {
+              "datetime_start": "2026-06-08T16:00:00+02:00",
+              "datetime_end": "2026-06-08T17:00:00+02:00"
+            },
+            {
+              "datetime_start": "2026-06-08T11:00:00+02:00",
+              "datetime_end": "2026-06-08T12:00:00+02:00"
+            }
+          ],
+          "simulated_latency_ms": 948.0430280513734,
+          "actual_latency_ms": 18.207000000074913,
+          "success": true,
+          "error_message": null
+        }
+      ],
+      "state_snapshot": {
+        "topic_id": null,
+        "topic_name": null,
+        "contact_medium_id": null,
+        "contact_medium_name": null,
+        "phase": "intent",
+        "turn_count": 1,
+        "pending_tool_call": null,
+        "tool_result": null,
+        "last_annotation": {
+          "raw_text": "My name is Alex Smith. I'd like to book an online meeting about a mortgage, ideally next Monday already at 8 in the morning.",
+          "intent": "schedule",
+          "confidence": 1.0,
+          "topic": "mortgage",
+          "contact_medium": "online",
+          "datetime_ranges": [
+            {
+              "start_datetime": "2026-06-08T08:00:00+02:00",
+              "end_datetime": "2026-06-08T09:00:00+02:00",
+              "is_flexible": false,
+              "original_text": "next Monday at 08:00",
+              "specificity": "exact_time"
+            }
+          ],
+          "entities_raw": {
+            "api_llm_raw": "{\"topic\": \"mortgage\", \"contact_medium\": \"online\"}",
+            "model": "gemini-2.5-flash"
+          }
+        }
+      },
+      "turn_duration_ms": 10767.089100000248,
+      "ladder_steps": [
+        {
+          "step": 0,
+          "window": [
+            "2026-06-08T08:00:00+02:00",
+            "2026-06-08T17:00:00+02:00"
+          ],
+          "miss_days": 1,
+          "mcp_calls": 1,
+          "found": 2
+        }
+      ]
+    },
+    {
+      "turn_index": 2,
+      "timestamp": "2026-06-08T21:46:59.800011Z",
+      "user_message": "The 11:00 AM slot on Monday, June 8th works for me. Please book that.",
+      "agent_response": "Great! Your online mortgage meeting on Monday, June 8th at 11:00 AM has been successfully booked. Your booking ID is BK-3339CF.",
+      "llm_calls": [
+        {
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "prompt_message_count": 9,
+          "response_type": "function_call",
+          "function_name": "book_appointment",
+          "function_args": {
+            "contact_medium_id": "online",
+            "datetime_start": "2026-06-08T11:00:00+02:00",
+            "topic_id": "mortgage",
+            "datetime_end": "2026-06-08T12:00:00+02:00"
+          },
+          "text_preview": null,
+          "latency_ms": 1468.1843999997,
+          "input_tokens": 1746,
+          "output_tokens": 89,
+          "temperature": 0.7,
+          "raw_response_excerpt": null
+        },
+        {
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "prompt_message_count": 11,
+          "response_type": "text",
+          "function_name": null,
+          "function_args": null,
+          "text_preview": "Great! Your online mortgage meeting on Monday, June 8th at 11:00 AM has been successfully booked. Your booking ID is BK-3339CF.",
+          "latency_ms": 645.2463000000535,
+          "input_tokens": 1951,
+          "output_tokens": 38,
+          "temperature": 0.7,
+          "raw_response_excerpt": null
+        }
+      ],
+      "tool_calls": [
+        {
+          "tool_name": "book_appointment",
+          "parameters": {
+            "contact_medium_id": "online",
+            "datetime_start": "2026-06-08T11:00:00+02:00",
+            "topic_id": "mortgage",
+            "datetime_end": "2026-06-08T12:00:00+02:00"
+          },
+          "response": {
+            "status": "success",
+            "booking_id": "BK-3339CF",
+            "details": {
+              "topic_name": "Mortgage",
+              "contact_medium_name": "Online Meeting",
+              "datetime_start": "2026-06-08T11:00:00+02:00",
+              "datetime_end": "2026-06-08T12:00:00+02:00"
+            }
+          },
+          "simulated_latency_ms": 449.436823433985,
+          "actual_latency_ms": 8.937200000218581,
+          "success": true,
+          "error_message": null
+        }
+      ],
+      "state_snapshot": {
+        "topic_id": null,
+        "topic_name": null,
+        "contact_medium_id": null,
+        "contact_medium_name": null,
+        "phase": "intent",
+        "turn_count": 2,
+        "pending_tool_call": null,
+        "tool_result": null,
+        "last_annotation": {
+          "raw_text": "The 11:00 AM slot on Monday, June 8th works for me. Please book that.",
+          "intent": "schedule",
+          "confidence": 1.0,
+          "topic": null,
+          "contact_medium": null,
+          "datetime_ranges": [
+            {
+              "start_datetime": "2026-06-08T11:00:00+02:00",
+              "end_datetime": "2026-06-08T12:00:00+02:00",
+              "is_flexible": false,
+              "original_text": "Monday, June 8th at 11:00",
+              "specificity": "exact_time"
+            }
+          ],
+          "entities_raw": {
+            "api_llm_raw": "{\"topic\": \"none\", \"contact_medium\": \"none\"}",
+            "model": "gemini-2.5-flash"
+          }
+        }
+      },
+      "turn_duration_ms": 3842.1776000000136,
+      "ladder_steps": []
+    }
+  ],
+  "final_messages": [
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "My name is Alex Smith. I'd like to book an online meeting about a mortgage, ideally next Monday already at 8 in the morning.",
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "user"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": {
+            "id": null,
+            "args": {},
+            "name": "get_appointment_topics",
+            "partial_args": null,
+            "will_continue": null
+          },
+          "function_response": null,
+          "inline_data": null,
+          "text": null,
+          "thought": null,
+          "thought_signature": "b'\\n\\xe3\\x03\\x01\\x0c9\\xd6\\xc7\\xec\\xf7\\xf6Ks\\xd6Vw4\\x14\\xb3\\xdf\\x8e\\x85-zTD\\xbbG\\x8d\\x11\\xf3\\xf1Q\\x88\\xdd;).\\xb9j\\x88\\x8f\\xef\\x88\\xe3/\\xef\\xe5Z\\xe9mm\\x90vL\\xd8\\x96\\xe4\\xa5\\x03\\x87\\xe5\\x0b$\\x02ASQ*\\x1c\\xa4\\x10:\\xa8\\xb5!\\xd5dnp^.~\\x96h\\x103\\x1b\\xfb1b_~\\xe4\\xabs\\xb1\\x04<\\xfd\\xa8\\xf0\\x05\\xdf\\xd8]\\xe1\\r\\rY\\xfa\\x87\\xc3+\\x11\\xb8[llYs\\x90\\xe2G\\xeb\\xba\\xc10N&h-|\\x13\\x1e\\x92\\xd6\\xa3\\xc4\\xea\\x15\\xfbp\\xa7\\xccw\\x06>\\xf7\\x95\\x8fCV\\x8cFok\\xa4e\\xc9,\\x85\\x85/\\xd4\\xe0\\xddR\\x19oA\\xdbRd\\x08J\\t\\xd1\\xf7t\\x97\\xb3\\x95\\xf5\\xf7pq\\xdcN\\x99\\x8dr\\nY\\xbb\\xf9PKZKP\\xf2\\x10l\\x8e\\x032f\\xf7P7\\x9fU\\xb4o\\xee9\\xae\\x05\\x98\\x7fhE\\'\\x8b\\xa5\\x0c\\xb7zfM\\x7fOr\\x00\"\\t\\x97\\r\\x0cB\\x96\\xd2\\xc9\\n\\x1a6\\xefe\\x9a\\x85\\x10\\x18L:Cv\\xf9!\\xccL\\x90L\\xff\\x83\\xdc\\xa6\\xd4q\\xb2\\xbb\\xa5@\\x8c\\x9d/\\xcf\\xcc\\x1f\\xc7\\x9e\\xf4\\xde\\xdd|\\x98\\x0b\\xe7\\x03\\xd4{\\x06\\xc3M\\xdaC\\x98Q\\xec\\xf5\\x18`\\xb4\\x19YU\\n\\xe6\\xa3\\xc6\\x04\\xf45\\xc4\\xe0\\xc1\\x18\\x8c\\xef\\x86U\\xf0\\x03\\xba\\xb5/\\xdb/\\xba[wt\\xf3\\xe6\\xdfh\\x96\\xbc\\xef{\\xad\\xa8\\xeb\\x90\\xfa\\x14\\x14\\xd6\\xab\\xff^\\xb2\\xf8\\xbf\\xbd\\xa6\\x06\\x9dGg\\xa8=!\\x98z}[.\\xc6\\xb0\\xc3\\xd0f\\x1b\\x83\\n\\xbbY\\xa6\\x11\\xc2)fz\\x02\\xb7\\xa2\\xb2\\xce+\\xab\\xc7\\xa6\\x13/ \\x10\\xf7\\x80\\xd9\\x92\\xbf\\xdb$\\x88u\\xbf\\x9e\\xfa\\x1c\\\\\\xcbD\\x8a\\xe9V\\xd47\\x08\\xe6\\xb9\\xdf_\\t\\xeaS\\x963\\xb0\\xa9T\\xe0K\\rNBS\\xe5o\\x18\\xd7O\\xearm\\x1dSe\\xce\\\\c%\\xc7g\\x86\\x96p\\xbb\\x1a\\x1bu\\\\7\\n\\xc6\\xf8\\xfc\\xb4\\xf63Rl\\x0f\\x93u\\x86\\xc22A\\x9e|\\xf0\\x9f\\xf8\\xdf\\xe0'",
+          "video_metadata": null
+        }
+      ],
+      "role": "model"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": {
+            "will_continue": null,
+            "scheduling": null,
+            "parts": null,
+            "id": null,
+            "name": "get_appointment_topics",
+            "response": {
+              "result": [
+                {
+                  "topic_id": "investing",
+                  "topic_name": "Investing"
+                },
+                {
+                  "topic_id": "mortgage",
+                  "topic_name": "Mortgage"
+                },
+                {
+                  "topic_id": "pension",
+                  "topic_name": "Pension"
+                }
+              ]
+            }
+          },
+          "inline_data": null,
+          "text": null,
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "user"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": {
+            "id": null,
+            "args": {
+              "topic_id": "mortgage"
+            },
+            "name": "get_appointment_contact_medium",
+            "partial_args": null,
+            "will_continue": null
+          },
+          "function_response": null,
+          "inline_data": null,
+          "text": null,
+          "thought": null,
+          "thought_signature": "b'\\n\\x83\\x05\\x01\\x0c9\\xd6\\xc7HK\\xdb1F\\xc9\\xe4\\x8d\\x13\\xd9\\x97\\xf6k,\\x828\\xf0\\xc1r\\xc8R\\xa0B\\xfb\\x16\\x9e\\x87\\xdc#\\xe1\\xdd\\xf3\\xc8\\x89A#\\x18&\\x95D\\x91\\xb2\\x0c\\xedho\\x87<\\xb6\\xd0\\xc6\\xb7S\\x1e\\xc7V\\x86\\xd7\\'\\t\\x89\\x06\\x04j\\x0c\\xdb\\xb6\\x85qB\\xde\\xd82\\x0f\\xe8\\xbf\\x1a\\xb3\\xe6Cz\\xd4Z\\xe1=\\x98\\x03\\xe1\\x83]Z+@\\x88\\xf1\\x18\\x9e`\\x0fPP\\x99\\xcb\\xeffQdX\\xa5a_\\x00J\\x80\\x8c}\\xa29\\xc7>/B\\xfc\\xdf\\xea@\\xef\\xa3\\x13\\xbd~-G\\x97W\\xee\\x871\\xe0(\\xbc\\x8b\\xdf\\x80\\xcc\\xf5\\x9f\\x0c\\x93\\xe3\\x17\\x9b\\\\|\\xe5\\xec\\x13\\xb0]\\xf5sr\\x8d\\xc6\\x94\\x1d\\x87T\\xbf\\xb6\\xceU;\\xafn[,\\x0c0\\xf4\\x1d\\x91\\xcdA\\xa2\\xb7\\xfb\\xb4/\\xf0\\x8c\\xbd\\x18\\x86\\x80\\xfa\\xb1\\xbe\\x84P\\xcdC\\xb2\\xd0\\x88\\xde\\xc3\\xdc\\xdc\\\\}\\x19.\\xf8D\\xa0\\xc6\\xa7\\xc8\\x1dc\\x82\\x19(\\x96\\xa6E#\\x06\\x87\\xe5G\\x81\\x1em8\\xc3\\xe4\\xce\\x84\\xc6j\\xf3,t\\x8b\\xfcJ\\xa5>}B\\xce\\xc7\\xa0\\x89`{W\\x85\\x1d\\xac\\x90\\xbccQS\\xb7\\xc7\\xdc\\x9c]\\xd9R\\xabB\\x99\\x9c}lS\\xe6\\xa5\\xd3\\xd6\\xe5\"\\xde^D\\xcb\\xf1\\xc7\\'\\x03\\x86\\xf1\\x94\\x19/x$\\xcd\\xd4\\xd3+\\x8e\\xff\\xf5E\\x1d\\xff\\xf7ci6\"\\x0e%o\\n\\x0c\\xb0\\xb2q\\x10\\x19\\xa8\\xc3\\xde\\xf4E\\xbf\\xa6\\xeb%\\x8c@7A\\x04?\\xdda\\xae\\xdew@\\x19\\xc36\\x1c`,<\\xe5\\xcb\\xb3\\xe5\\x01\\x18\\x1d\\xcc\\\\\\xa3\\xa1\\xd6+\\xc8]\\xb9\\xca\\xb9\\xb6\\x156\\xceYa.\\x83,\\x04y\\x0c\\xfb3\\xca\\x12Z\\x84P5%\\x12o\\xfe\\x85\\xdb\\xd1\\xe8\\xe3A\\xbb\\xe9_~\\x8aA\\xfa\\xabL\\xb8\\x02\\xfbV4\\x9c|P\\x8anx\\x19K\\x04\\xae\\x9d\\xa9sN$)?\\xc7]\\xef!\\x14\\x95Zx\\x98?&m\\x89h\\xc7%\\x03\\x93\\x89Kz\\x08\\x85\\xf5\\x04\\xaa\\xe1o\\xa0p\\xa3\\x05A\\x00F\\xc4\\x01\\x01\\x8aL~\\x0e\\xf9\\x96o\\x14\\xefX\\x1fB\\xd6$$\\xb9\\x92/9\\xee\\xf1\\x8b]\\xae\\xdc\\x9e\\x8cW\\x1d3\\x00\\xdf\\x9a\\xc82\\xbe\\x00G\\x7fU\\xf2i.^\\x9e,\\xef\\xe9\\x0f\\x01\\xd8\\x81\\x04\\x03\\xcd~,i\\xd1(Zb%\\x99,\\xf3\\x7fW\\x00\\tV\\x83\\xc1\\xcf\\x94\\x08$+\\xe0\\xb6H\\xb6f\\x94^)\\xd2X#\\xc5\\x8e\\x91\\x96w\\x81\\xb1O\\x00Qr\\xd2\\xd4\\x1d[\\xa8O\\xe1\\xf5\\x9eu%\\xb1j\\x02\\xee\\xec\\xcc\\xae^`\\t\\x88E&\\xbe2c2ya+\\x94\\x1a\\x0f\\x9f\\xe5\\xeel\\xbb\\xa7\\xf4\\xb8\\xbfS\\x848\\xe6\\xe7,\\x1e#\\x05x\\xcd\\xf0~HM`\\x9d\\xa351\\xfe\\xbc\\x07'",
+          "video_metadata": null
+        }
+      ],
+      "role": "model"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": {
+            "will_continue": null,
+            "scheduling": null,
+            "parts": null,
+            "id": null,
+            "name": "get_appointment_contact_medium",
+            "response": {
+              "result": [
+                {
+                  "contact_medium_id": "branch",
+                  "contact_medium_name": "Branch Meeting"
+                },
+                {
+                  "contact_medium_id": "online",
+                  "contact_medium_name": "Online Meeting"
+                }
+              ]
+            }
+          },
+          "inline_data": null,
+          "text": null,
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "user"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": {
+            "id": null,
+            "args": {
+              "contact_medium_id": "online",
+              "end_datetime": "2026-06-08T09:00:00+02:00",
+              "start_datetime": "2026-06-08T08:00:00+02:00",
+              "topic_id": "mortgage"
+            },
+            "name": "check_availability",
+            "partial_args": null,
+            "will_continue": null
+          },
+          "function_response": null,
+          "inline_data": null,
+          "text": null,
+          "thought": null,
+          "thought_signature": "b'\\n\\xcc\\x04\\x01\\x0c9\\xd6\\xc7l\\xed\\xdd^l\\xc7]\\x06q\\xe5Oz\\xd3\\xcc\\xb4mh7/\\x99\\x07CQ\\x080 \\x97T.\\xc7\\xa1f\\xedQY\\xcf\\xbf\\x98\\x1c\\xc3\\xdb\\xfe!!<\\t=9\\xbb\\x88\\n\\x94h\\x81e\\xfb\\xaac\\xe5uxA\\x1e\\x15\\x10a\\x8e\\x07p\\x1a\\xe6\\xc6\\xf1b\\xcc$\\xda\\xa3\\x06E?8\\xa5\\x9bj\\xc9L.\\x02X\\xa8\\xc7O\\x02I\\x92\\x9fQ\\xca\\x9a\\xe0\\x1ce\\xef\\x80\\xb20\\x05\\x02\\xba\\x94\\tl1\\xd7x\\xbc+\\x8c\\x90\\xb1<\\xdf\\xb4\\xe9\\xec\\xd8h\\x93J\\xf8\\x17\\xf8\\xdf\\x17\\xe4\\x17\\xc4\\x13WF\\x80\\xb8\\xf8i\"Fe(0\\xbc\\xad\\xb1m0\\x91\\xed\\xe6\\x0e\\xbf\\xfc,\\x13\\x98\\xa2\\x84\\xfd\\x88\\xbc8\\xacF\\x17M~\\xb9\\xe0|/\\xb4l\\xbb\\xaeK\\x8f\\xce\\xf0JoOT\\xac.\\x9e\\x96i\\xb7\\x02\\xbfB\\xfd@3\\xf9\\xab\\xd4*\\x82\\xecl\\xd1\\xcdN]l5\\xc9.u\\xc7\\x9fC\\x1c\\x89cD\\xb8\\xc34o\\x8b\\xd3\\xd3H#\\xf5\\x12\\x03\\xd9\\xf68\\xfeU!\\xacYO\\x02o\\x90Uz\\xb2\\x14\\x0e\\xbb\\xec\\xc9/L\\r/\\xdb%\\x9c\\xb4`:p\\xeb\\xee\\x08\\x9f1\\xb0\\x93\\xae\\x18\\x84Z\\x88h\\xd3\\xaf5\\xdf\\\\?\\x81\\x87}<\\\\\\xd6\\xa2\\x91Y\\x88\\xc08\\xb8uK1\\xd6\\xe7\\xce\\x9fm\\xdf5\\x95O{NI\\x1bh?\\x9d\\xed\\xa4\\x04\\xf18\\x90\\x9f\\xd0L\\xe5R\\xed\\x88-\\xc4\\xaf\\xe8\\xbc\\x8e\\xd5R\\xc2\\xa9\\x0fq\\xd8E4~\\xd0^4\\x93LP\\xae\\x11\\xde\\xcf@\\xb4.\\xc3\\x82\\x90\\x92\\xb0*E\\xc5\\xb8\\x06\\xd9:\\xa5\\xe32\\xac\\x83\\x16\\t\\x0f$\\xe5\\x8f\\x9b\\xe0\\x0e\\xb0\\x90s<S\\x01\\x9a\\xa8\\x1f\\xdf\\xa3<\\x12\\xe6\\xa1\\xdb0U\\xc0\\xfb@\\xd5\\xf0\\xc8\\x02\\x97\\xecBG\\xcb\\x89V\\xf3\\xdc=\\x9b\\x1b\\x8c\\x82\\x94?\\x97\\xb67\\xb1W\\xe2a,\\x9e\\x98#\\xad\\x07\\xa6\"\\xb2\\xc0\\x08\\xf8\\xf3\\xefE\\x935\\xea)43\\xbe\\tA\\xe5\\x1d\\xe5h\\x199Oi\\x85\\xc5\\xaeMo\\xb4e\\x93\\xbbD\\xe1\\xea\\x89P6<T5\\xacz\\xf8\\xa42\\xa4\\xc8\\xb0W\\x8bd\\xd8\\x109\\xad\\x04\"\\xb4b\\xe4\\xeb\\x08\\x9fjG3\\x08\\x87\\x85\\xf5Q\\xd088\\xf2\\xcf/\\xbb8\\xbf\\xf3\\xa2G\\xd4gJ5\\xa0\\x0e\\xf5\\x1f7|d3aX\\x87k\\x96\\x85\\xf1\\x8aHM\\xa5\\xcd\\xfe /\\xaf\\x1bX%\\xa3\\x8e\\xfe\\xc5o=\\xc6k3\\x06\\xa6Taq\\x93\\x8d\\xb8.?\\xea\\xf5\\xbeI'",
+          "video_metadata": null
+        }
+      ],
+      "role": "model"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": {
+            "will_continue": null,
+            "scheduling": null,
+            "parts": null,
+            "id": null,
+            "name": "check_availability",
+            "response": {
+              "result": [
+                {
+                  "datetime_start": "2026-06-08T16:00:00+02:00",
+                  "datetime_end": "2026-06-08T17:00:00+02:00"
+                },
+                {
+                  "datetime_start": "2026-06-08T11:00:00+02:00",
+                  "datetime_end": "2026-06-08T12:00:00+02:00"
+                }
+              ]
+            }
+          },
+          "inline_data": null,
+          "text": null,
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "user"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "Unfortunately, the 8 AM slot next Monday is not available. However, I found two other online slots for a mortgage consultation next Monday, June 8th:\n\n*   11:00 AM - 12:00 PM\n*   4:00 PM - 5:00 PM\n\nWould either of these times work for you?",
+          "thought": null,
+          "thought_signature": "b'\\n\\xcd\\x03\\x01\\x0c9\\xd6\\xc74\\xe1\\x13\\x9e\\xd9\\x1b\\xaef\\xbe\\xa7nH\\x07\\x93\\x95\\x99\\xb9v\\xd3.\\xe6a\\x99\"\\x00#(\\xeb\\xeb\\xd2:\\xd6uCA\\x00\\xfc\\xb9\\xc1D\\x01\\x1b9D\\x0b\\x07\\xe2I\\x10$\\x96z\\\\\\xc8J!`\\xe1\\x9a\\xcd\\xcd\\xa3\\xff\\xecsIM\\x1b0@\\xad\\xe19`v\\xbfPVI\\xaa\\xd42\\xc2\\x1eKmfr\\x0f\\xc5{\\x010\\xab\\n\\xf7O\\xde1e\\x99e\\xdc(=d\\n\\x99\\xec\\xa6\\x15\\x02\\xf8\\xe4\\x19\\x91\\x06\\x18m\\xdf?B\\x81\\xa8x\\x1a\\xf7!m\\xb1\\xc2\\xe3\\x13\\x1c\\xc0\\xbb;\\xa0\\xc1`\\xd2f&]?]\\xc4\\xd9\\x95A\\x97pB\\x0c\\xc4\\xd3#\\xf9\\x1d\\x1f\\xbf\\xe8\\x1f\\x04k\\x97\\xa5\\xe8-\\xa1\\x06\\x7f\\xde\\x9ajt\\x16A\\x94$\\xc6\\x93\\xf64\\x80Q.\\x97=\\xa74\\xe7\\x0f\\xf8\"\\xba\\xf1\\xd1\\x9b\\xda\\x0e3\\xea\\xd0\\xf5\\x08\\x92\\xd6\\x85FSfl\\x8d\\xb5\\x84\\x13\\x7f\\xb0]\\x9f#bL\\xb4\\xfb\\xa09\\x1c\\x92\\x8b\\xad`8,<\\x96\\xbe\"\\xb4\\xb1\\x1c4\\xa2V\\xc5}X\\xcd\\xd8\\xc3r\\x92>$\\xb2X~\\x06\\x0f\\xfe)\\xf0\\xb6\\xb8\\x99\\xfe\\xc9\\x00\\xd2\\x8b\\xbc\\xe4\\x02!=b\\xac\\xefr\\xd1\\x8eif\\xbf,\\xb6*\\x17\\xceX\\x97\\xf3l\\x8e\\'\\xfe\\x84\\xd2\\xd7\\xf0\\xe07my\\xeaD\\xe6\\xa7Vwq\\x91\\xe00\\x84@\\xb3\\x06\\xf6\\x0e3\\x89]%\\xe8\\xbam\\\\\\x8eRL\\x00\\x95\\xfa\\x0cx\\x89\\xc0-P&\\xe1\\xb8@\\xac\\x02\\xc8\\xe8\\x97O\\x91\\xd3\\xbb-\\x85\\xff\\xd5P\\xb9T\\xcc\\xbb\\xb5\\x11\\x96?\\x7f\\xbe\\xf8\\x99\\xc1\\xf8\\xa7,\\xb0\\x83\\xc2\\x14\\xc7\\xc8\\xffi\\x02ct \\x12\\x03\\x0ew\\x8fv\\xb4P\\x9c\\xa9\\xb6\\x96\\xd5?\\xca\\x7fU98>a\\xcc\\xd7\\x9c\\xf3\\x18\\xd89\\x8a\\x9eD<G\\x9d\\xeb`\\xf7,\\xfe\\xa1\\x08W\\n\\xa3\\x17^\\xf2\\xc1\\xbd\\x1c\\xb4G\\xecm\\x1dl<\\xd5\\xc6a\\x1f\\xff\\xf0rL\\xfeM\\xef\\xd1'",
+          "video_metadata": null
+        }
+      ],
+      "role": "model"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "The 11:00 AM slot on Monday, June 8th works for me. Please book that.",
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "user"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": {
+            "id": null,
+            "args": {
+              "contact_medium_id": "online",
+              "datetime_start": "2026-06-08T11:00:00+02:00",
+              "topic_id": "mortgage",
+              "datetime_end": "2026-06-08T12:00:00+02:00"
+            },
+            "name": "book_appointment",
+            "partial_args": null,
+            "will_continue": null
+          },
+          "function_response": null,
+          "inline_data": null,
+          "text": null,
+          "thought": null,
+          "thought_signature": "b'\\n\\xe4\\x03\\x01\\x0c9\\xd6\\xc7j\\xad)ok\\xfb\\xd2\\x08\\xd8NV\\xec\\x9d+\\xd5\\xf3$poc(\\xc3\\\\\\x98\\xb5^\\xea\\xa3IM\\xbavQ\\x85\\\\\\xc9(R\\x02p\\x98\\x91\\xf7\\xcd\\x1f\\xa3\\x84sd\\xf4RA\\xc8\\x0f[\\x11fMYVv\\xa8\\x12`s.<\\x91\\xa4\\x9b\\xe7\\x9a\\xfdv\\xe8-Z\\xd6\\x1dw\\x8b\\xa5\\x98\\x85+\\xbdT8\\xb8,\\xf6\\xb2w\\x08\\xedKw>\\xc4=\\x89\\x871e%\\xb7\\x9d\\xce5/\\xb5n\\x96\\xb4j\\xb8\\x0f\\xba\\x94\\xdd\\xb9S\\xa0\\xe8\\xcc\\xe1\\x99}\\x08P\\x81\\xfd\\\\\\xba)\\xa0\\xf9\\x81?\\x7f{K\\xeb\\xa4!\\xbe\\xf4\\xe4PJ\\xe2&M\\xc5\\xc3\\xb7\\xc7\\xe6\\xb0\\xddc+OF\\x9c\\x82\\x92\\xe1\\xad\\xa3\\x97a\\x0c\\x14O\\xb3\\x87\\xc7*\\xcb\\x10\\xab\\x88\\x1c\\x9c\\xc7\\xb6\\xb0x\\xa3a\\x9f\\xf9\\xe6*<\\x96\\x7f\\xd5\\x88S\\xa8\\x9fN\\xd3\\xc81\\xbf\\xea\\xdf\\xe0\\xba\\xff\\x98\\xcc\\x954>\\xad\\xea\\x9a\\xa3g\\x95\\x10\\x0fS\\x01q\\xae%\\xe1\\xc1\\x16^\\x13b\\x94\\xc3\\xae\\xfe\\xe7-O\\xbfLL,\\xfa\\xa4q;\\xeb\\x9b\\x8au\\xd1\\xe68\\x12u\\xe0be\\x89\\xabp\\x0bd@\\xcd\\xed\\xa7\\xa0|\\x159u\\x82\\xf6\\xc0i\\x15\\xba\\x1f\\xfc\\xf6\\xee\\x18\\xf8\\xf4\\xf9\\xd5n4\\x17\\x1c.`\\xab\\xe7\\xca\\xbb\\xd5\\x8a\\xb2\\xa5/F\\xc6\\x8e\\xa1\\xdd\\xc8\\xbb\\x95\\x90\\x0e\\x1d\\xd3\\xf0\\xc8\\x87\\xf2u\\x87\\xd8c:\\xc9\\xbb\\xa6\\x16\\x1e\\xbdc8\\xba\\xaa&\\xc1\\xfb6t$kO\\xaf\\xafOo\\xd0F\\xd1V\\x0e\\xb1\\xb2\\xccy\\x85&\\xec\\xecz\\xd2\\x02\\x01\\x0b\\xa0\\xc3\"\\x81\\xa6fk/\\x1a\\xb2W\\xb8\\xfd\\xae\\xba<\\xc4\\xb1\\x0f^\\xc3\\x94\\xadB(\\x19Pz\\x7f!\\xa4$(\\xe5g\\x7f\\xa5Rx\\x817\\xdf\\x98^,I\\x12\\x8a-WJ,\\x18,\\xf1*\\xe8\\xcb\\xff\\xbb\\xe2\\xca\\x15\\x97$ou#\\xef\\xf7a\\xe6\\xb2\\xd0\\x91a\\x19\\xd8o\\xb1Xn\\xd3,\\xf5G5=P\\x16\\x8d{\\xa7\\x94o$\\xc8+\\xfb4\\xf7\\xe9\\xf8N{\\xb0\\xe3\\x04K?'",
+          "video_metadata": null
+        }
+      ],
+      "role": "model"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": {
+            "will_continue": null,
+            "scheduling": null,
+            "parts": null,
+            "id": null,
+            "name": "book_appointment",
+            "response": {
+              "status": "success",
+              "booking_id": "BK-3339CF",
+              "details": {
+                "topic_name": "Mortgage",
+                "contact_medium_name": "Online Meeting",
+                "datetime_start": "2026-06-08T11:00:00+02:00",
+                "datetime_end": "2026-06-08T12:00:00+02:00"
+              }
+            }
+          },
+          "inline_data": null,
+          "text": null,
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "user"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "Great! Your online mortgage meeting on Monday, June 8th at 11:00 AM has been successfully booked. Your booking ID is BK-3339CF.",
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "model"
+    }
+  ],
+  "derived": {
+    "total_turn_count": 2,
+    "total_mcp_calls": 5,
+    "availability_calls": 2,
+    "first_check_availability_params": {
+      "contact_medium_id": "online",
+      "end_datetime": "2026-06-08T09:00:00+02:00",
+      "start_datetime": "2026-06-08T08:00:00+02:00",
+      "topic_id": "mortgage"
+    },
+    "booked": true,
+    "total_simulated_latency_ms": 3078.875926875318,
+    "total_actual_latency_ms": 79.2461999999432,
+    "parse_accuracy_score": 0.5,
+    "unsupported_facts_count": 0,
+    "faithful": true,
+    "slots_presented_per_turn": [
+      4,
+      1
+    ],
+    "efficiency_ratio": 2.0,
+    "optimal_availability_calls": 1,
+    "dead_end_turn_count": 0
+  },
+  "grounding_facts": [
+    {
+      "fact_type": "topic",
+      "asserted_value": "mortgage",
+      "asserted_in_turn": 1,
+      "supported": true,
+      "source_tool_call_ref": null,
+      "notes": "case-insensitive substring match against get_appointment_topics response"
+    },
+    {
+      "fact_type": "topic",
+      "asserted_value": "mortgage",
+      "asserted_in_turn": 2,
+      "supported": true,
+      "source_tool_call_ref": null,
+      "notes": "case-insensitive substring match against get_appointment_topics response"
+    },
+    {
+      "fact_type": "booking",
+      "asserted_value": "BK-3339CF",
+      "asserted_in_turn": 2,
+      "supported": true,
+      "source_tool_call_ref": null,
+      "notes": "booking_id from book_appointment success response"
+    }
+  ],
+  "langsmith_trace_id": null,
+  "langsmith_trace_url": null,
+  "judge_scores": [],
+  "termination_reason": "booked",
+  "error": null
+}

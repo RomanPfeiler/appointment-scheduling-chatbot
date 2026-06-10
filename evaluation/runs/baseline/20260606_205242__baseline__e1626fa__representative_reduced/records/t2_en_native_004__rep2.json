@@ -1,0 +1,939 @@
+{
+  "schema_version": "1.0",
+  "scenario_id": "t2_en_native_004",
+  "tier": 2,
+  "stage": "baseline",
+  "persona_profile": "cooperative",
+  "run_index": 2,
+  "run_id": "20260606_205242__baseline__e1626fa__representative_reduced",
+  "timestamp_start": "2026-06-06T20:58:20.511212Z",
+  "timestamp_end": "2026-06-06T20:58:36.961629Z",
+  "git_commit": "e1626fa4f1e33c633e84186a822bc2d5c6e78d0a",
+  "git_dirty": true,
+  "change_note": "Corrected baseline (reduced profile, 60 scen x reps2); supersedes confounded 2026-05-31 run. Fixes: clock override + next-week calque + runaway guard.",
+  "config": {
+    "llm_provider": "gemini",
+    "llm_model": "gemini-2.5-flash",
+    "llm_temperature": 0.7,
+    "llm_max_tokens": null,
+    "judge_model": null,
+    "seeds": {
+      "profile_seed": 42
+    },
+    "max_turns": 12,
+    "latency_model": {
+      "base_overhead_ms": 400.0,
+      "per_day_cost_ms": 500.0,
+      "jitter_sigma_ms": 50.0
+    },
+    "simulate_latency": true,
+    "runner_version": "step3/1.0",
+    "extras": {
+      "profile_name": "representative_reduced",
+      "nlp_datetime_enabled": false,
+      "nlp_entity_enabled": false,
+      "datetime_arm": null,
+      "entity_arm": null,
+      "nlp_llm_backend": null
+    }
+  },
+  "scenario_set_version": null,
+  "availability_override": {
+    "slots_by_offset": {
+      "today+2": [
+        "11:00-12:00",
+        "10:00-11:00"
+      ]
+    },
+    "notes": "Tier 2 — preferred slot busy; same-day alternatives exist"
+  },
+  "frozen_phrasing": "I am more interested in booking whichever will accept a table of four at 18:30 this Wednesday?",
+  "expected_datetime_window": {
+    "start_offset": "today+2T09:00",
+    "end_offset": "today+2T10:00"
+  },
+  "turns": [
+    {
+      "turn_index": 1,
+      "timestamp": "2026-06-06T20:58:21.208193Z",
+      "user_message": "Hello, my name is Alex Smith. I'd like to book an online meeting about pension. I am more interested in booking whichever will accept this Wednesday around 9am.",
+      "agent_response": "I couldn't find any online pension meeting slots for this Wednesday around 9 AM. Would you like me to check for other times on Wednesday, June 3rd, or perhaps another day? I can check for the entire day on Wednesday if that works for you.",
+      "llm_calls": [
+        {
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "prompt_message_count": 1,
+          "response_type": "function_call",
+          "function_name": "get_current_datetime",
+          "function_args": {},
+          "text_preview": null,
+          "latency_ms": 1473.973100015428,
+          "input_tokens": 1130,
+          "output_tokens": 12,
+          "temperature": 0.7,
+          "raw_response_excerpt": null
+        },
+        {
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "prompt_message_count": 3,
+          "response_type": "function_call",
+          "function_name": "get_appointment_topics",
+          "function_args": {},
+          "text_preview": null,
+          "latency_ms": 1290.4042999725789,
+          "input_tokens": 1213,
+          "output_tokens": 12,
+          "temperature": 0.7,
+          "raw_response_excerpt": null
+        },
+        {
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "prompt_message_count": 5,
+          "response_type": "function_call",
+          "function_name": "get_appointment_contact_medium",
+          "function_args": {
+            "topic_id": "pension"
+          },
+          "text_preview": null,
+          "latency_ms": 1102.8089000028558,
+          "input_tokens": 1293,
+          "output_tokens": 22,
+          "temperature": 0.7,
+          "raw_response_excerpt": null
+        },
+        {
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "prompt_message_count": 7,
+          "response_type": "function_call",
+          "function_name": "check_availability",
+          "function_args": {
+            "end_datetime": "2026-06-03T10:00:00+02:00",
+            "topic_id": "pension",
+            "contact_medium_id": "online",
+            "start_datetime": "2026-06-03T08:00:00+02:00"
+          },
+          "text_preview": null,
+          "latency_ms": 1266.1324000218883,
+          "input_tokens": 1374,
+          "output_tokens": 89,
+          "temperature": 0.7,
+          "raw_response_excerpt": null
+        },
+        {
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "prompt_message_count": 9,
+          "response_type": "text",
+          "function_name": null,
+          "function_args": null,
+          "text_preview": "I couldn't find any online pension meeting slots for this Wednesday around 9 AM. Would you like me to check for other times on Wednesday, June 3rd, or perhaps another day? I can check for the entire d",
+          "latency_ms": 1398.098600038793,
+          "input_tokens": 1477,
+          "output_tokens": 55,
+          "temperature": 0.7,
+          "raw_response_excerpt": null
+        }
+      ],
+      "tool_calls": [
+        {
+          "tool_name": "get_current_datetime",
+          "parameters": {},
+          "response": {
+            "datetime": "2026-06-01T12:00:00+02:00",
+            "date": "2026-06-01",
+            "weekday": "Monday",
+            "week_number": 23
+          },
+          "simulated_latency_ms": 447.8269217197838,
+          "actual_latency_ms": 7.211700023617595,
+          "success": true,
+          "error_message": null
+        },
+        {
+          "tool_name": "get_appointment_topics",
+          "parameters": {},
+          "response": [
+            {
+              "topic_id": "investing",
+              "topic_name": "Investing"
+            },
+            {
+              "topic_id": "mortgage",
+              "topic_name": "Mortgage"
+            },
+            {
+              "topic_id": "pension",
+              "topic_name": "Pension"
+            }
+          ],
+          "simulated_latency_ms": 384.25252919633687,
+          "actual_latency_ms": 20.625000004656613,
+          "success": true,
+          "error_message": null
+        },
+        {
+          "tool_name": "get_appointment_contact_medium",
+          "parameters": {
+            "topic_id": "pension"
+          },
+          "response": [
+            {
+              "contact_medium_id": "online",
+              "contact_medium_name": "Online Meeting"
+            },
+            {
+              "contact_medium_id": "phone",
+              "contact_medium_name": "Phone"
+            }
+          ],
+          "simulated_latency_ms": 431.31863612228454,
+          "actual_latency_ms": 20.82370000425726,
+          "success": true,
+          "error_message": null
+        },
+        {
+          "tool_name": "check_availability",
+          "parameters": {
+            "end_datetime": "2026-06-03T10:00:00+02:00",
+            "topic_id": "pension",
+            "contact_medium_id": "online",
+            "start_datetime": "2026-06-03T08:00:00+02:00"
+          },
+          "response": [],
+          "simulated_latency_ms": 874.331892682318,
+          "actual_latency_ms": 23.772899992763996,
+          "success": true,
+          "error_message": null
+        }
+      ],
+      "state_snapshot": {
+        "topic_id": null,
+        "topic_name": null,
+        "contact_medium_id": null,
+        "contact_medium_name": null,
+        "phase": "intent",
+        "turn_count": 1,
+        "pending_tool_call": null,
+        "tool_result": null,
+        "last_annotation": null
+      },
+      "turn_duration_ms": 8907.43520000251
+    },
+    {
+      "turn_index": 2,
+      "timestamp": "2026-06-06T20:58:30.744748Z",
+      "user_message": "Yes, please check for any available slots for an online pension meeting this Wednesday, June 3rd. Any time that day would work.",
+      "agent_response": "I found two available slots for an online pension meeting this Wednesday, June 3rd:\n\n*   10:00 AM - 11:00 AM\n*   11:00 AM - 12:00 PM\n\nWould you like to book one of these?",
+      "llm_calls": [
+        {
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "prompt_message_count": 11,
+          "response_type": "function_call",
+          "function_name": "check_availability",
+          "function_args": {
+            "contact_medium_id": "online",
+            "end_datetime": "2026-06-03T18:00:00+02:00",
+            "start_datetime": "2026-06-03T08:00:00+02:00",
+            "topic_id": "pension"
+          },
+          "text_preview": null,
+          "latency_ms": 1408.208700013347,
+          "input_tokens": 1562,
+          "output_tokens": 89,
+          "temperature": 0.7,
+          "raw_response_excerpt": null
+        },
+        {
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "prompt_message_count": 13,
+          "response_type": "text",
+          "function_name": null,
+          "function_args": null,
+          "text_preview": "I found two available slots for an online pension meeting this Wednesday, June 3rd:\n\n*   10:00 AM - 11:00 AM\n*   11:00 AM - 12:00 PM\n\nWould you like to book one of these?",
+          "latency_ms": 642.034100019373,
+          "input_tokens": 1793,
+          "output_tokens": 62,
+          "temperature": 0.7,
+          "raw_response_excerpt": null
+        }
+      ],
+      "tool_calls": [
+        {
+          "tool_name": "check_availability",
+          "parameters": {
+            "contact_medium_id": "online",
+            "end_datetime": "2026-06-03T18:00:00+02:00",
+            "start_datetime": "2026-06-03T08:00:00+02:00",
+            "topic_id": "pension"
+          },
+          "response": [
+            {
+              "datetime_start": "2026-06-03T11:00:00+02:00",
+              "datetime_end": "2026-06-03T12:00:00+02:00"
+            },
+            {
+              "datetime_start": "2026-06-03T10:00:00+02:00",
+              "datetime_end": "2026-06-03T11:00:00+02:00"
+            }
+          ],
+          "simulated_latency_ms": 912.0614628431966,
+          "actual_latency_ms": 21.794000000227243,
+          "success": true,
+          "error_message": null
+        }
+      ],
+      "state_snapshot": {
+        "topic_id": null,
+        "topic_name": null,
+        "contact_medium_id": null,
+        "contact_medium_name": null,
+        "phase": "intent",
+        "turn_count": 2,
+        "pending_tool_call": null,
+        "tool_result": null,
+        "last_annotation": null
+      },
+      "turn_duration_ms": 3057.4067999841645
+    },
+    {
+      "turn_index": 3,
+      "timestamp": "2026-06-06T20:58:34.409600Z",
+      "user_message": "I'll take the 10:00 AM to 11:00 AM slot, please. Please confirm the booking.",
+      "agent_response": "Your online pension meeting on Wednesday, June 3rd, from 10:00 AM to 11:00 AM has been successfully booked. Your booking ID is BK-6DAE91.",
+      "llm_calls": [
+        {
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "prompt_message_count": 15,
+          "response_type": "function_call",
+          "function_name": "book_appointment",
+          "function_args": {
+            "datetime_end": "2026-06-03T11:00:00+02:00",
+            "datetime_start": "2026-06-03T10:00:00+02:00",
+            "topic_id": "pension",
+            "contact_medium_id": "online"
+          },
+          "text_preview": null,
+          "latency_ms": 1523.1166000012308,
+          "input_tokens": 1886,
+          "output_tokens": 89,
+          "temperature": 0.7,
+          "raw_response_excerpt": null
+        },
+        {
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "prompt_message_count": 17,
+          "response_type": "text",
+          "function_name": null,
+          "function_args": null,
+          "text_preview": "Your online pension meeting on Wednesday, June 3rd, from 10:00 AM to 11:00 AM has been successfully booked. Your booking ID is BK-6DAE91.",
+          "latency_ms": 569.0904000075534,
+          "input_tokens": 2090,
+          "output_tokens": 45,
+          "temperature": 0.7,
+          "raw_response_excerpt": null
+        }
+      ],
+      "tool_calls": [
+        {
+          "tool_name": "book_appointment",
+          "parameters": {
+            "datetime_end": "2026-06-03T11:00:00+02:00",
+            "datetime_start": "2026-06-03T10:00:00+02:00",
+            "topic_id": "pension",
+            "contact_medium_id": "online"
+          },
+          "response": {
+            "status": "success",
+            "booking_id": "BK-6DAE91",
+            "details": {
+              "topic_name": "Pension",
+              "contact_medium_name": "Online Meeting",
+              "datetime_start": "2026-06-03T10:00:00+02:00",
+              "datetime_end": "2026-06-03T11:00:00+02:00"
+            }
+          },
+          "simulated_latency_ms": 377.4349945752807,
+          "actual_latency_ms": 8.994599978905171,
+          "success": true,
+          "error_message": null
+        }
+      ],
+      "state_snapshot": {
+        "topic_id": null,
+        "topic_name": null,
+        "contact_medium_id": null,
+        "contact_medium_name": null,
+        "phase": "intent",
+        "turn_count": 3,
+        "pending_tool_call": null,
+        "tool_result": null,
+        "last_annotation": null
+      },
+      "turn_duration_ms": 2553.0289000016637
+    }
+  ],
+  "final_messages": [
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "Hello, my name is Alex Smith. I'd like to book an online meeting about pension. I am more interested in booking whichever will accept this Wednesday around 9am.",
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "user"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": {
+            "id": null,
+            "args": {},
+            "name": "get_current_datetime",
+            "partial_args": null,
+            "will_continue": null
+          },
+          "function_response": null,
+          "inline_data": null,
+          "text": null,
+          "thought": null,
+          "thought_signature": "b'\\n\\xc1\\x07\\x01\\x0c9\\xd6\\xc7\\xfb\\x95\\x8e\\x19\\xbd\\xfap\\x9aLD\\xb4\\xc8~@\\x8b|\\xfenZ\\xcaiu\\xbd3u\\xca\\x04\\xf9\\x1fI\\x0f\\xdep\\x86\\xca\\xe3\\xa7\\x8b\\xa9dn \\xe6\\xc8\\x91C\\xca5r\\xa0\\xa5\\x8e\\xe9\\xab\\xba{\\xc0;\\x90N\\x93&\\xe17R\\x1b\\xdeE\\xb3\\x11\\xe3;\\x17\\x08\\xbc\\xa7\\xa6\\x82\\x84\\xfb\\x87\\x9d)\\xff\\x0cH\\xa0\\xd3\\xadb3\\n\\xee\\xcc\\x04;\\xc7^t\\xa6\\xe1\\xe66Y\\xcbv\\x9f3\\xc6E\"h9\\r\\x9f\\x84\\xb9_\\xa3 \\xd3\\xfb~\\x8fV\\x89z\\xb8T2-\\x0f\\x14\\xef\\xb7\\xbc\\'\\x04n\\xfaO\\xb3\\xa3\\xd1Ai5\\xb7c\\x9a\\xf7f\\xdc\\x19\\x81\\x16\\x8cG\\xc4/\\xfb\\xe2\\xa68\\xe7\\x89\\xb05,)\\xc85\\x9f\\xef\\x04\\x07\\xb1\\xbeGDC)BTD\\xb6\\xf8\\xbaC!\\x06j]lH\\xcd\\xfd\\xe2\\x05\\xf4\\xc7\\xbf\\\\>\\xc85}\\x1d\\x1c\\x8b\\xd08\\x0c\\xbe\\xec3\\x83\\xf0e\\xf2\\xa2-#\\xdb\\x10\\xbd\\xf1\\x1c\\xb0\\xb0\\xc6Y\\xee\\xcc\\xa1\\x93-\\x1d\\x84\\x99\\xf7\\xce\"\\xc54\\xfe\\xfaH\\x04 \\xb0H>\\x8b\\x02\\xdfdhL\\x82\\xe0\\x95VH~\\x90e)!\\x8c\\xd8\\x03v^\\xf3D\\x83\\x0e\\r\\xdc\\xebO\\x8e8\\xa3\\xc8\\x98\\xcb\\xc0\\x03@\\x95\\x16\\xe5tA/\\x0e\\x8a\\xcd\\x10|\\x14\\rn\\x89\\r\\x7fU\\'\\x94\\xa4\\xce\\xb1\\xbe\\x02f\\xd4\\x994hOT\\x1b\\xbd\\x06\\xb8d6G\\x8f\\xa1\\xe6\\xd0\\x18\\'\\x8a\\xbc\\xf8U\\xfd\\x16\\x11H\\x88vL\\xbc\\xd4\\x9d\\xfb\\xb9/\\xf7\\xfe\\x80\\r\\x8cd\\x05\\x8a\\xa5\\xf8%\\xd9a)\\x1ey\\xcfr\\xb4\\xe85W\\x93\\xaf\\xb0\\x9a\\xc7\\xa7U!6\\x13\\xbf\\x1b\\x07\\xcaU\\xd6\\x0e\\x11\\x93q@\\xf9\\x88i\\n\\x06E\\x17\\xdb\\n|\\xc6\\xe8\\xa18@w\\x19\\x01\\xd1\\x9e\\xfe2J\\xec\\xc4H\\x86\\x98\\xca\\xecrA\\xe9\\xefg)\\xd9\\xd2\\x80\\x8d]\\x9e\\x7f\\xfd\\n\\xb9\\x9a\\x1d\\xb1\\xf1m\\xb5\\xab\\x99&\\xd3G4\\xc9^upb\\xfb_\\xc9\\xd1XPM`\\xd1\\x81\\xe1z\\xd5+\\xb0\\xe6\\xf7\\xfb\\x06\\xf2v\".\\x0c\\x17\\x08j\"\\x08\\x14d\\x03\\x9f#\\xbfo\\xc4\\x16\\x81\\xcbn\\xc7\\x9e\\x16\\xb4\\x15\\xd5m\\xd2>\\xf9\\x8e\\x0f\\xb1Y \\xce\\xe6wyH\\x8e*\\x17\\xff\\xab\\xc3\\x88\\xbb\\xca\\x7f\\x81~\\x1a\\xfc\\x1c\\x17\\xe6\\xec\\xce\\x1f%\\x10\\xf8\\xd5\\xb0\\x98}\\xa5\\xa9\\x90\\x05\\x1a\\x99\\x9e\\xb5^\\xb3`L\\xd3\\\\\\xfc\\xf5\\x86UC\\x85\\xae\\x02lS\\x03=a\\xac\\x8a\\x87\\xcb\\xcc\\xda\\xac7\\xc4[>>HY\\xaa\\xa9;\\x07\\x81B\\xa5n\\xcc\\xacSQ\\xc5\\x88\\x1c^\\xaa P\\x84\\xf5w\\xa9\\xfd\\x85\\x11-\\xb5\\x17ml\\xf5\\xb3\\xc3-\\x86Q\\x19v\\x80\\x04*@\\x03\\xa43\\x1a\\xc2\\x91\\xb4\\xd8tt\\x17=.\\x9fg\\x8c\\xb3\\xbb\\xc8D\\x02V\\xe1\\xd1d\\x99:\\x03J\\xb3\\xde`\\xa2\\x8a\\xd0\\xbe\\xd5\\xc8\\x8f\\xae\"!\\x15\\x9a\\xcf\\xdb\\xdc\\x81\\xd4C\\x06\\xe5\\x90\\x9e6>^\\xc6\\nl\\x14\\xca\\xab\\xdb\\x96\\x88\\xbaG\\xba,\\xa7\\x01\\xd9\\xb7\\xf65\\x08\\xfb\\x91\\xf9\\xd6\\r\\x11\\x85\\xbc\\xe6O\\xe8\\xc4\\xa4\\xa5A\\x18\\x9c\\x1e45\\xe0\\xda\\xe8\\'->\\xc0\\xdf\\xb8\\x08j\\x1b\\xc4\\xec~-8\\x00\\xfe{\\x10V\\xf0\\x8d-{$u\\x1e\\xa6\\x1e\\x9c\\x9f*\\xb0X\\xd3\\xc9\\x1fh\\x8b\\x0b`\\x8eV\\xa2\\xb8\\x1d,EBg\\xb6\\xab\\x94\\xfe\\x0e\\xdf\\x80UK\\xe0#p\\xabZ\\xd7\\x90\\x90\\xda\\xd6k\\xb9\\x05\\xf2D\\xb2-4\\x98/\\xae\\xea\\xf8\\x9f\\x04p\\xd9Z\\x8a\\xe4j\\xb2\\xd5\\xeb\\x97\\xd1j\\x82\\xda\\xad\\x11X\\xb9E\\xd2ra#\\x81\\x86#\\x87p\\xfap\\xb1\\xc0,-\\x1d\\x1f\\xa2\\x9a\\x04-ex\\x9fu\\xa0\\xd4i\\x87=\\xeb\\xcd\\xd4\\x8c\\x91 \\x15`\\xbc%\\x8c\\xe9\\xb2\\xb1I\\x99@`nz\\xa1\\x85\\x07H\\x05\\xbc\\x1c\\xae\\x00\\xfd\\xcf-\\xa3\\xf6\\xe7\\x04\"\\x10\\x9cz\\xae\\x12\\x1fK\\xd6\\xf0\\xd2\\xbe\\x7f\\xd75\\x06/\\xf2]\\x82\\\\\\x15u\\x03s\\xaaF\\x1b\\xf7\\xcb\\xa2\\xc7\\xd7\\x13\\xb3\\xa3\\xbcN#x\\xa23)l\\x02\\xd6&)\\x90\\x8f7\\r\\x141}\\xd8\\xd7'",
+          "video_metadata": null
+        }
+      ],
+      "role": "model"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": {
+            "will_continue": null,
+            "scheduling": null,
+            "parts": null,
+            "id": null,
+            "name": "get_current_datetime",
+            "response": {
+              "datetime": "2026-06-01T12:00:00+02:00",
+              "date": "2026-06-01",
+              "weekday": "Monday",
+              "week_number": 23
+            }
+          },
+          "inline_data": null,
+          "text": null,
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "user"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": {
+            "id": null,
+            "args": {},
+            "name": "get_appointment_topics",
+            "partial_args": null,
+            "will_continue": null
+          },
+          "function_response": null,
+          "inline_data": null,
+          "text": null,
+          "thought": null,
+          "thought_signature": "b'\\n\\xbf\\x03\\x01\\x0c9\\xd6\\xc7\\xc9\\x9dQd\\xe91\\xa7\\xc7\\xc3\\xfck\\xe2c\"\\xa5\\xb2P\\xb2\\xc8\\x17\\x0f\\xcb`\\xb7fq*\\x15\\xa8|\\xb8\\xb6-\\x80\\xb7\\xfb`\"\\r4\\x7fq0\\xa0\\x93\\x8du\\x89\\n\\xf7l4=\\x08\\x15\\xf8\\xbb\\x0c\\x8c\\xd3\\x061R\\x07J\\xc7\\xa5\\xafD\\xaf\\xda\\x7f\\x1c\\x9c1\\xab\\xcd\\x84\\x1c\\xf0\\x8c\\xbb\\x8bA\\x11\\x81\\xc2\\x0c,\\xea\\xc6\\xd4\\xc6\\xf1\\xa6\\xce\\x11\\xcc\\x97\\xc48\\xa7g\\xf3\\xe2\\xf1e\\xc83\\xa1A\\x00\\xf3\\xec2(\\x00\\x8c\\xf3[\\x87\\xae\\xd9\\x1b6\"\\xf0\\x1dY\\x82\\xa8\\x11| \\x9c\\xb5\\xcf\\x95\\xa7\\x11\\x02q\\xe9o\\x15\\xafx\\xdb\\xb9(Qv\\xaa\\x03{Pdex\\x84\\x0e\\'RO\\t\\xf1A\\xf1\\xcf\\xfe\\xc6\\xa7\\x1cs \\x05\\xa1\\x80\\xde\\xb6\\xe46\\xc9\\xd7~^\\x83\\xb7%\\x91Yc9\\xbd*m\\x9dx\\xd8\\xc4\\xc0\\xe3\\x1a\\x9aI\\xab!\\xe0\\xddk\\x8c\\xaem:\\xef\\xa5/\\xaa\\x04\\xe5\\xb6\\xde\\'\\x18\\x14\\xb4\\x8c-\\xeaK\\xf4\\xc8\\xabE\\xea\\xb2<E\\x93\\x92`E\\x18\\xc6`V&\\x96\\xdfs\\xbc\\xf2\\xcf\\x18hE \\xd5\\xfaG\\xd0\\xd9)\\xf2\\xbf\\xfb\\xd7]72\\xb0NS\\x8a\\xba\\xf7p\\x01\\xc2zQ\\xc3\\x1b\\x84\\xde\\xa3Z\\x9b\\xbc\\x8d\\x8f\\xaa\\xd2\\xc1~\\xff\\xf1\\x95\\xcd\\x81V\\x06\\xdf_-\\xdbn\\xb6xQ\\x1c\\xad\\xe1a\\x07\\xe1\\xa9^\\x18tm\\x10\\xab\\x1b\\x9d\\x97\\xa2\\xef\\xc1\\x15\\x03\\xde\\xbf\\xaa\\r]H\\xd6\\xbd\\xd3n\\xccI\\x83\\xe8\\xbc\\'\\x8b\\xe8\\x12\\x88\\xd6\\xb32,\\xc9u\\x9f\\xe3\\x04\\x7f\\xa59\\x87\\xff%\\x80\\xc0\\\\9\\x90IKVKH\\x1e\\xd7R\\xe6\\xaaAY\\x01\\xa1M~\\xf8\\xf7\\xf6\\xb1\\xae\\xb2\\x1f(^9\\xdb\\x0cd\\x12\\xa5\\x80\\x025\\x1fx\\xa45?c3\\x0f\\xcc\\xb0+\\xe3\\xb1\"\\x07m\\xd2\\xb6\\x81I=\\xd7\\\\(\\xd3\\xada\\xd9x\\xc7b\\xcaL\\x1e5\\xd1\\xda'",
+          "video_metadata": null
+        }
+      ],
+      "role": "model"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": {
+            "will_continue": null,
+            "scheduling": null,
+            "parts": null,
+            "id": null,
+            "name": "get_appointment_topics",
+            "response": {
+              "result": [
+                {
+                  "topic_id": "investing",
+                  "topic_name": "Investing"
+                },
+                {
+                  "topic_id": "mortgage",
+                  "topic_name": "Mortgage"
+                },
+                {
+                  "topic_id": "pension",
+                  "topic_name": "Pension"
+                }
+              ]
+            }
+          },
+          "inline_data": null,
+          "text": null,
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "user"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": {
+            "id": null,
+            "args": {
+              "topic_id": "pension"
+            },
+            "name": "get_appointment_contact_medium",
+            "partial_args": null,
+            "will_continue": null
+          },
+          "function_response": null,
+          "inline_data": null,
+          "text": null,
+          "thought": null,
+          "thought_signature": "b'\\n\\x9f\\x02\\x01\\x0c9\\xd6\\xc7W\\x10\\xc1\\xbf\\xa3\\x95\\xb4t\\x984-\\xc0\\x16(\\x81\\x9c\\xad_0\\x19ng6\\x9f\\x94\\\\f\\r\\xa9\\xef\\x9fp\\x00\\xbb\\xafX\\x11\\x01\\xe2\\xb3\\xc8\\x04\\x9bKU\\xa1\\xe3vE<\\xc3\"\\xe45\\x86d\\xc5\\x08 \\xf8m\\x16\\xc1R\\xda{\\xba\\xe5@TY\\x9aAF\\x03\\x1b|\\xe8\\xa1\\xdd^\\xa3\\xd1\\x8c\\x01\\xa7.\\xf3w3\\x92\\xb7\\xc0\\xfd\\xa2\\x17\\xc4\\xb7\\xc5\\xf7F\\xc3Qy\\xe5\\xd68F\\xe6%#nv\\xdf\\x80\\xe0\\xc7F\\x9b\\xca\\x05\\xb0#\\xcd\\x94\\x07\\x05\\xe1m\\x03v\\x89\\xd4Iq\\x9f&4)!\\x9b\\xc95\\x89\\x0e\\xbfF\\xab\\xe8\\x1e@\\x93\\x8b\\xc7\\x02\\xbd]8*6l\\x07Fl\\xd1G\\x86\\xc8\\xeaRZ\\xf9\\xec\\x1a\\xf4\\x8bg\\xde9\\xde\\xc6\\x8a!.\\xd5\\x91\\xbc\\xb1\\x97\\xfb\\xc9\\xf0s\"C\\xb3\\xbduN\\x10\\x01\\xa5:\\xcc\\xa2\\x06^z\\'\\xb1\\xb9\\xc5E\\x17h#\\xea\\x82\\xda\\xb2\\xb1\\x85\\xc0\\xc3\\xf2\\xb9\\xdd<\\x18\\xd8\\xb8C\\xc4\\xb8\\xcb\\x8d\\x1f\\xb3\\xd8\\x88\\xdb;\\x84_\\xa5 \\xe2\\xd4\\xe7\\x0br\\x98[\\xc9\\x87\\xf6\\xad{\\xed\\x00\\xa8\\x8b\\xa1\\x9d\\x1a\\xdc\\x16~\\x83\\x18c\\xb1\\x9fG\\xb9\\xd3`\\x04[h=\\xb0'",
+          "video_metadata": null
+        }
+      ],
+      "role": "model"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": {
+            "will_continue": null,
+            "scheduling": null,
+            "parts": null,
+            "id": null,
+            "name": "get_appointment_contact_medium",
+            "response": {
+              "result": [
+                {
+                  "contact_medium_id": "online",
+                  "contact_medium_name": "Online Meeting"
+                },
+                {
+                  "contact_medium_id": "phone",
+                  "contact_medium_name": "Phone"
+                }
+              ]
+            }
+          },
+          "inline_data": null,
+          "text": null,
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "user"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": {
+            "id": null,
+            "args": {
+              "end_datetime": "2026-06-03T10:00:00+02:00",
+              "topic_id": "pension",
+              "contact_medium_id": "online",
+              "start_datetime": "2026-06-03T08:00:00+02:00"
+            },
+            "name": "check_availability",
+            "partial_args": null,
+            "will_continue": null
+          },
+          "function_response": null,
+          "inline_data": null,
+          "text": null,
+          "thought": null,
+          "thought_signature": "b'\\n\\xb5\\x03\\x01\\x0c9\\xd6\\xc7\\xca\\xda\\xc0`\\xe7v\\x90\\xdb\"g@\\x14HY\\xa5}zT\\x99tL\\xee\\x9d\\xca_\\x10\\xcb\\x1c\\xcf3(\\x8d\\rx\\x83\\xa0\\xef\\x86\\xaf\\xdc\\x8f,4\\x1fO\\x1a\\xaa\\x80l\\xc37\"va\\x8e\\xcbT\\x02\\xce\\xfdB\\x87\\x0f\\xb9\\x03\\xb9\\x1f\\x99K?\\xc4N\\x95\\x8d\\xa3\\xbcJ\\x18\\x05,\\xb4\\x92qZn\\xc5_<\\x98\\xd1\\xd0\\xbd\\xb0)\\x8e\\x12\\x87\\x1a\\xab\\xa1\\xfe\\x03\\xa9\\x1c\\xd5\\xde\\xb8\\xc3\\xd7\\xb73\\x98+\\x8c\\xae\\xc7\\xc1\\xae\\x1b.\\x9dC\\x86\\xa63\\xfcn\\xcb\\xb1\\x9d\\xd0\\xd1B\\xbd\\x86\\xfd\\xbe\\xe0\\x0f1\\x14\\x15\\x024\\x00\\x9cW\\xbe$\\x00\\xae\\xd2p/O\\x8d\\xd3\\x90\\x0c\\xcee#\\xd1mU\\xb5\\x8d\\x92z\\\\\\x06\\x11\\xd0o\\x12\\xc2\\xd8\\xe5\\xbe\\xe4\\x9d\\xbd\\xe4\\x16\\x00\\x1f\\xa4ZL\\x05\\xc8\\xdc\\xb8\\xc9,B\\x01\\xee\\xbe69#i3\\x8f\\x0f\\xbe\\xd0Gh*\\xdb\\x0e\\x1a\\xd6\\x1cD\\xa1<\\t\\x00\\xb8\\x06r\\xbf\\xfc\\x1b\\xf8\\x1fP\\xe0\\xe0=\\xb1\\xa5\\xd5\\xca\\xd4F\\xd3D\\x07\\xa8\\xd3\\xd6\\xae\\x98\\xd4\\x18Ct%\\x87\"\\xda\\xb2G\\xedf\\x13\\xda&ac\\xa8\\xfd\\xb8!\\xa5\\xff\\x92\\xb3\\xa2l\\x15X(\\xf8v\\x080G\\x80\\xdc\\xf4&\\x9fG\\x90\\x18\\xbfS\\xc3\\xda\\xb0u\\xe8\\xe7\\xe6\\xa9J\\xea\\xda\\x86+V\\xbdO\\xfe>\\xca\\xa3T\\xbc\\xa3\\xfbO\\xd0\\xe6\\x0b5\\x9a=\\x021\\xd7\\x19-\\xc3\\x07\\xc0z\\xb0VL\\x90\\xc6Q\\x86\\xb7\\x0f\\xc9\\xf3\\xfc\\xfc\\x14\\xb4\\x81\\x90\\xcc\\xf7Y\\xb3-\\xb2\\x8a#\\xbfi\\x01\\xf1\\x05N\\xc7S\\xc9\\x1d\\xa0\\xec\\x12\\x0eYe\\xcd)\\x86\\x8fB\\xd0\\xe6\\xdb~\\xb9l\\x03\\xdb\\xd9\\x9e\\xa1\\xf9X\\x11Re\\xb5\\xd1\\xabq\\xb7\\x1f\\xdc\\x80\\x8b\\x8an(2\\xbf\\x89N\\xde+\\xbbe\\xe6\\t\\x97\\x02\\x9e\\xf9\\x84\\x9d\\x1c\\xdf\\xc1\\x97\\'\\xc7\\xc7p1\\x07'",
+          "video_metadata": null
+        }
+      ],
+      "role": "model"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": {
+            "will_continue": null,
+            "scheduling": null,
+            "parts": null,
+            "id": null,
+            "name": "check_availability",
+            "response": {
+              "result": []
+            }
+          },
+          "inline_data": null,
+          "text": null,
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "user"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "I couldn't find any online pension meeting slots for this Wednesday around 9 AM. Would you like me to check for other times on Wednesday, June 3rd, or perhaps another day? I can check for the entire day on Wednesday if that works for you.",
+          "thought": null,
+          "thought_signature": "b'\\n\\xf2\\x03\\x01\\x0c9\\xd6\\xc7\\x92Q\\xc8?\\xca\\xfc\\x11*\\x9a\\xf1\\xe8t\\xf6\\xe8EXQ\\x9e`[\\xa6\\xda\\xfa=S\\xfc\\xa6Af\\x8a\\xe0?\\xe8\\x865\\x98\\x03\\x9f&\\xd3`t3J\\xb6^\\x17\\x9e\\x08\\x9f\\x9d\\x13\\xfanv\\x15x.\\xc8\\t\\xb7\\xd0c\\xb0\\xeda+InI-1\\xb7\\x84458\\xb9\\xcf\\xf7\\xbe\\xf9\\xe1Q\\xc9\\x14\\xd2\\x8b\\xb7\\xd9\\x8c\\x1b\\xd2\\xa5\\xdb\\xe2\\xda\\xa6\\xe5\\x90W\\xf16\\ts\\xa4\\xc7(\\x1b\\xa8\\xd4\\xc8L\\xf4\\xff;\\'\\xd6\\x06\\xd2;\\x8bTD]\\x9bd\\xbd\\x05\\xae:z\\xe9\\xe1\"\\xe5\\xb3i\\x95\\xea\\xc7\\xdaGn\\xa7\\x11\\xa8\\x8e\\x82\\xb0\\xcb\\x0b\\xde\\x13\\xd1S\\x8e\\x15{\\xd4\\x7f\\xba\\xdd~\\xa6,\\x83P>T\\x9e\\x8d:\\x19\\xbd\\x9d\\xc0Ho{\\xdd\\xc5\\xe9\\x80Th\\xa4\\x1e2\\xaaV\\xe2_\\xf2\"h\\xbe\\xc4\\xb3\\x8e\\t\\xfcR[l\\xd3\\xe1\\xfa\\xe82K\\xa3\\x89\\xc2\\xed\\x0c\\xa0\\xc4\\xeb\\x0b\\x06I\\x8d+m\\x88@\\xf0\\xf8\\xb8\\xd3\\xf0\\xdb\\x9dp\\x13F\\xf6.\\xfb\\x93Uzr\\xb4\\xc3}\\xb7S\\xe6\\xf1\\x86E\\xcb\\xf6mF\\x00\\xecuH\\x91\\x90\\xae\\x9b\\xa2\\xb5\\x8b\\x90<\\xd8a\\xee\\x7f$: -\\xc2\\x99\\xb9\\xc7@\\x11\\x05\\x9a\\x9eD\\xc5\\xcb\\xf4\\xac\\x1dv\\xba\\x9d\\x10\\xaf;kj+\\xec\\xffMr\\x1fZ\\x0e\\x1b\\'\\x13P\\xe4\\xa7\\x0c8\\xdf\\xcf \\x14\\x0c\\x1f\\xa5)\\xc9\\x98)6K3\\xbf\\xfe\\xf7\\xdf/K\\xbe\\x9f4K@\\xb5\\xb9h\\x16\\xdaf\\xd41\\x16\\xa7\\xc1>\\xcd`\\x88\\xceW\\xb5J\\xb7d\\x99r(C-\\x89\\xbf\\xfc\\xb1\\xb3\\xac\\x9c\\xc6\\xb6\\xc3\\x89\\x0b\\n\\xc1/<\\x8f\\xb0\\x05EY\\x99\\xa8\\x19\\xf5\\x93\\x93\\x0c\\xb1,\\x17m{\\x82\\xb1;|\\xa3\\xc921\\xe9\\xc4\\xc45\\xfc^\\xd1\\x9e\\xb0\\xbe\\xbc\\xc1\\xefCm\\x19\\x82\\xb8\\xea\\xddo\\xeb\\xb0\\xfe\\xbbi\\xa7C%\\xbe\\xb0{2\\xb5i0ca\\x1f\\xbd\\x1a\\xf4M\\x92G\\x19cF\\xe4\\x88$J\\x1aug`b\\xab+\\x15\\xc8\\xf5)\\x1d\\x80\\xed\\xe0\\xbc\\xf4\\xd5\\xbe\\x06\\xca\\x12\\xa3V\\\\T\\xbe\\x98\\x8b\\x07(\\xc2'",
+          "video_metadata": null
+        }
+      ],
+      "role": "model"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "Yes, please check for any available slots for an online pension meeting this Wednesday, June 3rd. Any time that day would work.",
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "user"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": {
+            "id": null,
+            "args": {
+              "contact_medium_id": "online",
+              "end_datetime": "2026-06-03T18:00:00+02:00",
+              "start_datetime": "2026-06-03T08:00:00+02:00",
+              "topic_id": "pension"
+            },
+            "name": "check_availability",
+            "partial_args": null,
+            "will_continue": null
+          },
+          "function_response": null,
+          "inline_data": null,
+          "text": null,
+          "thought": null,
+          "thought_signature": "b'\\n\\x90\\x03\\x01\\x0c9\\xd6\\xc74\\xdcX\\xd7\\xdbQU\\xcbD\\xc7\\xf6\\xc0\\xf68\\xef\\xff\\xed%\\xaa:\\xb0\\xc1\\x93\\xa6j\\x83\\x9a\\xdd\\x1b\\xa2L\\x19\\xa2\\x0f\\xddZ\\xad\\xf7\\xdf\\xee\\xe1r\\xd5\"\"\\xdf\\xd9t.\\x0fH.|y\\xc8\\xf1\\n\\xbav\\x99\\x12i\\x85E\\xc7\\x80M\\x01\\xb7\\xb3\\xcbL\\xec\\x0c\\x1c\\xb5\\x84\\x05/\\x13\\x8fR\\xab:\\x91\\xaa\\xae\\x91\\xd3X,\\xd8E^c\\xfft6\\x06\\xb8_o\\x8c\\xef+=SQ\\xfd\\x02\\xe5\\xaah\\xa24\\xa8g\\x0f\\x00;\\x9c\\x98\\xf5\\x80\\xa5\\xaa`I(nd\\x81\\x1a\\x913\\xbb\\xecmd\\'\\xc3\\x94>N\\x96\\xc5\\xfezv\\x16ZuT\\xbe\\x14\\x9c<\\x94\\x1eE\\xbdS\\x97\\x86\\x7f\\x95\\xb6\\xfe\\x93\\x96\\xe0\\x1d9\\xf9\\xca|\\xb8\\ty\\xcd\\\\\\xf7\\xa7\\xfd\\x1e\\x1bZ\\x06T\\xc1\\x95\\x90\\x91\\xc6aM\\x1f\\xba\\xa0\\x11\\x96G\\xd6\\x9e\\xb3[\\x8c\\x8b\\x03\\x97\\xdd\\xaar\\'.\\xe6\\x0fl\\xa5\\x9b\\x8aM\\xba]\\xf3\\xa4\\x7f/A\\xca\\xf7\\x17\\xa3{J\\xa7\\x88\\x8b\\x94\\x0c\\xbf\\xb0I8\\xb0%\\xba\\xec\\xd46\\x18\\x92,\\xa0\\x9cs\\x1f\\xf8\\xc9\\xe3\\xca\\x83\\xe1#\\xc0\\xa9\\x8c\\xbb\\x88\\xe7K\\x81\\xees\\xf3c\\xde\\xeaI~|{\\x076r\\xcbq;\\xc4\\xce\\xbb\\xa4z/U2\\xf4k6X\\xa3e\\xea\\xe4\\x0f\\x8c\\x995\\xc4H\\xaf\\xf1z\\xb5?n\\xafr\\xb2~\\xa1|\\xb2\\xb3\\xd2hq;\\xa9C\\xef:\\x90\\xf4\\xb7\\xfd\\xf87\\xda\\xbd\\xd6\\xbb\\x9d\\xb0\\xee&\\x0e\\xa9\\xdf\\x94\\xc5DAN\\x13y\\xf6\\x1e\\xa9\\xc3\\x83\\xad\\xf9# \\xa96\\xa4\\xed\\'I\\xc5\\x9fsI\\xa9\\x9e?;\\xea@OE\\xa6als\\xf2U8\\xac\\x8d\\xe5\\xfc\\x9f'",
+          "video_metadata": null
+        }
+      ],
+      "role": "model"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": {
+            "will_continue": null,
+            "scheduling": null,
+            "parts": null,
+            "id": null,
+            "name": "check_availability",
+            "response": {
+              "result": [
+                {
+                  "datetime_start": "2026-06-03T11:00:00+02:00",
+                  "datetime_end": "2026-06-03T12:00:00+02:00"
+                },
+                {
+                  "datetime_start": "2026-06-03T10:00:00+02:00",
+                  "datetime_end": "2026-06-03T11:00:00+02:00"
+                }
+              ]
+            }
+          },
+          "inline_data": null,
+          "text": null,
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "user"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "I found two available slots for an online pension meeting this Wednesday, June 3rd:\n\n*   10:00 AM - 11:00 AM\n*   11:00 AM - 12:00 PM\n\nWould you like to book one of these?",
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "model"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "I'll take the 10:00 AM to 11:00 AM slot, please. Please confirm the booking.",
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "user"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": {
+            "id": null,
+            "args": {
+              "datetime_end": "2026-06-03T11:00:00+02:00",
+              "datetime_start": "2026-06-03T10:00:00+02:00",
+              "topic_id": "pension",
+              "contact_medium_id": "online"
+            },
+            "name": "book_appointment",
+            "partial_args": null,
+            "will_continue": null
+          },
+          "function_response": null,
+          "inline_data": null,
+          "text": null,
+          "thought": null,
+          "thought_signature": "b'\\n\\xff\\x02\\x01\\x0c9\\xd6\\xc7#Itth9\\xb7A\\x1d\\x06\\x9c\\xb8;\\xbd\\xd8\\x00r\\rx\\x88\\xec\\x18\\xd7\\xcd|\\xb3[\\xe6\\x8d\\x1c\\x96\\x1c\\x85\\xde\\xe4\\x8b\\xd6\\x9d\\xe3\\x86\\xac\\x13\\xb68Oc\\xa9\\xc5\\x8b}9\\x19@\\x03\\xa3\\xcb\\xb5V\\x05\\xb6\\x93\\x83*\\x0e\\xff\\x9e\\xb9\\x86\\xdf\\x1e\\xb5\\x107\\x8b2K\\xa4\\xcb\\xeewY|A\\xfe\\xdf \\x11\\xfc\\x81$\\xc4\\xde\\xbc\\xf0W\\x86\\xbe\\xbdm\\xbc\\x97\\xb2\\xde\\x8bi\\xec\\x1d\\xb7\\xee\\xeei\\xa0\\xa3G\\xdd!,\\xd6]\\xba\\x9d\\xbb\\x14\\n\\x19\\x8c\\x7f&#\\x14\\x1f\\xc5\\r\\x0bdS\\x81\\xf1=\\xfdW\\x0e%]\\xbf\\xd8\\xd7\\x81M\\x8c\\x93\\xc0\\x12\\x14\\xb0\\x98\\xbe\\xac\\x91\\xc1\\x18\\x0fvr2\\x80\\xfa\\xd6=Lb\\x8b\\x8c\\xb20\\xde\\xdbz\\xb6\\xea#Q\\x07)n\\x0f}\\xbb\\xe1\\x9a\\xbf5\\xafm\\xad\\xe2\\x16\\xb9\\xa4)\\xe4\\xfa\\xb0\\xf4\\t\\xf7\\xc8_\\x05nj@\\xe9\\\\\\x8ac\\x9cf\\x0e\\x98\\xfa\\xb6\\xb6\\x04\\x19\\x0c#\\xd8#\\x9f\\x9f\\xcd+\\x9a\\xd9\\x88\\xc0g\\xf4\\xe1\\x11\\x8f|IB0\\xd4\\x0eZ\\xeb\\xc0\\x81\\xe4L:#\\xc7\\xd3\\xef\\x19\\xeb\\x16\\x98\\x8d\\x9a\\xd7i)M\\xbb`\\x85\\xb3-\\x13\\xa6\\xf7&\\xab\\x00\\xd3\\xfc\\x80\\xcb]-?\\x9c\\xaa\\x9b\\xfaYTi\\xa9\\x8a\\x8c{r\\xa9\\xcexO\\x94\\x83\\x05i\\xda82\\xaf\\xdc\\xcb\\\\\\xbe^E\\xcc\\xe4\\xcf\\xect\\x8c\\xeege\\x9f\\xdb\\x01?\\x83\\xd7\\xc9D\\xbc\\xff\\r\\xac\\xf6sJh\\x07*\\xe5G\\\\\\x00\\x85C\\xd1\\xde1T\\x00\\x93\\xd5y\\xdc\\xed\\xe7\\xea#\\xcf\\x1a\\xc1\\xe4\\xee\\xf2\\x05\\xa3\\x0cn\\xc6\\x15\\xack\\xa4'",
+          "video_metadata": null
+        }
+      ],
+      "role": "model"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": {
+            "will_continue": null,
+            "scheduling": null,
+            "parts": null,
+            "id": null,
+            "name": "book_appointment",
+            "response": {
+              "status": "success",
+              "booking_id": "BK-6DAE91",
+              "details": {
+                "topic_name": "Pension",
+                "contact_medium_name": "Online Meeting",
+                "datetime_start": "2026-06-03T10:00:00+02:00",
+                "datetime_end": "2026-06-03T11:00:00+02:00"
+              }
+            }
+          },
+          "inline_data": null,
+          "text": null,
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "user"
+    },
+    {
+      "parts": [
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": null,
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": "Your online pension meeting on Wednesday, June 3rd, from 10:00 AM to 11:00 AM has been successfully booked. Your booking ID is BK-6DAE91.",
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null
+        }
+      ],
+      "role": "model"
+    }
+  ],
+  "derived": {
+    "total_turn_count": 3,
+    "total_mcp_calls": 6,
+    "availability_calls": 2,
+    "first_check_availability_params": {
+      "end_datetime": "2026-06-03T10:00:00+02:00",
+      "topic_id": "pension",
+      "contact_medium_id": "online",
+      "start_datetime": "2026-06-03T08:00:00+02:00"
+    },
+    "booked": true,
+    "total_simulated_latency_ms": 3427.2264371392007,
+    "total_actual_latency_ms": 103.22190000442788,
+    "parse_accuracy_score": 0.5,
+    "unsupported_facts_count": 0,
+    "faithful": true,
+    "slots_presented_per_turn": [
+      0,
+      3,
+      2
+    ],
+    "efficiency_ratio": 2.0,
+    "optimal_availability_calls": 1,
+    "dead_end_turn_count": 1
+  },
+  "grounding_facts": [
+    {
+      "fact_type": "topic",
+      "asserted_value": "pension",
+      "asserted_in_turn": 1,
+      "supported": true,
+      "source_tool_call_ref": null,
+      "notes": "case-insensitive substring match against get_appointment_topics response"
+    },
+    {
+      "fact_type": "topic",
+      "asserted_value": "pension",
+      "asserted_in_turn": 2,
+      "supported": true,
+      "source_tool_call_ref": null,
+      "notes": "case-insensitive substring match against get_appointment_topics response"
+    },
+    {
+      "fact_type": "topic",
+      "asserted_value": "pension",
+      "asserted_in_turn": 3,
+      "supported": true,
+      "source_tool_call_ref": null,
+      "notes": "case-insensitive substring match against get_appointment_topics response"
+    },
+    {
+      "fact_type": "booking",
+      "asserted_value": "BK-6DAE91",
+      "asserted_in_turn": 3,
+      "supported": true,
+      "source_tool_call_ref": null,
+      "notes": "booking_id from book_appointment success response"
+    }
+  ],
+  "langsmith_trace_id": null,
+  "langsmith_trace_url": null,
+  "judge_scores": [
+    {
+      "rep_index": 1,
+      "judge_model": "gemini-2.5-flash",
+      "judge_temperature": 0.3,
+      "temporal_understanding": 4,
+      "negotiation_effectiveness": 4,
+      "conversational_efficiency": 5,
+      "customer_experience": 5,
+      "recovery_quality": null,
+      "justifications": {
+        "temporal_understanding": "The agent initially searched for a specific 9 AM slot but then correctly broadened the search to 'any time that day' as requested.",
+        "negotiation_effectiveness": "The agent successfully identified and offered two alternative slots when the initial request was unavailable, leading to a successful booking.",
+        "conversational_efficiency": "The agent efficiently processed the user's requests and booked the appointment in a minimal number of turns.",
+        "customer_experience": "The interaction was smooth, professional, and resulted in a successful booking without any friction points.",
+        "recovery_quality": ""
+      },
+      "overall_notes": null
+    }
+  ],
+  "termination_reason": "booked",
+  "error": null
+}
